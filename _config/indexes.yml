@@ -1,0 +1,15 @@
+---
+Name: freetextindexes
+---
+
+# Define indexes
+Suilven\FreeTextSearch\Indexes:
+  indexes:
+    - index:
+        name: SiteTree
+        class: SilverStripe\CMS\Model\SiteTree
+        fields:
+          - name: Title
+            type: text
+          - name: Content
+            type: text
