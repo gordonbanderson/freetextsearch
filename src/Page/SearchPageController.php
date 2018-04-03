@@ -7,20 +7,22 @@
  */
 namespace Suilven\FreeTextSearch\Page;
 
+use SilverStripe\View\ArrayData;
+
 class SearchPageController extends \PageController
 {
-    private static $allowed_actions = ['search'];
+    private static $allowed_actions = ['index'];
 
-    public function search()
+    public function index()
     {
         $searcher = new \Suilven\SphinxSearch\Service\Searcher();
 
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
+
         $results = $searcher->search($q);
-        return [
-            'Title' => 'My Team Name',
-            'Records' => $results->Records
-        ];
+        $results['Query'] = $q;
+
+        return $results;
     }
 }
