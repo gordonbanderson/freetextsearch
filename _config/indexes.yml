@@ -6,10 +6,45 @@ Name: freetextindexes
 Suilven\FreeTextSearch\Indexes:
   indexes:
     - index:
-        name: SiteTree
+        name: sitetree
         class: SilverStripe\CMS\Model\SiteTree
         fields:
-          - name: Title
-            type: text
-          - name: Content
-            type: text
+          - Title
+          - MenuTitle
+          - Content
+          - ParentID
+          - Sort
+
+    - index:
+        name: blogposts
+        class: SilverStripe\Blog\Model\BlogPost
+        fields:
+          - Title
+          - MenuTitle
+          - Content
+          - ParentID
+          - Sort
+          - PublishDate
+          - AuthorNames
+          - Summary
+
+    - index:
+        name: comments
+        class: SilverStripe\Comments\Model\Comment
+        fields:
+          - Email
+          - Comment
+          - AuthorID
+          - ParentCommentID
+          - Name
+          - URL
+
+    - index:
+        name: flickr
+        class: Suilven\Flickr\Model\FlickrPhoto
+        fields:
+          - Title
+          - Description
+          - Aperture
+          - ShutterSpeed
+          - ISO
