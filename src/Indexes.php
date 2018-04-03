@@ -29,8 +29,8 @@ class Indexes
             $index = new Index();
             $index->setClass($indexConfig['index']['class']);
             $index->setName($indexConfig['index']['name']);
-            foreach($indexConfig['index']['fields'] as $fieldConfig) {
-                $index->addFulltextField($fieldConfig['name']);
+            foreach($indexConfig['index']['fields'] as $fieldname) {
+                $index->addFulltextField($fieldname);
             }
             $indexes[] = $index;
         }
