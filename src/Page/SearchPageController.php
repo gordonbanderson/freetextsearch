@@ -32,6 +32,7 @@ class SearchPageController extends \PageController
         if (!empty($q)) {
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
             $searcher->setIndex('flickr');
+            $searcher->setFacettedTokens(['shutterspeed', 'iso', 'aperture']);
 
             if ($this->PageSize == 0) {
                 $this->PageSize=10;
