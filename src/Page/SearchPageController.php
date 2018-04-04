@@ -51,6 +51,10 @@ class SearchPageController extends \PageController
         //return $results;
 
         $data = new ArrayData($results);
-        return $data->renderWith('FlickrSearch');
+        $results['ShowResult'] = 'FlickrResult';
+        return $results;
+
+        // cannot get the override to work
+       // return $data->renderWith(['Layout/FlickrSearch', '\Page']);
     }
 }

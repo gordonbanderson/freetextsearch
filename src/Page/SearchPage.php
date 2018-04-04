@@ -7,32 +7,30 @@
  */
 namespace Suilven\FreeTextSearch\Page;
 
+use Suilven\FreeTextSearch\Indexes;
+
 class SearchPage extends \Page
 {
-    // @todo move to an extension
-    // @todo do not hardwire to Sphinx
-    public function search(\SilverStripe\Control\HTTPRequest $request)
+    /**
+     * @var array database fields
+     */
+    private static $db = [
+        // fields to return facets for, stored as JSON array
+        'FacetFields' => 'Varchar(255)',
+
+        // a permanent filter for this page, not user selectable.  Use case here is to restrict to likes of searching
+        // within a specific blog only
+        'PermanentFilters' => 'Varchar(255)',
+
+        // page size
+        'PageSize' => 'Int'
+
+    ];
+
+
+    public function wibble()
     {
-
-
-        return $this->renderWith('SearchResults', $results);
-
-
-        /*
-         * <% if $SearchResult.Matches %>
-    <h2>Results for &quot;{$Query}&quot;</h2>
-    <p>Displaying Page $SearchResult.Matches.CurrentPage of $SearchResult.Matches.TotalPages</p>
-    <ol>
-        <% loop $SearchResult.Matches %>
-            <li>
-                <h3><a href="$Link">$Title</a></h3>
-                <p><% if $Abstract %>$Abstract.XML<% else %>$Content.ContextSummary<% end_if %></p>
-            </li>
-        <% end_loop %>
-    </ol>
-<% else %>
-    <p>Sorry, your search query did not return any results.</p>
-<% end_if %>
-         */
+        $indexesService = new Indexes();
+        $indexes = $indexesService->getIndexes();
     }
 }
