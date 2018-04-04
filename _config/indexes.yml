@@ -42,9 +42,22 @@ Suilven\FreeTextSearch\Indexes:
     - index:
         name: flickr
         class: Suilven\Flickr\Model\FlickrPhoto
+
+        # Free text searchable
         fields:
           - Title
           - Description
+
+        # Facets or filterable
+        tokens:
           - Aperture
           - ShutterSpeed
           - ISO
+
+        # Effectively another token filter, but by ID
+        belongs_to:
+          - Suilven\Flickr\Model\FlickrSet
+
+        # MVA
+        has_many:
+          - Suilven\Flickr\Model\FlickrTag

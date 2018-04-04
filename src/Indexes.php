@@ -30,8 +30,18 @@ class Indexes
             $index->setClass($indexConfig['index']['class']);
             $index->setName($indexConfig['index']['name']);
             foreach($indexConfig['index']['fields'] as $fieldname) {
-                $index->addFulltextField($fieldname);
+                $index->addField($fieldname);
             }
+
+            if (isset($indexConfig['index']['tokens'])) {
+                foreach($indexConfig['index']['tokens'] as $token) {
+                    $index->addToken($token);
+                }
+            }
+
+
+            // @todo, relations
+
             $indexes[] = $index;
         }
 

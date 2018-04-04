@@ -16,9 +16,8 @@ class Index
      */
     private $clazz = null;
 
-    private $fields = [
-      'FullText' => []
-    ];
+    private $fields = [];
+    private $tokens = [];
 
     private $name;
 
@@ -56,7 +55,7 @@ class Index
     /**
      * @return null|Class
      */
-    public function getClazz()
+    public function getClass()
     {
         return $this->clazz;
     }
@@ -70,12 +69,30 @@ class Index
     }
 
     /**
+     * @return array
+     */
+    public function getTokens()
+    {
+        return $this->tokens;
+    }
+
+    /**
      * Add a full text fieldname to the index
      *
      * @param $fieldName the name of the field to index
      */
-    public function addFulltextField($fieldName)
+    public function addField($fieldName)
     {
-        $this->fields['FullText'][] = $fieldName;
+        $this->fields[] = $fieldName;
+    }
+
+    /**
+     * Add a token to the index - not full text searchable but filterable and facetable
+     *
+     * @param $token the name of the field to index
+     */
+    public function addToken($token)
+    {
+        $this->tokens[] = $token;
     }
 }

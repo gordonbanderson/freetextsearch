@@ -28,9 +28,11 @@ class SearchPageController extends \PageController
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
 
-        $result = [];
+        $results = [];
         if (!empty($q)) {
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
+            $searcher->setIndex('flickr');
+
             if ($this->PageSize == 0) {
                 $this->PageSize=10;
             }
@@ -46,10 +48,9 @@ class SearchPageController extends \PageController
             $results['Query'] = $q;
         }
 
+        //return $results;
 
-
-
-
-        return $results;
+        $data = new ArrayData($results);
+        return $data->renderWith('FlickrSearch');
     }
 }
