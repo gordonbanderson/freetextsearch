@@ -32,10 +32,6 @@ class SearchPageController extends \PageController
         $selected = $this->getRequest()->getVars();
 
         unset($selected['start']);
-
-        echo 'SELECTED: ' . print_r($selected, 1);
-
-        unset($selected['start']);
         $results = [];
 
         if (!empty($selected)) {
