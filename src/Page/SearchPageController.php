@@ -28,9 +28,19 @@ class SearchPageController extends \PageController
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
 
+        /** @var array $selected */
+        $selected = $this->getRequest()->getVars();
+
+        unset($selected['start']);
+
+        echo 'SELECTED: ' . print_r($selected, 1);
+
+        unset($selected['start']);
         $results = [];
-        if (!empty($q)) {
+
+        if (!empty($selected)) {
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
+            $searcher->setFilters($selected);
             $searcher->setIndex('flickr');
             $searcher->setFacettedTokens(['shutterspeed', 'iso', 'aperture']);
 
@@ -49,13 +59,12 @@ class SearchPageController extends \PageController
             $results['Query'] = $q;
         }
 
-        //return $results;
-
-        $data = new ArrayData($results);
         $results['ShowResult'] = 'FlickrResult';
+        $results['CleanedLink'] = $this->Link();
         return $results;
 
-        // cannot get the override to work
-       // return $data->renderWith(['Layout/FlickrSearch', '\Page']);
+        // cannot get this override to work :(  Layout does not yield to parent Page template
+        // $data = new ArrayData($results);
+        // return $data->renderWith(['Layout/FlickrSearch', '\Page']);
     }
 }
