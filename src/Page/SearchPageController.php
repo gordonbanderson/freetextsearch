@@ -7,8 +7,10 @@
  */
 namespace Suilven\FreeTextSearch\Page;
 
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
+use Suilven\SphinxSearch\Service\Suggester;
 
 class SearchPageController extends \PageController
 {
@@ -54,6 +56,25 @@ class SearchPageController extends \PageController
             $results = $searcher->search($q);
             $results['Query'] = $q;
         }
+
+        if ($results['ResultsFound'] == 0) {
+            // get suggestions
+            $suggester = new Suggester();
+            $suggester->setIndex('flickr');
+            $suggestions = $suggester->suggest($q);
+
+            $forTemplate = [];
+            foreach($suggestions as $suggestion) {
+                $forTemplate[] = ['Suggestion' => $suggestion];
+            }
+            $results['Suggestions'] = new ArrayList($forTemplate);
+
+            // @todo FIX - only one result returned for now
+
+        }
+
+
+
 
         $results['ShowResult'] = 'FlickrResult';
         $results['CleanedLink'] = $this->Link();
