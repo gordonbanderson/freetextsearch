@@ -9,6 +9,7 @@
 namespace Suilven\FreeTextSearch;
 
 
+use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 
 class Indexes
@@ -16,12 +17,20 @@ class Indexes
     /**
      * Get indexes from config
      * @return array ClassName -> Index
+     *
+     * // @todo possibly remove the override as it breaks the searcher
      */
-    public function getIndexes()
+    public function getIndexes($indexesOverride = null)
     {
         $indexes = [];
 
-        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
+        $indexesConfig = empty($indexesOverride) ?
+            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+
+        error_log('INDEXES CONFIG: ' . print_r($indexesConfig, 1));
+
+        error_log('IS TEST? ' . Director::isTest());
+
         foreach($indexesConfig as $indexConfig)
         {
             error_log('--- index config ----');
