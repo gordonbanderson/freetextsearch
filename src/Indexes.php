@@ -27,14 +27,8 @@ class Indexes
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
 
-        error_log('INDEXES CONFIG: ' . print_r($indexesConfig, 1));
-
-        error_log('IS TEST? ' . Director::isTest());
-
         foreach($indexesConfig as $indexConfig)
         {
-            error_log('--- index config ----');
-            error_log(print_r($indexConfig, 1));
             $index = new Index();
             $index->setClass($indexConfig['index']['class']);
             $index->setName($indexConfig['index']['name']);
