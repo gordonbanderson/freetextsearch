@@ -7,10 +7,10 @@
  */
 namespace Suilven\FreeTextSearch\Page;
 
-use Suilven\FreeTextSearch\Indexes;
-
 class SearchPage extends \Page
 {
+    private static $table_name = 'SearchPage';
+
     /**
      * @var array database fields
      */
@@ -28,9 +28,12 @@ class SearchPage extends \Page
     ];
 
 
+    /**
+     * // Comment this out for reference purposes until I remember how it's supposed to work!
     public function wibble()
     {
         $indexesService = new Indexes();
         $indexes = $indexesService->getIndexes();
     }
+     * */
 }
