@@ -7,10 +7,136 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Gordon Anderson``` ```gordonbanderson``` ```https://github.com/gordonbanderson``` ```gordon.b.anderson@gmail.com``` ```suilven``` ```freetextsearch``` ```Freetext Search base package for SilverStripe searching``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
-
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
+
+# Conifiguration
+By default the core fields of SiteTree are indexed.  You can override as follows to allow for third party modules or
+your own.  Each index should map to a model, and the field names match those in the database.  Each index sub YML
+contains the following:
+
+* name:  This will be come the index name in the SphinxSQL database
+* class:  The SilverStripe class being indexed
+* fields:  The fields to index
+
+Optionally the following may be added.
+
+* tokens:  Stores the field as it with no stemming.  Used for facetted search
+* has_one: A list of SilverStripe model class names.  The is effectively a filter by id
+* has_many: 
+* has_many_many: (@todo check this)
+
+An example follows:
+
+
+```yml
+---
+Name: freetextindexes2
+After: freetextindexes
+---
+
+# Define indexes
+Suilven\FreeTextSearch\Indexes:
+  indexes:
+    - index:
+        name: blogposts
+        class: SilverStripe\Blog\Model\BlogPost
+        fields:
+          - Title
+          - MenuTitle
+          - Content
+          - ParentID
+          - Sort
+          - PublishDate
+          - AuthorNames
+          - Summary
+
+    - index:
+        name: comments
+        class: SilverStripe\Comments\Model\Comment
+        fields:
+          - Email
+          - Comment
+          - AuthorID
+          - ParentCommentID
+          - Name
+          - URL
+
+    - index:
+        name: flickr
+        class: Suilven\Flickr\Model\FlickrPhoto
+
+        # Free text searchable
+        fields:
+          - Title
+          - Description
+
+        # Facets or filterable
+        tokens:
+          - Aperture
+          - ShutterSpeed
+          - ISO
+
+        has_many_many:
+          - Suilven\Flickr\Model\FlickrSet
+
+        # Effectively another token filter, but by ID
+        has_one:
+          - Suilven\Flickr\Model\FlickrAuthor
+
+        # MVA
+        has_many:
+          - Suilven\Flickr\Model\FlickrTag
+
+```
+
+
+
+
+index testrt {
+    type = rt
+    rt_mem_limit = 128M
+    path = /var/lib/manticore/data/testrt
+    rt_field = title
+    rt_field = content
+    rt_attr_uint = gid
+}
+
+searchd {
+    listen = 9312
+    listen = 9308:http
+    listen = 9306:mysql41
+    log = /var/lib/manticore/log/searchd.log
+    # you can also send query_log to /dev/stdout to be shown in docker logs
+    query_log = /var/lib/manticore/log/query.log
+    read_timeout = 5
+    max_children = 30
+    pid_file = /var/run/searchd.pid
+    seamless_rotate = 1
+    preopen_indexes = 1
+    unlink_old = 1
+    binlog_path = /var/lib/manticore/data
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------
 
 ## Structure
 
