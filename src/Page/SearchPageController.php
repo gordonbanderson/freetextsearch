@@ -27,13 +27,13 @@ class SearchPageController extends \PageController
 
     public function index()
     {
-
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
 
         /** @var array $selected */
         $selected = $this->getRequest()->getVars();
 
+        /** @var SearchPage $model */
         $model = SearchPage::get_by_id('Suilven\FreeTextSearch\Page\SearchPage', $this->ID);
 
 
@@ -41,12 +41,13 @@ class SearchPageController extends \PageController
         $results = [];
 
         if (!empty($selected)) {
+            // @todo Make generic, or at least config
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
             $searcher->setFilters($selected);
             $searcher->setIndex($model->IndexToSearch);
 
-            // @todo Add facetted token in a non hardwired way
-            //$searcher->setFacettedTokens(['shutterspeed', 'iso', 'aperture']);
+            $facets = $model->getFacetFields();
+            $searcher->setFacettedTokens($facets);
 
             if ($this->PageSize == 0) {
                 $this->PageSize=15;
@@ -62,11 +63,12 @@ class SearchPageController extends \PageController
             $results['Query'] = $q;
         }
 
-        if ($results['ResultsFound'] == 0) {
+        // @todo In the case of facets and no search term this fails
+        // This is intended for a search where a search term has been provided, but no results
+        if (!empty($q) && $results['ResultsFound'] == 0) {
             // get suggestions
             $suggester = new Suggester();
             $suggester->setIndex($model->IndexToSearch);
-            //$suggester->setIndex('flickr');
             $suggestions = $suggester->suggest($q);
 
             $forTemplate = [];
@@ -79,10 +81,25 @@ class SearchPageController extends \PageController
 
         }
 
+        $facetted = isset($results['AllFacets']) ? true : false;
+
+
 
         // @todo Make this generic
+        // @todo Seems obsolete as a reference
         $results['ShowResult'] = 'FlickrResult';
+
+/*
+echo "<pre>";
+        print_r($results);
+echo "</pre>";
+*/
+
         $results['CleanedLink'] = $this->Link();
+
         return $results;
+
+
+
     }
 }
