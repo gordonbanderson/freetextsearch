@@ -7,6 +7,7 @@
  */
 namespace Suilven\FreeTextSearch\Page;
 
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
@@ -29,6 +30,9 @@ class SearchPage extends \Page
 
         // page size
         'PageSize' => 'Int',
+
+        // show all results if the search page has facets (optionally)
+        'ShowAllIfEmptyQuery' => 'Boolean'
     ];
 
     private static $defaults = [
@@ -57,6 +61,10 @@ class SearchPage extends \Page
             $indexNames));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
+
+        $fields->addFieldToTab('Root.Index', CheckboxField::create('ShowAllIfEmptyQuery',
+            'By default no results are shown for an empty query.  However for facets an empty query should still provide ' .
+            ' for a drill down scenario'));
 
 
         return $fields;
