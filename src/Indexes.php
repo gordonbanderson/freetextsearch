@@ -50,4 +50,26 @@ class Indexes
 
         return $indexes;
     }
+
+
+    public function getFacetFields($indexName)
+    {
+        $indexesConfig = empty($indexesOverride) ?
+            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $result = [];
+        foreach($indexesConfig as $indexConfig) {
+            $name = ($indexConfig['index']['name']);
+
+           // echo $name;
+            if ($name == $indexName) {
+                if (isset($indexConfig['index']['tokens'])) {
+                    foreach($indexConfig['index']['tokens'] as $token) {
+                        $result[] = strtolower($token);
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
 }
