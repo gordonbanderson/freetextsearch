@@ -1,3 +1,4 @@
+<% if $Records %>
 <ul>
 <% loop AllFacets %>
 <li>$Name
@@ -9,4 +10,5 @@
 </li>
 <% end_loop %>
 </ul>
+<% end_if %>
 
