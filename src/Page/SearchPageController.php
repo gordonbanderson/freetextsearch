@@ -38,9 +38,12 @@ class SearchPageController extends \PageController
 
 
         unset($selected['start']);
+
+        print_r($selected);
+
         $results = [];
 
-        if (!empty($selected)) {
+        if (!empty($selected)  || $model->ShowAllIfEmptyQuery) {
             // @todo Make generic, or at least config
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
             $searcher->setFilters($selected);
@@ -83,17 +86,6 @@ class SearchPageController extends \PageController
 
         $facetted = isset($results['AllFacets']) ? true : false;
 
-
-
-        // @todo Make this generic
-        // @todo Seems obsolete as a reference
-        $results['ShowResult'] = 'FlickrResult';
-
-/*
-echo "<pre>";
-        print_r($results);
-echo "</pre>";
-*/
 
         $results['CleanedLink'] = $this->Link();
 
