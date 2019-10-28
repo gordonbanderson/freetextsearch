@@ -39,8 +39,6 @@ class SearchPageController extends \PageController
 
         unset($selected['start']);
 
-        print_r($selected);
-
         $results = [];
 
         if (!empty($selected)  || $model->ShowAllIfEmptyQuery) {
