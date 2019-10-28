@@ -52,6 +52,10 @@ class Indexes
     }
 
 
+    /**
+     * @param $indexName
+     * @return array An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
+     */
     public function getFacetFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
@@ -60,11 +64,52 @@ class Indexes
         foreach($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
-           // echo $name;
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['tokens'])) {
                     foreach($indexConfig['index']['tokens'] as $token) {
                         $result[] = strtolower($token);
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+
+    public function getHasOneFields($indexName)
+    {
+        $indexesConfig = empty($indexesOverride) ?
+            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $result = [];
+        foreach($indexesConfig as $indexConfig) {
+            $name = ($indexConfig['index']['name']);
+
+            if ($name == $indexName) {
+                if (isset($indexConfig['index']['has_one'])) {
+                    foreach($indexConfig['index']['has_one'] as $hasOne) {
+                        $result[] = strtolower($hasOne);
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+
+    public function getHasManyFields($indexName)
+    {
+        $indexesConfig = empty($indexesOverride) ?
+            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $result = [];
+        foreach($indexesConfig as $indexConfig) {
+            $name = ($indexConfig['index']['name']);
+
+            if ($name == $indexName) {
+                if (isset($indexConfig['index']['has_many'])) {
+                    foreach($indexConfig['index']['has_many'] as $hasManyField) {
+                        $result[] = strtolower($hasManyField);
                     }
                 }
             }
