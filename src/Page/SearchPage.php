@@ -8,6 +8,8 @@
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\TextField;
 use Suilven\FreeTextSearch\Indexes;
 
 class SearchPage extends \Page
@@ -19,15 +21,14 @@ class SearchPage extends \Page
      */
     private static $db = [
         // fields to return facets for, stored as JSON array
-        'FacetFields' => 'Varchar(255)',
+        // 'FacetFields' => 'Varchar(255)',
 
         // a permanent filter for this page, not user selectable.  Use case here is to restrict to likes of searching
         // within a specific blog only
         'IndexToSearch' => 'Varchar(255)',
 
         // page size
-        'PageSize' => 'Int'
-
+        'PageSize' => 'Int',
     ];
 
     private static $defaults = [
@@ -35,28 +36,31 @@ class SearchPage extends \Page
     ];
 
 
+    public function getFacetFields()
+    {
+        $indexesService = new Indexes();
+        $indexes = $indexesService->getFacetFields($this->IndexToSearch);
+        return $indexes;
+    }
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         $indexesService = new Indexes();
         $indexes = $indexesService->getIndexes();
         $indexNames = [];
-        foreach($indexes as $index) {
+        foreach ($indexes as $index) {
             $indexNames[$index->getName()] = $index->getName();
         }
 
-        $fields->addFieldToTab('Root.Index', DropdownField::create('IndexToSearch','Index to Search',
+        $fields->addFieldToTab('Root.Index', DropdownField::create('IndexToSearch', 'Index to Search',
             $indexNames));
+
+        $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
+
+
         return $fields;
     }
 
 
-    /**
-     * // Comment this out for reference purposes until I remember how it's supposed to work!
-    public function wibble()
-    {
-        $indexesService = new Indexes();
-        $indexes = $indexesService->getIndexes();
-    }
-     * */
 }
