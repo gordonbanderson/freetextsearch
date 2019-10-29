@@ -42,8 +42,20 @@ class Indexes
                 }
             }
 
+            // has one fields
+            if (isset($indexConfig['index']['has_one'])) {
+                foreach($indexConfig['index']['has_one'] as $hasOneField) {
+                    $index->addHasOneField($hasOneField);
+                }
+            }
 
-            // @todo, relations
+            // has many fields
+            // NB many many may need to be treated as bipartisan has many
+            if (isset($indexConfig['index']['has_many'])) {
+                foreach($indexConfig['index']['has_many'] as $hasManyField) {
+                    $index->addHasManyField($hasManyField);
+                }
+            }
 
             $indexes[] = $index;
         }

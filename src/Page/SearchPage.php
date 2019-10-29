@@ -43,8 +43,15 @@ class SearchPage extends \Page
     public function getFacetFields()
     {
         $indexesService = new Indexes();
-        $indexes = $indexesService->getFacetFields($this->IndexToSearch);
-        return $indexes;
+        $facetFields = $indexesService->getFacetFields($this->IndexToSearch);
+        return $facetFields;
+    }
+
+    public function getHasManyFields()
+    {
+        $indexesService = new Indexes();
+        $hasManyFields = $indexesService->getHasManyFields($this->IndexToSearch);
+        return $hasManyFields;
     }
 
     public function getCMSFields()

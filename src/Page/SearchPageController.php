@@ -48,7 +48,11 @@ class SearchPageController extends \PageController
             $searcher->setIndex($model->IndexToSearch);
 
             $facets = $model->getFacetFields();
+            $hasManyFields = $model->getHasManyFields();
+
             $searcher->setFacettedTokens($facets);
+            $searcher->setHasManyTokens($hasManyFields);
+
 
             if ($this->PageSize == 0) {
                 $this->PageSize=15;

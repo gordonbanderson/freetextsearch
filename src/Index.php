@@ -19,6 +19,9 @@ class Index
     private $fields = [];
     private $tokens = [];
 
+    private $hasOneFields = [];
+    private $hasManyFields = [];
+
     private $name;
 
     /**
@@ -68,6 +71,17 @@ class Index
         return $this->fields;
     }
 
+    public function getHasOneFields()
+    {
+        return $this->hasOneFields;
+    }
+
+
+    public function getHasManyFields()
+    {
+        return $this->hasManyFields;
+    }
+
     /**
      * @return array
      */
@@ -84,6 +98,28 @@ class Index
     public function addField($fieldName)
     {
         $this->fields[] = $fieldName;
+    }
+
+
+    /**
+     * Add a has one field to the index
+     *
+     * @param $fieldName the name of the has one field to index
+     */
+    public function addHasOneField($fieldName)
+    {
+        $this->hasOneFields[] = $fieldName;
+    }
+
+
+    /**
+     * Add a has many to the index
+     *
+     * @param $fieldName the name of the has many field to index
+     */
+    public function addHasManyField($fieldName)
+    {
+        $this->hasManyFields[] = $fieldName;
     }
 
     /**
