@@ -45,7 +45,7 @@ class SearchPageController extends \PageController
             // @todo Make generic, or at least config
             $searcher = new \Suilven\SphinxSearch\Service\Searcher();
             $searcher->setFilters($selected);
-            $searcher->setIndex($model->IndexToSearch);
+            $searcher->setIndexName($model->IndexToSearch);
 
             $facets = $model->getFacetFields();
             $hasManyFields = $model->getHasManyFields();
