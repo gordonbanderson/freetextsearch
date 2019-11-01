@@ -44,11 +44,8 @@ class SearchPageController extends \PageController
         $results['Query'] = $q;
 
         unset($selected['q']);
-        echo 'T1a: ' . !empty($q);
 
-        echo '  T1ab: ' . $model->ShowAllIfEmptyQuery;
         if (!empty($q)  || $model->ShowAllIfEmptyQuery || !empty($selected)) {
-            echo 'T2 ';
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
@@ -118,8 +115,6 @@ class SearchPageController extends \PageController
 
             $tagCloud = new ArrayList();
             foreach($facetArray as $tag) {
-
-                print_r($tag);
                 $size = $minSize + ($maxSize - $minSize) * $tag['Count'] / $maxCount;
                 $size = round($size);
                 $row = new ArrayData([
