@@ -32,7 +32,10 @@ class SearchPage extends \Page
         'PageSize' => 'Int',
 
         // show all results if the search page has facets (optionally)
-        'ShowAllIfEmptyQuery' => 'Boolean'
+        'ShowAllIfEmptyQuery' => 'Boolean',
+
+        // show all results if the search page has facets (optionally)
+        'ShowTagCloudFor' => 'Varchar'
     ];
 
     private static $defaults = [
@@ -68,6 +71,9 @@ class SearchPage extends \Page
             $indexNames));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
+
+        $fields->addFieldToTab('Root.Index', TextField::create('ShowTagCloudFor',
+            'Show a tag cloud for the named facet'));
 
         $fields->addFieldToTab('Root.Index', CheckboxField::create('ShowAllIfEmptyQuery',
             'By default no results are shown for an empty query.  However for facets an empty query should still provide ' .
