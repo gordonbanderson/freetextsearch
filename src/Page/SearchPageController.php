@@ -41,7 +41,6 @@ class SearchPageController extends \PageController
 
         $results = [];
 
-        $results['Query'] = $q;
 
         //unset($selected['q']);
 
@@ -49,6 +48,8 @@ class SearchPageController extends \PageController
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
+
+        $results['Query'] = $q;
 
 
         // @todo In the case of facets and no search term this fails
@@ -139,10 +140,8 @@ class SearchPageController extends \PageController
         $results['CleanedLink'] = $this->Link();
 
         return $results;
-
-
-
     }
+
 
     /**
      * @param array $selected
