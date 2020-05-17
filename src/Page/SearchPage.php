@@ -17,7 +17,7 @@ use Suilven\FreeTextSearch\Indexes;
  * Class SearchPage
  * @package Suilven\FreeTextSearch\Page
  * @property string $IndexToSearch - the name of the index to search, defaults to SiteTree
- * @property integer  - the number of results to show
+ * @property integer  $PageSize the number of results to show on each page
  * @property boolean $ShowAllIfEmptyQuery - show all or no results for an empty query
  * @property string $ShowTagCloudFor - show a tag cloud
  */

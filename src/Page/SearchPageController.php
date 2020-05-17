@@ -8,11 +8,18 @@
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
-use Suilven\SphinxSearch\Service\Suggester;
+use Suilven\ManticoreSearch\Service\Searcher;
+use Suilven\ManticoreSearch\Service\Suggester;
 
+/**
+ * Class SearchPageController
+ * @package Suilven\FreeTextSearch\Page
+
+ * @property integer  $ID Page ID
+ * @property integer  $PageSize the number of results to show on each page
+
+ */
 class SearchPageController extends \PageController
 {
     private static $allowed_actions = ['index'];
@@ -92,8 +99,6 @@ class SearchPageController extends \PageController
                 $facets = $proxyResults['AllFacets'];//
             }
 
-
-
             /** @var ArrayData $facet */
             foreach ($facets as $facet) {
                 $name = $facet->getField('Name');
@@ -150,7 +155,7 @@ class SearchPageController extends \PageController
     public function performSearchIncludingFacets(array $selected, SearchPage $model, $q): array
     {
         // @todo Make generic, or at least config
-        $searcher = new \Suilven\SphinxSearch\Service\Searcher();
+        $searcher = new Searcher();
         $searcher->setFilters($selected);
         $searcher->setIndexName($model->IndexToSearch);
 

@@ -8,7 +8,6 @@
 
 namespace Suilven\FreeTextSearch;
 
-use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 
 class Indexes
