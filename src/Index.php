@@ -15,16 +15,23 @@ class Index
      */
     private $clazz = null;
 
+    /** @var array<string> names of fields */
     private $fields = [];
+
+    /** @var array<string> names of tokens */
     private $tokens = [];
 
+    /** @var array<string> names of has one fields */
     private $hasOneFields = [];
+
+    /** @var array<string> names of has many fields */
     private $hasManyFields = [];
 
+    /** @var string the name of the index */
     private $name;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -32,7 +39,7 @@ class Index
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -40,15 +47,9 @@ class Index
     }
 
 
-    /*
-     *  public function init()
-    {
-        $this->addClass(Page::class);
-        $this->addFulltextField('Title');
-        $this->addFulltextField('Content');
-    }
+    /**
+     * @param $clazz null|Class
      */
-
     public function setClass($clazz)
     {
         $this->clazz = $clazz;
@@ -63,26 +64,32 @@ class Index
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getFields()
     {
         return $this->fields;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getHasOneFields()
     {
         return $this->hasOneFields;
     }
 
 
+    /**
+     * @return array<string>
+     */
     public function getHasManyFields()
     {
         return $this->hasManyFields;
     }
 
     /**
-     * @return array
+     * @return array<string>
      */
     public function getTokens()
     {
@@ -92,7 +99,7 @@ class Index
     /**
      * Add a full text fieldname to the index
      *
-     * @param $fieldName the name of the field to index
+     * @param string $fieldName the name of the field to index
      */
     public function addField($fieldName)
     {
@@ -103,7 +110,7 @@ class Index
     /**
      * Add a has one field to the index
      *
-     * @param $fieldName the name of the has one field to index
+     * @param $string fieldName the name of the has one field to index
      */
     public function addHasOneField($fieldName)
     {
@@ -124,7 +131,7 @@ class Index
     /**
      * Add a token to the index - not full text searchable but filterable and facetable
      *
-     * @param $token the name of the field to index
+     * @param string $token the name of the field to index
      */
     public function addToken($token)
     {
