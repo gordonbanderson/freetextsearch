@@ -11,7 +11,7 @@ namespace Suilven\FreeTextSearch;
 class Index
 {
     /**
-     * @var null|\Class the class to index, with namespace
+     * @var null|string the name of the class to index, with namespace
      */
     private $clazz = null;
 
@@ -48,7 +48,7 @@ class Index
 
 
     /**
-     * @param $clazz null|\Class
+     * @param $clazz null|string
      */
     public function setClass($clazz)
     {
@@ -56,7 +56,7 @@ class Index
     }
 
     /**
-     * @return null|\Class
+     * @return null|string
      */
     public function getClass()
     {
@@ -110,7 +110,7 @@ class Index
     /**
      * Add a has one field to the index
      *
-     * @param $string fieldName the name of the has one field to index
+     * @param string fieldName the name of the has one field to index
      */
     public function addHasOneField($fieldName)
     {
