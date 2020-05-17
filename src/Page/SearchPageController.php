@@ -9,8 +9,11 @@ namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
-use Suilven\ManticoreSearch\Service\Searcher;
-use Suilven\ManticoreSearch\Service\Suggester;
+use Suilven\FreeTextSearch\Factory\SearcherFactory;
+use Suilven\FreeTextSearch\Factory\SearcherInterface;
+use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\FreeTextSearch\Factory\SuggesterInterface;
+
 
 /**
  * Class SearchPageController
@@ -63,7 +66,10 @@ class SearchPageController extends \PageController
         // This is intended for a search where a search term has been provided, but no results
         if (!empty($q) && $results['ResultsFound'] == 0) {
             // get suggestions
-            $suggester = new Suggester();
+            $factory = new SuggesterFactory();
+
+            /** @var SuggesterInterface $suggester */
+            $suggester = $factory->getSuggester();
 
             // @todo this is returning blank
             $suggester->setIndex($model->IndexToSearch);
@@ -154,8 +160,10 @@ class SearchPageController extends \PageController
      */
     public function performSearchIncludingFacets(array $selected, SearchPage $model, $q): array
     {
-        // @todo Make generic, or at least config
-        $searcher = new Searcher();
+        $factory = new SearcherFactory();
+
+        /** @var SearcherInterface $searcher */
+        $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
         $searcher->setIndexName($model->IndexToSearch);
 
