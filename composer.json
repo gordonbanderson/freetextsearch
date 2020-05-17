@@ -32,7 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Suilven\\FreeTextSearch\\": "tests"
+            "Suilven\\FreeTextSearch\\Tests": "tests"
         }
     },
     "scripts": {
