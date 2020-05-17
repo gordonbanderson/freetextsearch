@@ -82,8 +82,8 @@ class SearchPage extends \Page
 
         $fields->addFieldToTab('Root.Index', CheckboxField::create(
             'ShowAllIfEmptyQuery',
-            'By default no results are shown for an empty query.  However for facets an empty query should still provide ' .
-            ' for a drill down scenario'
+            'By default no results are shown for an empty query.  However for facets an empty query should still ' .
+            'provide for a drill down scenario'
         ));
 
 
