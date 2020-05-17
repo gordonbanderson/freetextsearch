@@ -48,7 +48,7 @@ class Index
 
 
     /**
-     * @param $clazz null|string
+     * @param string|null $clazz
      */
     public function setClass($clazz)
     {
@@ -110,7 +110,7 @@ class Index
     /**
      * Add a has one field to the index
      *
-     * @param string fieldName the name of the has one field to index
+     * @param string $fieldName the name of the has one field to index
      */
     public function addHasOneField($fieldName)
     {
