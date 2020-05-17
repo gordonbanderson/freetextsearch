@@ -1,6 +1,6 @@
 {
     "name": "suilven/freetextsearch",
-    "type": "library",
+    "type": "silverstripe-vendormodule",
     "description": "Freetext Search base package for SilverStripe searching",
     "keywords": [
         "suilven",
