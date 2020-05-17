@@ -38,7 +38,7 @@ install:
   - composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION
 
     # This package is needed as an implementation of Searcher and Suggester
-  - composer require --no-update suilven/silverstripe-manticore-search:dev-master
+  - composer require --no-update suilven/silverstripe-manticore-search:dev-FIX_CI
 
     #Install!!
   - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
