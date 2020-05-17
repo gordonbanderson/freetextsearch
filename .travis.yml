@@ -33,8 +33,6 @@ install:
   - composer global require hirak/prestissimo
   - composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION
   - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
-  - ls -al
-  - find .
 
   # This is necessary to enable unit testing specific config
   - export UNIT_TESTING_CONFIG_ENABLED=1
