@@ -8,7 +8,6 @@
 
 namespace Suilven\FreeTextSearch;
 
-
 class Index
 {
     /**

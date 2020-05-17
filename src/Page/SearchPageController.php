@@ -55,7 +55,6 @@ class SearchPageController extends \PageController
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
         if (!empty($q) && $results['ResultsFound'] == 0) {
-
             // get suggestions
             $suggester = new Suggester();
 
@@ -76,7 +75,6 @@ class SearchPageController extends \PageController
             $results['Suggestions'] = new ArrayList($suggestions);
 
             // @todo FIX - only one result returned for now
-
         }
 
         $facetted = isset($results['AllFacets']) ? true : false;
@@ -97,7 +95,7 @@ class SearchPageController extends \PageController
 
 
             /** @var ArrayData $facet */
-            foreach($facets as $facet) {
+            foreach ($facets as $facet) {
                 $name = $facet->getField('Name');
                 if ($name === $model->ShowTagCloudFor) {
                     $targetFacet = $facet->getField('Facets');
@@ -109,13 +107,13 @@ class SearchPageController extends \PageController
             $minSize = 10;
             $maxSize = 40;
             $maxCount = 0;
-            foreach($facetArray as $tag) {
+            foreach ($facetArray as $tag) {
                 $count = $tag['Count'];
                 $maxCount = $count > $maxCount ? $count : $maxCount;
             }
 
             $tagCloud = new ArrayList();
-            foreach($facetArray as $tag) {
+            foreach ($facetArray as $tag) {
                 $size = $minSize + ($maxSize - $minSize) * $tag['Count'] / $maxCount;
                 $size = round($size);
                 $row = new ArrayData([

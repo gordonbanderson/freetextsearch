@@ -67,21 +67,26 @@ class SearchPage extends \Page
             $indexNames[$index->getName()] = $index->getName();
         }
 
-        $fields->addFieldToTab('Root.Index', DropdownField::create('IndexToSearch', 'Index to Search',
-            $indexNames));
+        $fields->addFieldToTab('Root.Index', DropdownField::create(
+            'IndexToSearch',
+            'Index to Search',
+            $indexNames
+        ));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
 
-        $fields->addFieldToTab('Root.Index', TextField::create('ShowTagCloudFor',
-            'Show a tag cloud for the named facet'));
+        $fields->addFieldToTab('Root.Index', TextField::create(
+            'ShowTagCloudFor',
+            'Show a tag cloud for the named facet'
+        ));
 
-        $fields->addFieldToTab('Root.Index', CheckboxField::create('ShowAllIfEmptyQuery',
+        $fields->addFieldToTab('Root.Index', CheckboxField::create(
+            'ShowAllIfEmptyQuery',
             'By default no results are shown for an empty query.  However for facets an empty query should still provide ' .
-            ' for a drill down scenario'));
+            ' for a drill down scenario'
+        ));
 
 
         return $fields;
     }
-
-
 }
