@@ -16,6 +16,9 @@
             "role": "Developer"
         }
     ],
+    "suggest": {
+        "suilven/silverstripe-manticore-search": "dev-master"
+    },
     "require": {
         "php": "~7",
         "silverstripe/cms": "^4"

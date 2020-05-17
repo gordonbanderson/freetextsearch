@@ -30,11 +30,20 @@ services:
 
 install:
   - composer validate
+
+    # Allow downloading in parallel
   - composer global require hirak/prestissimo
+
+    # Require the CMS
   - composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION
+
+    # This package is needed as an implementation of Searcher and Suggester
+  - composer require --no-update suilven/silverstripe-manticore-search:dev-master
+
+    #Install!!
   - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
-  # This is necessary to enable unit testing specific config
+    # This is necessary to enable unit testing specific config
   - export UNIT_TESTING_CONFIG_ENABLED=1
 
 before_script:
