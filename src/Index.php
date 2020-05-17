@@ -11,7 +11,7 @@ namespace Suilven\FreeTextSearch;
 class Index
 {
     /**
-     * @var null|Class the class to index, with namespace
+     * @var null|\Class the class to index, with namespace
      */
     private $clazz = null;
 
@@ -48,7 +48,7 @@ class Index
 
 
     /**
-     * @param $clazz null|Class
+     * @param $clazz null|\Class
      */
     public function setClass($clazz)
     {
@@ -56,7 +56,7 @@ class Index
     }
 
     /**
-     * @return null|Class
+     * @return null|\Class
      */
     public function getClass()
     {
@@ -121,7 +121,7 @@ class Index
     /**
      * Add a has many to the index
      *
-     * @param $fieldName the name of the has many field to index
+     * @param string $fieldName the name of the has many field to index
      */
     public function addHasManyField($fieldName)
     {

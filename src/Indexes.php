@@ -63,8 +63,8 @@ class Indexes
 
 
     /**
-     * @param $indexName
-     * @return array An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
+     * @param string $indexName
+     * @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
      */
     public function getFacetFields($indexName)
     {
@@ -87,6 +87,10 @@ class Indexes
     }
 
 
+    /**
+     * @param string $indexName
+     * @return array<string>
+     */
     public function getHasOneFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
@@ -107,7 +111,10 @@ class Indexes
         return $result;
     }
 
-
+    /**
+     * @param string $indexName
+     * @return array<string>
+     */
     public function getHasManyFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
