@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": "~7",
-        "silverstripe/recipe-cms": "^4"
+        "silverstripe/cms": "^4"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.5",
@@ -28,23 +28,6 @@
     },
     "config": {
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
-        "project-files-installed": [
-            "app/.htaccess",
-            "app/_config.php",
-            "app/_config/mysite.yml",
-            "app/src/Page.php",
-            "app/src/PageController.php"
-        ],
-        "public-files-installed": [
-            ".htaccess",
-            "index.php",
-            "web.config"
-        ]
     },
     "autoload": {
         "psr-4": {
