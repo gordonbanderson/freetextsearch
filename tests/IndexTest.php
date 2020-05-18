@@ -30,6 +30,24 @@ class IndexTest extends SapphireTest
         $this->assertEquals(['field1', 'field2', 'field3'], $index->getFields());
     }
 
+    public function testHasOneFields()
+    {
+        $index = new Index();
+        $index->addHasOneField('field1');
+        $index->addHasOneField('field2');
+        $index->addHasOneField('field3');
+        $this->assertEquals(['field1', 'field2', 'field3'], $index->getHasOneFields());
+    }
+
+    public function testHasManyFields()
+    {
+        $index = new Index();
+        $index->addHasManyField('field1');
+        $index->addHasManyField('field2');
+        $index->addHasManyField('field3');
+        $this->assertEquals(['field1', 'field2', 'field3'], $index->getHasManyFields());
+    }
+
     public function testTokens()
     {
         $index = new Index();
