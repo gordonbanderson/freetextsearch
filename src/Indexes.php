@@ -8,8 +8,6 @@
 
 namespace Suilven\FreeTextSearch;
 
-
-use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 
 class Indexes
@@ -27,24 +25,23 @@ class Indexes
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
 
-        foreach($indexesConfig as $indexConfig)
-        {
+        foreach ($indexesConfig as $indexConfig) {
             $index = new Index();
             $index->setClass($indexConfig['index']['class']);
             $index->setName($indexConfig['index']['name']);
-            foreach($indexConfig['index']['fields'] as $fieldname) {
+            foreach ($indexConfig['index']['fields'] as $fieldname) {
                 $index->addField($fieldname);
             }
 
             if (isset($indexConfig['index']['tokens'])) {
-                foreach($indexConfig['index']['tokens'] as $token) {
+                foreach ($indexConfig['index']['tokens'] as $token) {
                     $index->addToken($token);
                 }
             }
 
             // has one fields
             if (isset($indexConfig['index']['has_one'])) {
-                foreach($indexConfig['index']['has_one'] as $hasOneField) {
+                foreach ($indexConfig['index']['has_one'] as $hasOneField) {
                     $index->addHasOneField($hasOneField);
                 }
             }
@@ -52,7 +49,7 @@ class Indexes
             // has many fields
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
-                foreach($indexConfig['index']['has_many'] as $hasManyField) {
+                foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                     $index->addHasManyField($hasManyField);
                 }
             }
@@ -65,20 +62,20 @@ class Indexes
 
 
     /**
-     * @param $indexName
-     * @return array An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
+     * @param string $indexName
+     * @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
      */
     public function getFacetFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
         $result = [];
-        foreach($indexesConfig as $indexConfig) {
+        foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['tokens'])) {
-                    foreach($indexConfig['index']['tokens'] as $token) {
+                    foreach ($indexConfig['index']['tokens'] as $token) {
                         $result[] = strtolower($token);
                     }
                 }
@@ -89,17 +86,21 @@ class Indexes
     }
 
 
+    /**
+     * @param string $indexName
+     * @return array<string>
+     */
     public function getHasOneFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
         $result = [];
-        foreach($indexesConfig as $indexConfig) {
+        foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['has_one'])) {
-                    foreach($indexConfig['index']['has_one'] as $hasOne) {
+                    foreach ($indexConfig['index']['has_one'] as $hasOne) {
                         $result[] = strtolower($hasOne);
                     }
                 }
@@ -109,18 +110,21 @@ class Indexes
         return $result;
     }
 
-
+    /**
+     * @param string $indexName
+     * @return array<string>
+     */
     public function getHasManyFields($indexName)
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
         $result = [];
-        foreach($indexesConfig as $indexConfig) {
+        foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['has_many'])) {
-                    foreach($indexConfig['index']['has_many'] as $hasManyField) {
+                    foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                         $result[] = strtolower($hasManyField);
                     }
                 }

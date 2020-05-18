@@ -8,11 +8,20 @@
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
-use Suilven\SphinxSearch\Service\Suggester;
+use Suilven\FreeTextSearch\Factory\SearcherFactory;
+use Suilven\FreeTextSearch\Factory\SearcherInterface;
+use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\FreeTextSearch\Factory\SuggesterInterface;
 
+/**
+ * Class SearchPageController
+ * @package Suilven\FreeTextSearch\Page
+
+ * @property integer  $ID Page ID
+ * @property integer  $PageSize the number of results to show on each page
+
+ */
 class SearchPageController extends \PageController
 {
     private static $allowed_actions = ['index'];
@@ -55,9 +64,11 @@ class SearchPageController extends \PageController
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
         if (!empty($q) && $results['ResultsFound'] == 0) {
-
             // get suggestions
-            $suggester = new Suggester();
+            $factory = new SuggesterFactory();
+
+            /** @var SuggesterInterface $suggester */
+            $suggester = $factory->getSuggester();
 
             // @todo this is returning blank
             $suggester->setIndex($model->IndexToSearch);
@@ -76,7 +87,6 @@ class SearchPageController extends \PageController
             $results['Suggestions'] = new ArrayList($suggestions);
 
             // @todo FIX - only one result returned for now
-
         }
 
         $facetted = isset($results['AllFacets']) ? true : false;
@@ -94,10 +104,8 @@ class SearchPageController extends \PageController
                 $facets = $proxyResults['AllFacets'];//
             }
 
-
-
             /** @var ArrayData $facet */
-            foreach($facets as $facet) {
+            foreach ($facets as $facet) {
                 $name = $facet->getField('Name');
                 if ($name === $model->ShowTagCloudFor) {
                     $targetFacet = $facet->getField('Facets');
@@ -109,13 +117,13 @@ class SearchPageController extends \PageController
             $minSize = 10;
             $maxSize = 40;
             $maxCount = 0;
-            foreach($facetArray as $tag) {
+            foreach ($facetArray as $tag) {
                 $count = $tag['Count'];
                 $maxCount = $count > $maxCount ? $count : $maxCount;
             }
 
             $tagCloud = new ArrayList();
-            foreach($facetArray as $tag) {
+            foreach ($facetArray as $tag) {
                 $size = $minSize + ($maxSize - $minSize) * $tag['Count'] / $maxCount;
                 $size = round($size);
                 $row = new ArrayData([
@@ -146,13 +154,15 @@ class SearchPageController extends \PageController
     /**
      * @param array $selected
      * @param SearchPage $model
-     * @param $q
+     * @param string $q
      * @return array
      */
     public function performSearchIncludingFacets(array $selected, SearchPage $model, $q): array
     {
-        // @todo Make generic, or at least config
-        $searcher = new \Suilven\SphinxSearch\Service\Searcher();
+        $factory = new SearcherFactory();
+
+        /** @var SearcherInterface $searcher */
+        $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
         $searcher->setIndexName($model->IndexToSearch);
 

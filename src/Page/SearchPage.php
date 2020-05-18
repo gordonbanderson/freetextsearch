@@ -13,6 +13,14 @@ use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
 use Suilven\FreeTextSearch\Indexes;
 
+/**
+ * Class SearchPage
+ * @package Suilven\FreeTextSearch\Page
+ * @property string $IndexToSearch - the name of the index to search, defaults to SiteTree
+ * @property integer  $PageSize the number of results to show on each page
+ * @property boolean $ShowAllIfEmptyQuery - show all or no results for an empty query
+ * @property string $ShowTagCloudFor - show a tag cloud
+ */
 class SearchPage extends \Page
 {
     private static $table_name = 'SearchPage';
@@ -67,21 +75,26 @@ class SearchPage extends \Page
             $indexNames[$index->getName()] = $index->getName();
         }
 
-        $fields->addFieldToTab('Root.Index', DropdownField::create('IndexToSearch', 'Index to Search',
-            $indexNames));
+        $fields->addFieldToTab('Root.Index', DropdownField::create(
+            'IndexToSearch',
+            'Index to Search',
+            $indexNames
+        ));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
 
-        $fields->addFieldToTab('Root.Index', TextField::create('ShowTagCloudFor',
-            'Show a tag cloud for the named facet'));
+        $fields->addFieldToTab('Root.Index', TextField::create(
+            'ShowTagCloudFor',
+            'Show a tag cloud for the named facet'
+        ));
 
-        $fields->addFieldToTab('Root.Index', CheckboxField::create('ShowAllIfEmptyQuery',
-            'By default no results are shown for an empty query.  However for facets an empty query should still provide ' .
-            ' for a drill down scenario'));
+        $fields->addFieldToTab('Root.Index', CheckboxField::create(
+            'ShowAllIfEmptyQuery',
+            'By default no results are shown for an empty query.  However for facets an empty query should still ' .
+            'provide for a drill down scenario'
+        ));
 
 
         return $fields;
     }
-
-
 }

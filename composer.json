@@ -1,6 +1,6 @@
 {
     "name": "suilven/freetextsearch",
-    "type": "library",
+    "type": "silverstripe-vendormodule",
     "description": "Freetext Search base package for SilverStripe searching",
     "keywords": [
         "suilven",
@@ -16,12 +16,21 @@
             "role": "Developer"
         }
     ],
+    "suggest": {
+        "suilven/silverstripe-manticore-search": "dev-master"
+    },
     "require": {
-        "php" : "~5.6|~7.0"
+        "php": "~7",
+        "silverstripe/cms": "^4"
     },
     "require-dev": {
-        "phpunit/phpunit" : ">=5.4.3",
+        "ergebnis/composer-normalize": "^2.5",
+        "phpstan/phpstan": "^0.12.25",
+        "phpunit/phpunit": "^5.7",
         "squizlabs/php_codesniffer": "^2.3"
+    },
+    "config": {
+        "sort-packages": true
     },
     "autoload": {
         "psr-4": {
@@ -30,20 +39,15 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Suilven\\FreeTextSearch\\": "tests"
+            "Suilven\\FreeTextSearch\\Tests\\": "tests"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
-        "test": "phpunit",
-        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
-        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
-    "config": {
-        "sort-packages": true
+        "checkpsr2": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fixpsr2": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "phpstan": "vendor/bin/phpstan analyse --level=3 -c tests/phpstan.neon src/",
+        "test": "vendor/bin/phpunit tests"
     }
 }
