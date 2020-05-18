@@ -11,6 +11,6 @@ class SuggesterFactoryTest extends SapphireTest
     {
         $factory = new SuggesterFactory();
         $instance = $factory->getSuggester();
-        $this->assertInstanceOf('Suilven\ManticoreSearch\Service\Suggester');
+        $this->assertInstanceOf('Suilven\ManticoreSearch\Service\Suggester', $instance);
     }
 }
