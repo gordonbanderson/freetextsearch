@@ -1,9 +1,10 @@
 <?php
 namespace Suilven\FreeTextSearch\Tests;
 
+use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Index;
 
-class IndexTest
+class IndexTest extends SapphireTest
 {
     public function testSetGetName()
     {
