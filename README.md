@@ -1,16 +1,34 @@
-# freetextsearch
+# Free Text Search Base
+[![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=FIX_CI)](https://travis-ci.org/gordonbanderson/freetextsearch)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=FIX_CI)
+[![Build Status](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/build.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/build-status/FIX_CI)
+[![CircleCI](https://circleci.com/gh/gordonbanderson/freetextsearch.svg?style=svg)](https://circleci.com/gh/gordonbanderson/freetextsearch)
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![Total Downloads][ico-downloads]][link-downloads]
+[![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=FIX_CI)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=FIX_CI)
+
+
+[![Latest Stable Version](https://poser.pugx.org/suilven/freetextsearch/version)](https://packagist.org/packages/suilven/freetextsearch)
+[![Latest Unstable Version](https://poser.pugx.org/suilven/freetextsearch/v/unstable)](//packagist.org/packages/suilven/freetextsearch)
+[![Total Downloads](https://poser.pugx.org/suilven/freetextsearch/downloads)](https://packagist.org/packages/suilven/freetextsearch)
+[![License](https://poser.pugx.org/suilven/freetextsearch/license)](https://packagist.org/packages/suilven/freetextsearch)
+[![Monthly Downloads](https://poser.pugx.org/suilven/freetextsearch/d/monthly)](https://packagist.org/packages/suilven/freetextsearch)
+[![Daily Downloads](https://poser.pugx.org/suilven/freetextsearch/d/daily)](https://packagist.org/packages/suilven/freetextsearch)
+[![composer.lock](https://poser.pugx.org/suilven/freetextsearch/composerlock)](https://packagist.org/packages/suilven/freetextsearch)
+
+[![GitHub Code Size](https://img.shields.io/github/languages/code-size/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
+[![GitHub Activity](https://img.shields.io/github/commit-activity/m/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
+[![GitHub Issues](https://img.shields.io/github/issues/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch/issues)
+
+![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/branch.svg?branch=FIX_CI)
+
+# **** WORK IN PROGRESS ****
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
 PSRs you support to avoid any confusion with users and contributors.
 
-# Conifiguration
+# Configuration
 By default the core fields of SiteTree are indexed.  You can override as follows to allow for third party modules or
 your own.  Each index should map to a model, and the field names match those in the database.  Each index sub YML
 contains the following:
@@ -201,9 +219,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-downloads]: https://img.shields.io/packagist/dt/suilven/freetextsearch.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/suilven/freetextsearch
-[link-travis]: https://travis-ci.org/suilven/freetextsearch
-[link-scrutinizer]: https://scrutinizer-ci.com/g/suilven/freetextsearch/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/suilven/freetextsearch
 [link-downloads]: https://packagist.org/packages/suilven/freetextsearch
 [link-author]: https://github.com/gordonbanderson
 [link-contributors]: ../../contributors

@@ -1,10 +1,10 @@
 language: php
 
-dist: trusty
+dist: bionic
 
-env:
-  global:
-    - COMPOSER_ROOT_VERSION=4.0.x-dev
+cache:
+  directories:
+    - $HOME/.composer/cache/files
 
 matrix:
   include:
@@ -24,16 +24,28 @@ matrix:
     - php: 7.4
       env: INSTALLER_VERSION=4.5.x-dev PHPUNIT_TEST=1
 
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y jq
+services:
+  - mysql
 
 install:
   - composer validate
+
+    # Allow downloading in parallel
   - composer global require hirak/prestissimo
 
+    # Require the CMS
   - composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION
+
+    # This package is needed as an implementation of Searcher and Suggester
+    # - composer require --no-update suilven/silverstripe-manticore-search:dev-master
+  - composer require --no-update manticoresoftware/manticoresearch-php:dev-master
+  - git clone https://github.com/gordonbanderson/silverstripe-manticore-search.git
+
+    #Install!!
   - composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
+
+    # This is necessary to enable unit testing specific config
+  - export UNIT_TESTING_CONFIG_ENABLED=1
 
 before_script:
   - phpenv rehash
