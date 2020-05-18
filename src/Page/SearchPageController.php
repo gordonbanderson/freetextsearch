@@ -164,7 +164,7 @@ class SearchPageController extends \PageController
         /** @var SearcherInterface $searcher */
         $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
-        $searcher->setIndexName($model->IndexToSearch);
+        $searcher->setIndex($model->IndexToSearch);
 
 
         $facets = $model->getFacetFields();

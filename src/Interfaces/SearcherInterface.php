@@ -27,7 +27,7 @@ interface SearcherInterface
     /**
      * @param string $indexName
      */
-    public function setIndexName($indexName);
+    public function setIndex($indexName);
 
 
     /**
