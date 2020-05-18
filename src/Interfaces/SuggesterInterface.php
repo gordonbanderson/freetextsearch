@@ -25,5 +25,5 @@ interface SuggesterInterface
     /**
      * @param string $newIndex the name of the index
      */
-    pubic function setIndex($newIndex);
+    public function setIndex($newIndex);
 }
