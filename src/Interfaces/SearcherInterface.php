@@ -12,8 +12,8 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use Suilven\ManticoreSearch\Service\Client;
 
-
-interface SearcherInterface  {
+interface SearcherInterface
+{
     /**
      * @param array $filters
      */
@@ -27,7 +27,7 @@ interface SearcherInterface  {
     /**
      * @param string $indexName
      */
-    public function setIndex($indexName);
+    public function setIndexName($indexName);
 
 
     /**
@@ -35,6 +35,21 @@ interface SearcherInterface  {
      */
     public function setFacettedTokens($facettedTokens);
 
+    /**
+     * @param array $hasManyTokens
+     */
+    public function setHasManyTokens($hasManyTokens);
 
+
+    /**
+     * @param integer $pageNumber
+     */
+    public function setPage($pageNumber);
+
+
+    /**
+     * @param string $q
+     * @return array
+     */
     public function search($q);
 }

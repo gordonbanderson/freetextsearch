@@ -9,8 +9,8 @@ namespace Suilven\FreeTextSearch\Factory;
 
 use SilverStripe\Core\Injector\Injector;
 
-
-class SearcherFactory  {
+class SearcherFactory
+{
     /**
      * @return SearcherInterface
      */

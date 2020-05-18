@@ -12,14 +12,18 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use Suilven\ManticoreSearch\Service\Client;
 
-
-interface SuggesterInterface  {
+interface SuggesterInterface
+{
 
     /**
-     * @param $q
-     * @param int $limit
-     * @return array<string>
+     * @param string $q the text term to query
+     * @param int $limit the number of results to return at a max, default is 5
+     * @return array<string> suggested terms based on the $q parameter
      */
     public function suggest($q, $limit = 5);
 
+    /**
+     * @param string $newIndex the name of the index
+     */
+    pubic function setIndex($newIndex);
 }

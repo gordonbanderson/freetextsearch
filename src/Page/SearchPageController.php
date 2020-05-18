@@ -14,7 +14,6 @@ use Suilven\FreeTextSearch\Factory\SearcherInterface;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterInterface;
 
-
 /**
  * Class SearchPageController
  * @package Suilven\FreeTextSearch\Page
@@ -155,7 +154,7 @@ class SearchPageController extends \PageController
     /**
      * @param array $selected
      * @param SearchPage $model
-     * @param $q
+     * @param string $q
      * @return array
      */
     public function performSearchIncludingFacets(array $selected, SearchPage $model, $q): array
