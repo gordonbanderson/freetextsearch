@@ -1,9 +1,6 @@
 # Free Text Search Base
 [![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=FIX_CI)](https://travis-ci.org/gordonbanderson/freetextsearch)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=FIX_CI)
-[![Build Status](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/build.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/build-status/FIX_CI)
-[![CircleCI](https://circleci.com/gh/gordonbanderson/freetextsearch.svg?style=svg)](https://circleci.com/gh/gordonbanderson/freetextsearch)
-
 [![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=FIX_CI)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=FIX_CI)
 
 
