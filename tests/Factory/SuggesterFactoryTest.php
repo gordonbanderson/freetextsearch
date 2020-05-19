@@ -3,7 +3,6 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
-use Suilven\FreeTextSearch\Index;
 
 class SuggesterFactoryTest extends SapphireTest
 {
