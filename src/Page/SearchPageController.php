@@ -34,6 +34,7 @@ class SearchPageController extends \PageController
         'PageSize' => 10
     ];
 
+    
     public function index()
     {
         // @todo search indexes addition
@@ -44,22 +45,15 @@ class SearchPageController extends \PageController
 
         /** @var SearchPage $model */
         $model = SearchPage::get_by_id('Suilven\FreeTextSearch\Page\SearchPage', $this->ID);
-
-
         unset($selected['start']);
 
         $results = [];
-
-
-        //unset($selected['q']);
 
         if (!empty($q)  || $model->ShowAllIfEmptyQuery || !empty($selected)) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
-
         $results['Query'] = $q;
-
 
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
@@ -74,24 +68,11 @@ class SearchPageController extends \PageController
             $suggester->setIndex($model->IndexToSearch);
             $suggestions = $suggester->suggest($q);
 
-            $forTemplate = [];
-            /*
 
-            foreach($suggestions as $suggestion) {
-                $forTemplate[] = ['Suggestions' => $suggestions];
-            }
-            */
-
-
-           // $forTemplate = ['Suggestions' => $suggestions];
             $results['Suggestions'] = new ArrayList($suggestions);
-
-            // @todo FIX - only one result returned for now
         }
 
         $facetted = isset($results['AllFacets']) ? true : false;
-
-
 
         $targetFacet = new ArrayList();
         if (!empty($model->ShowTagCloudFor)) {
@@ -136,12 +117,6 @@ class SearchPageController extends \PageController
 
             $results['TagCloud'] = $tagCloud;
         }
-
-
-        //for($i = 3; $i < 40; $i++) {
-           // echo "li.tag{$i} { font-size: {$i}px;};\n";
-        //}
-
 
         // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
         $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
