@@ -64,6 +64,7 @@ class Indexes
     public function getFacetFields($indexName)
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
+
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
@@ -71,11 +72,14 @@ class Indexes
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['tokens'])) {
                     foreach ($indexConfig['index']['tokens'] as $token) {
-                        $result[] = strtolower($token);
+                        //$result[] = strtolower($token);
+                        $result[] = $token;
                     }
                 }
             }
         }
+
+        error_log('FACETS: ' . print_r($result, 1));
 
         return $result;
     }
@@ -87,8 +91,7 @@ class Indexes
      */
     public function getHasOneFields($indexName)
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
@@ -96,7 +99,8 @@ class Indexes
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['has_one'])) {
                     foreach ($indexConfig['index']['has_one'] as $hasOne) {
-                        $result[] = strtolower($hasOne);
+                        //$result[] = strtolower($hasOne);
+                        $result[] = $hasOne;
                     }
                 }
             }
@@ -119,7 +123,8 @@ class Indexes
             if ($name == $indexName) {
                 if (isset($indexConfig['index']['has_many'])) {
                     foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                        $result[] = strtolower($hasManyField);
+                        //$result[] = strtolower($hasManyField);
+                        $result[] = $hasManyField;
                     }
                 }
             }
