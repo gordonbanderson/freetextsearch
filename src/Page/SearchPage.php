@@ -58,6 +58,13 @@ class SearchPage extends \Page
         return $facetFields;
     }
 
+    public function getHasOneFields()
+    {
+        $indexesService = new Indexes();
+        $hasManyFields = $indexesService->getHasOneFields($this->IndexToSearch);
+        return $hasManyFields;
+    }
+
     public function getHasManyFields()
     {
         $indexesService = new Indexes();
