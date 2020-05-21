@@ -64,6 +64,8 @@ class Indexes
     public function getFacetFields($indexName)
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
+        error_log('getFacetFields');
+        error_log(print_r($indexesConfig));
 
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
@@ -78,8 +80,6 @@ class Indexes
                 }
             }
         }
-
-        error_log('FACETS: ' . print_r($result, 1));
 
         return $result;
     }
