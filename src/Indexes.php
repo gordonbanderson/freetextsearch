@@ -16,15 +16,11 @@ class Indexes
      * Get indexes from config
      * @return array ClassName -> Index
      *
-     * // @todo possibly remove the override as it breaks the searcher
      */
-    public function getIndexes($indexesOverride = null)
+    public function getIndexes()
     {
         $indexes = [];
-
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
-
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
         foreach ($indexesConfig as $indexConfig) {
             $index = new Index();
             $index->setClass($indexConfig['index']['class']);
@@ -67,8 +63,7 @@ class Indexes
      */
     public function getFacetFields($indexName)
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
@@ -116,8 +111,7 @@ class Indexes
      */
     public function getHasManyFields($indexName)
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
