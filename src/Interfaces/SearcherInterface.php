@@ -7,11 +7,6 @@
  */
 namespace Suilven\FreeTextSearch\Factory;
 
-use SilverStripe\Core\Injector\Injector;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
-use Suilven\ManticoreSearch\Service\Client;
-
 interface SearcherInterface
 {
     /**

@@ -2,7 +2,6 @@
 namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\Dev\SapphireTest;
-use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Page\SearchPage;
 
 class SearchPageTest extends SapphireTest
