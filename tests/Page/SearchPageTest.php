@@ -29,7 +29,7 @@ class SearchPageTest extends SapphireTest
         $indexTab = $rootTab->fieldByName('Index');
         $fields = $indexTab->FieldList()->toArray();
 
-        $titles = array_map(function($field) {
+        $titles = array_map(function ($field) {
             return $field->Name;
         }, $fields);
 
@@ -56,5 +56,4 @@ class SearchPageTest extends SapphireTest
         // @todo Check what the case sensitivy issues are here
         $this->assertEquals(['Suilven\ManticoreSearch\Tests\Models\FlickrAuthor'], $fields);
     }
-
 }
