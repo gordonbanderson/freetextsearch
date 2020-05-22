@@ -53,7 +53,8 @@ before_script:
   - echo 'memory_limit = 2G' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - ls -al
   - ls -al _config
-  - cat .env
+  - less _config/indexes.yml
+  - less _config/testing.yml
 
 # Flushing at the PHPUnit stage is necessary to get TestOnly objects working correctly
 script:
