@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: gordon
@@ -14,11 +15,12 @@ class Indexes
 {
     /**
      * Get indexes from config
+     *
      * @return array ClassName -> Index
      *
      * // @todo possibly remove the override as it breaks the searcher
      */
-    public function getIndexes($indexesOverride = null)
+    public function getIndexes($indexesOverride = null): array
     {
         $indexes = [];
 
@@ -61,11 +63,8 @@ class Indexes
     }
 
 
-    /**
-     * @param string $indexName
-     * @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed']
-     */
-    public function getFacetFields($indexName)
+    /** @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed'] */
+    public function getFacetFields(string $indexName): array
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
@@ -73,12 +72,16 @@ class Indexes
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
-            if ($name == $indexName) {
-                if (isset($indexConfig['index']['tokens'])) {
-                    foreach ($indexConfig['index']['tokens'] as $token) {
-                        $result[] = strtolower($token);
-                    }
-                }
+            if ($name !== $indexName) {
+                continue;
+            }
+
+            if (!isset($indexConfig['index']['tokens'])) {
+                continue;
+            }
+
+            foreach ($indexConfig['index']['tokens'] as $token) {
+                $result[] = \strtolower($token);
             }
         }
 
@@ -86,11 +89,8 @@ class Indexes
     }
 
 
-    /**
-     * @param string $indexName
-     * @return array<string>
-     */
-    public function getHasOneFields($indexName)
+    /** @return array<string> */
+    public function getHasOneFields(string $indexName): array
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
@@ -98,23 +98,25 @@ class Indexes
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
-            if ($name == $indexName) {
-                if (isset($indexConfig['index']['has_one'])) {
-                    foreach ($indexConfig['index']['has_one'] as $hasOne) {
-                        $result[] = strtolower($hasOne);
-                    }
-                }
+            if ($name !== $indexName) {
+                continue;
+            }
+
+            if (!isset($indexConfig['index']['has_one'])) {
+                continue;
+            }
+
+            foreach ($indexConfig['index']['has_one'] as $hasOne) {
+                $result[] = \strtolower($hasOne);
             }
         }
 
         return $result;
     }
 
-    /**
-     * @param string $indexName
-     * @return array<string>
-     */
-    public function getHasManyFields($indexName)
+
+    /** @return array<string> */
+    public function getHasManyFields(string $indexName): array
     {
         $indexesConfig = empty($indexesOverride) ?
             Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
@@ -122,12 +124,16 @@ class Indexes
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
 
-            if ($name == $indexName) {
-                if (isset($indexConfig['index']['has_many'])) {
-                    foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                        $result[] = strtolower($hasManyField);
-                    }
-                }
+            if ($name !== $indexName) {
+                continue;
+            }
+
+            if (!isset($indexConfig['index']['has_many'])) {
+                continue;
+            }
+
+            foreach ($indexConfig['index']['has_many'] as $hasManyField) {
+                $result[] = \strtolower($hasManyField);
             }
         }
 
