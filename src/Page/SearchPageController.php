@@ -20,6 +20,8 @@ use Suilven\FreeTextSearch\Factory\SuggesterFactory;
  * @package Suilven\FreeTextSearch\Page
  * @property int $ID Page ID
  * @property int $PageSize the number of results to show on each page
+ * @todo Fix the annotation once format decided upon
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
  */
 class SearchPageController extends \PageController
 {
@@ -33,7 +35,9 @@ class SearchPageController extends \PageController
         'PageSize' => 10,
     ];
 
-    public function index()
+
+    /** @return array */
+    public function index(): array
     {
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
@@ -52,7 +56,7 @@ class SearchPageController extends \PageController
 
         //unset($selected['q']);
 
-        if (!empty($q) || $model->ShowAllIfEmptyQuery || !empty($selected)) {
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected)) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
@@ -62,7 +66,7 @@ class SearchPageController extends \PageController
 
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
-        if (!empty($q) && $results['ResultsFound'] === 0) {
+        if (isset($q) && $results['ResultsFound'] === 0) {
             // get suggestions
             $factory = new SuggesterFactory();
 
@@ -73,29 +77,17 @@ class SearchPageController extends \PageController
             $suggester->setIndex($model->IndexToSearch);
             $suggestions = $suggester->suggest($q);
 
-            $forTemplate = [];
-            /*
-
-            foreach($suggestions as $suggestion) {
-                $forTemplate[] = ['Suggestions' => $suggestions];
-            }
-            */
-
-
-           // $forTemplate = ['Suggestions' => $suggestions];
             $results['Suggestions'] = new ArrayList($suggestions);
 
             // @todo FIX - only one result returned for now
         }
 
-        $facetted = isset($results['AllFacets'])
-            ? true
-            : false;
+        $facetted = isset($results['AllFacets']);
 
 
 
         $targetFacet = new ArrayList();
-        if (!empty($model->ShowTagCloudFor)) {
+        if (isset($model->ShowTagCloudFor)) {
             // get the tag cloud from calculated facets, but if not calculated, ie the arrive on the page case,
             // calculate them
             if ($facetted) {
@@ -156,7 +148,7 @@ class SearchPageController extends \PageController
 
 
     /**
-     * @param array $selected
+     * @param array<string, string|int|bool> $selected
      * @return array
      */
     public function performSearchIncludingFacets(array $selected, SearchPage $model, string $q): array
@@ -184,9 +176,9 @@ class SearchPageController extends \PageController
 
 
         // page 1 is the first page
-        $page = empty($start)
-            ? 1
-            : ($start / $this->PageSize) + 1;
+        $page = isset($start)
+            ? ($start / $this->PageSize) + 1
+            : 1;
         $searcher->setPage($page);
 
         return $searcher->search($q);

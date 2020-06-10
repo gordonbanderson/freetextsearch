@@ -16,16 +16,13 @@ class Indexes
     /**
      * Get indexes from config
      *
-     * @return array ClassName -> Index
-     *
-     * // @todo possibly remove the override as it breaks the searcher
+     * @return array<string, \Suilven\FreeTextSearch\Index> ClassName -> Index
      */
-    public function getIndexes($indexesOverride = null): array
+    public function getIndexes(): array
     {
         $indexes = [];
 
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') ;
 
         foreach ($indexesConfig as $indexConfig) {
             $index = new Index();
@@ -66,8 +63,7 @@ class Indexes
     /** @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed'] */
     public function getFacetFields(string $indexName): array
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
@@ -92,8 +88,8 @@ class Indexes
     /** @return array<string> */
     public function getHasOneFields(string $indexName): array
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
+
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);
@@ -118,8 +114,8 @@ class Indexes
     /** @return array<string> */
     public function getHasManyFields(string $indexName): array
     {
-        $indexesConfig = empty($indexesOverride) ?
-            Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') : $indexesOverride;
+        $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
+
         $result = [];
         foreach ($indexesConfig as $indexConfig) {
             $name = ($indexConfig['index']['name']);

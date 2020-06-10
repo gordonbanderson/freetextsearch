@@ -52,7 +52,12 @@ class SearchPage extends \Page
     ];
 
 
-    public function getFacetFields()
+    /**
+     * Get the fields to facet on
+     *
+     * @return array<string>
+     */
+    public function getFacetFields(): array
     {
         $indexesService = new Indexes();
 
@@ -60,7 +65,12 @@ class SearchPage extends \Page
     }
 
 
-    public function getHasManyFields()
+    /**
+     * Get the has many fields
+     *
+     * @return array<string>
+     */
+    public function getHasManyFields(): array
     {
         $indexesService = new Indexes();
 
@@ -68,7 +78,7 @@ class SearchPage extends \Page
     }
 
 
-    public function getCMSFields()
+    public function getCMSFields(): \SilverStripe\Forms\FieldList
     {
         $fields = parent::getCMSFields();
         $indexesService = new Indexes();
