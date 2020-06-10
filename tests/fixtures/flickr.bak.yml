@@ -1,0 +1,5 @@
+Suilven\FreeTextSearch\Tests\Models\FlickrPhoto:
+  photo1:
+    Title: A title
+    Description: A description
+    
