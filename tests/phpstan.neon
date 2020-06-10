@@ -1,6 +1,3 @@
 parameters:
-    autoload_directories:
-        - ../app
-    autoload_files:
-        - ../vendor/autoload.php
-    #checkMissingIterableValueType: false
+  autoload_files:
+    - ../vendor/autoload.php
