@@ -1,20 +1,19 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: gordon
  * Date: 25/3/2561
  * Time: 17:01 น.
  */
+
 namespace Suilven\FreeTextSearch\Factory;
 
 use SilverStripe\Core\Injector\Injector;
 
 class SearcherFactory
 {
-    /**
-     * @return SearcherInterface
-     */
-    public function getSearcher()
+    public function getSearcher(): Searcher
     {
         return Injector::inst()->get('FreeTextSearcherImplementation');
     }

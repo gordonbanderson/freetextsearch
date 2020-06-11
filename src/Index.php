@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: gordon
@@ -10,9 +11,7 @@ namespace Suilven\FreeTextSearch;
 
 class Index
 {
-    /**
-     * @var null|string the name of the class to index, with namespace
-     */
+    /** @var string|null the name of the class to index, with namespace */
     private $clazz = null;
 
     /** @var array<string> names of fields */
@@ -30,78 +29,64 @@ class Index
     /** @var string the name of the index */
     private $name;
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
 
-    /**
-     * @param string|null $clazz
-     */
-    public function setClass($clazz)
+    public function setClass(?string $clazz): void
     {
         $this->clazz = $clazz;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getClass()
+
+    public function getClass(): ?string
     {
         return $this->clazz;
     }
 
-    /**
-     * @return array<string>
-     */
-    public function getFields()
+
+    /** @return array<string> */
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    /**
-     * @return array<string>
-     */
-    public function getHasOneFields()
+
+    /** @return array<string> */
+    public function getHasOneFields(): array
     {
         return $this->hasOneFields;
     }
 
 
-    /**
-     * @return array<string>
-     */
-    public function getHasManyFields()
+    /** @return array<string> */
+    public function getHasManyFields(): array
     {
         return $this->hasManyFields;
     }
 
-    /**
-     * @return array<string>
-     */
-    public function getTokens()
+
+    /** @return array<string> */
+    public function getTokens(): array
     {
         return $this->tokens;
     }
+
 
     /**
      * Add a full text fieldname to the index
      *
      * @param string $fieldName the name of the field to index
      */
-    public function addField($fieldName)
+    public function addField(string $fieldName): void
     {
         $this->fields[] = $fieldName;
     }
@@ -112,7 +97,7 @@ class Index
      *
      * @param string $fieldName the name of the has one field to index
      */
-    public function addHasOneField($fieldName)
+    public function addHasOneField(string $fieldName): void
     {
         $this->hasOneFields[] = $fieldName;
     }
@@ -123,17 +108,18 @@ class Index
      *
      * @param string $fieldName the name of the has many field to index
      */
-    public function addHasManyField($fieldName)
+    public function addHasManyField(string $fieldName): void
     {
         $this->hasManyFields[] = $fieldName;
     }
+
 
     /**
      * Add a token to the index - not full text searchable but filterable and facetable
      *
      * @param string $token the name of the field to index
      */
-    public function addToken($token)
+    public function addToken(string $token): void
     {
         $this->tokens[] = $token;
     }

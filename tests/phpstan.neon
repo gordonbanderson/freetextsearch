@@ -1,6 +1,7 @@
 parameters:
-    autoload_directories:
-        - ../app
-    autoload_files:
-        - ../vendor/autoload.php
-    #checkMissingIterableValueType: false
+    scanDirectories:
+        - ../app/src
+    scanFiles:
+        - ../app/src/Page.php
+        - ../app/src/PageController.php
+

@@ -1,10 +1,12 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: gordon
  * Date: 25/3/2561
  * Time: 17:01 น.
  */
+
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\Forms\CheckboxField;
@@ -15,19 +17,19 @@ use Suilven\FreeTextSearch\Indexes;
 
 /**
  * Class SearchPage
+ *
  * @package Suilven\FreeTextSearch\Page
  * @property string $IndexToSearch - the name of the index to search, defaults to SiteTree
- * @property integer  $PageSize the number of results to show on each page
- * @property boolean $ShowAllIfEmptyQuery - show all or no results for an empty query
+ * @property int $PageSize the number of results to show on each page
+ * @property bool $ShowAllIfEmptyQuery - show all or no results for an empty query
  * @property string $ShowTagCloudFor - show a tag cloud
+ * @phpstan-ignore-next-line
  */
 class SearchPage extends \Page
 {
     private static $table_name = 'SearchPage';
 
-    /**
-     * @var array database fields
-     */
+    /** @var array database fields */
     private static $db = [
         // fields to return facets for, stored as JSON array
         // 'FacetFields' => 'Varchar(255)',
@@ -43,29 +45,41 @@ class SearchPage extends \Page
         'ShowAllIfEmptyQuery' => 'Boolean',
 
         // show all results if the search page has facets (optionally)
-        'ShowTagCloudFor' => 'Varchar'
+        'ShowTagCloudFor' => 'Varchar',
     ];
 
     private static $defaults = [
-        'IndexToSearch' => 'sitetree'
+        'IndexToSearch' => 'sitetree',
     ];
 
 
-    public function getFacetFields()
+    /**
+     * Get the fields to facet on
+     *
+     * @return array<string>
+     */
+    public function getFacetFields(): array
     {
         $indexesService = new Indexes();
-        $facetFields = $indexesService->getFacetFields($this->IndexToSearch);
-        return $facetFields;
+
+        return $indexesService->getFacetFields($this->IndexToSearch);
     }
 
-    public function getHasManyFields()
+
+    /**
+     * Get the has many fields
+     *
+     * @return array<string>
+     */
+    public function getHasManyFields(): array
     {
         $indexesService = new Indexes();
-        $hasManyFields = $indexesService->getHasManyFields($this->IndexToSearch);
-        return $hasManyFields;
+
+        return $indexesService->getHasManyFields($this->IndexToSearch);
     }
 
-    public function getCMSFields()
+
+    public function getCMSFields(): \SilverStripe\Forms\FieldList
     {
         $fields = parent::getCMSFields();
         $indexesService = new Indexes();
@@ -93,7 +107,6 @@ class SearchPage extends \Page
             'By default no results are shown for an empty query.  However for facets an empty query should still ' .
             'provide for a drill down scenario'
         ));
-
 
         return $fields;
     }

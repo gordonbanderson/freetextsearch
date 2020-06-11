@@ -1,40 +1,43 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: gordon
  * Date: 25/3/2561
  * Time: 17:01 น.
  */
+
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
-use Suilven\FreeTextSearch\Factory\SearcherInterface;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
-use Suilven\FreeTextSearch\Factory\SuggesterInterface;
 
 /**
  * Class SearchPageController
+ *
  * @package Suilven\FreeTextSearch\Page
-
- * @property integer  $ID Page ID
- * @property integer  $PageSize the number of results to show on each page
-
+ * @property int $ID Page ID
+ * @property int $PageSize the number of results to show on each page
+ * @todo Fix the annotation once format decided upon
+ * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
  */
 class SearchPageController extends \PageController
 {
     private static $allowed_actions = ['index'];
 
     private static $db = [
-        'PageSize' => 'Int'
+        'PageSize' => 'Int',
     ];
 
     private static $defaults = [
-        'PageSize' => 10
+        'PageSize' => 10,
     ];
 
-    public function index()
+
+    /** @return array */
+    public function index(): array
     {
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
@@ -42,7 +45,7 @@ class SearchPageController extends \PageController
         /** @var array $selected */
         $selected = $this->getRequest()->getVars();
 
-        /** @var SearchPage $model */
+        /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id('Suilven\FreeTextSearch\Page\SearchPage', $this->ID);
 
 
@@ -53,7 +56,7 @@ class SearchPageController extends \PageController
 
         //unset($selected['q']);
 
-        if (!empty($q)  || $model->ShowAllIfEmptyQuery || !empty($selected)) {
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected)) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
@@ -63,52 +66,43 @@ class SearchPageController extends \PageController
 
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
-        if (!empty($q) && $results['ResultsFound'] == 0) {
+        if (isset($q) && $results['ResultsFound'] === 0) {
             // get suggestions
             $factory = new SuggesterFactory();
 
-            /** @var SuggesterInterface $suggester */
+            /** @var \Suilven\FreeTextSearch\Factory\Suggester $suggester */
             $suggester = $factory->getSuggester();
 
             // @todo this is returning blank
             $suggester->setIndex($model->IndexToSearch);
             $suggestions = $suggester->suggest($q);
 
-            $forTemplate = [];
-            /*
-
-            foreach($suggestions as $suggestion) {
-                $forTemplate[] = ['Suggestions' => $suggestions];
-            }
-            */
-
-
-           // $forTemplate = ['Suggestions' => $suggestions];
             $results['Suggestions'] = new ArrayList($suggestions);
 
             // @todo FIX - only one result returned for now
         }
 
-        $facetted = isset($results['AllFacets']) ? true : false;
+        $facetted = isset($results['AllFacets']);
 
 
 
         $targetFacet = new ArrayList();
-        if (!empty($model->ShowTagCloudFor)) {
+        if (isset($model->ShowTagCloudFor)) {
             // get the tag cloud from calculated facets, but if not calculated, ie the arrive on the page case,
             // calculate them
             if ($facetted) {
                 $facets = $results['AllFacets'];
             } else {
                 $proxyResults = $this->performSearchIncludingFacets($selected, $model, $q);
-                $facets = $proxyResults['AllFacets'];//
+                $facets = $proxyResults['AllFacets'];
             }
 
-            /** @var ArrayData $facet */
+            /** @var \SilverStripe\View\ArrayData $facet */
             foreach ($facets as $facet) {
                 $name = $facet->getField('Name');
                 if ($name === $model->ShowTagCloudFor) {
                     $targetFacet = $facet->getField('Facets');
+
                     break;
                 }
             }
@@ -119,17 +113,19 @@ class SearchPageController extends \PageController
             $maxCount = 0;
             foreach ($facetArray as $tag) {
                 $count = $tag['Count'];
-                $maxCount = $count > $maxCount ? $count : $maxCount;
+                $maxCount = $count > $maxCount
+                    ? $count
+                    : $maxCount;
             }
 
             $tagCloud = new ArrayList();
             foreach ($facetArray as $tag) {
                 $size = $minSize + ($maxSize - $minSize) * $tag['Count'] / $maxCount;
-                $size = round($size);
+                $size = \round($size);
                 $row = new ArrayData([
                     'Name' => $tag['Value'],
                     'Size' => $size,
-                    'Params' => $tag['Params']
+                    'Params' => $tag['Params'],
                 ]);
                 $tagCloud->push($row);
             }
@@ -152,16 +148,14 @@ class SearchPageController extends \PageController
 
 
     /**
-     * @param array $selected
-     * @param SearchPage $model
-     * @param string $q
+     * @param array<string, string|int|bool> $selected
      * @return array
      */
-    public function performSearchIncludingFacets(array $selected, SearchPage $model, $q): array
+    public function performSearchIncludingFacets(array $selected, SearchPage $model, string $q): array
     {
         $factory = new SearcherFactory();
 
-        /** @var SearcherInterface $searcher */
+        /** @var \Suilven\FreeTextSearch\Factory\Searcher $searcher */
         $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
         $searcher->setIndexName($model->IndexToSearch);
@@ -174,7 +168,7 @@ class SearchPageController extends \PageController
         $searcher->setHasManyTokens($hasManyFields);
 
 
-        if ($this->PageSize == 0) {
+        if ($this->PageSize === 0) {
             $this->PageSize = 15;
         }
         $searcher->setPageSize($this->PageSize);
@@ -182,9 +176,11 @@ class SearchPageController extends \PageController
 
 
         // page 1 is the first page
-        $page = empty($start) ? 1 : ($start / $this->PageSize) + 1;
+        $page = isset($start)
+            ? ($start / $this->PageSize) + 1
+            : 1;
         $searcher->setPage($page);
-        $results = $searcher->search($q);
-        return $results;
+
+        return $searcher->search($q);
     }
 }
