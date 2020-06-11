@@ -91,7 +91,7 @@ class SearchPage extends \Page
         $fields->addFieldToTab('Root.Index', DropdownField::create(
             'IndexToSearch',
             'Index to Search',
-            $indexNames,
+            $indexNames
         ));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
