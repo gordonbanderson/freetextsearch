@@ -23,6 +23,7 @@ use Suilven\FreeTextSearch\Indexes;
  * @property int $PageSize the number of results to show on each page
  * @property bool $ShowAllIfEmptyQuery - show all or no results for an empty query
  * @property string $ShowTagCloudFor - show a tag cloud
+ * @phpstan-ignore-next-line
  */
 class SearchPage extends \Page
 {
@@ -98,13 +99,13 @@ class SearchPage extends \Page
 
         $fields->addFieldToTab('Root.Index', TextField::create(
             'ShowTagCloudFor',
-            'Show a tag cloud for the named facet',
+            'Show a tag cloud for the named facet'
         ));
 
         $fields->addFieldToTab('Root.Index', CheckboxField::create(
             'ShowAllIfEmptyQuery',
             'By default no results are shown for an empty query.  However for facets an empty query should still ' .
-            'provide for a drill down scenario',
+            'provide for a drill down scenario'
         ));
 
         return $fields;

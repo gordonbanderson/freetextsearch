@@ -16,7 +16,7 @@ class Indexes
     /**
      * Get indexes from config
      *
-     * @return array<string, \Suilven\FreeTextSearch\Index> ClassName -> Index
+     * @return array<\Suilven\FreeTextSearch\Index> ClassName -> Index
      */
     public function getIndexes(): array
     {
