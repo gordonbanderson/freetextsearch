@@ -1,2 +1,7 @@
 parameters:
+    scanDirectories:
+        - ../app/src
+    scanFiles:
+        - ../app/src/Page.php
+        - ../app/src/PageController.php
 
