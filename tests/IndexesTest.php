@@ -42,8 +42,8 @@ class IndexesTest extends SapphireTest
             'Title',
             'Description',
         ], $indices[2]->getFields());
-        $this->assertEquals(['Suilven\ManticoreSearch\Tests\Models\FlickrAuthor'], $indices[2]->getHasOneFields());
-        $this->assertEquals(['Suilven\ManticoreSearch\Tests\Models\FlickrTag'], $indices[2]->getHasManyFields());
+        $this->assertEquals(['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'], $indices[2]->getHasOneFields());
+        $this->assertEquals(['Suilven\FreeTextSearch\Tests\Models\FlickrTag'], $indices[2]->getHasManyFields());
         $this->assertEquals([
             'Aperture',
             'ShutterSpeed',
@@ -71,7 +71,7 @@ class IndexesTest extends SapphireTest
 
         // @todo Why is this being lowercased
         $this->assertEquals(
-            ['suilven\manticoresearch\tests\models\flickrauthor'],
+            ['suilven\freetextsearch\tests\models\flickrauthor'],
             $indexes->getHasOneFields('flickrphotos')
         );
     }
@@ -83,7 +83,7 @@ class IndexesTest extends SapphireTest
 
         // @todo Why is this being lowercased
         $this->assertEquals(
-            ['suilven\manticoresearch\tests\models\flickrtag'],
+            ['suilven\freetextsearch\tests\models\flickrtag'],
             $indexes->getHasManyFields('flickrphotos')
         );
     }
