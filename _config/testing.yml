@@ -1,0 +1,52 @@
+---
+Name: test-models
+After: freetextindexes
+Only:
+  envvarset:
+    - UNIT_TESTING_CONFIG_ENABLED
+---
+
+Suilven\SphinxSearch\Service\Client:
+  host: 'manticore'
+
+Suilven\FreeTextSearch\Indexes:
+  indexes:
+    - index:
+        name: members
+        class: SilverStripe\Security\Member
+
+        # Free text searchable
+        fields:
+          - FirstName
+          - Surname
+          - Email
+
+    - index:
+        name: flickrphotos
+        class: Suilven\FreeTextSearch\Tests\Models\FlickrPhoto
+
+        fields:
+          - Title
+          - Description
+
+        tokens:
+          - Aperture
+          - ShutterSpeed
+          - ISO
+
+        has_many_many:
+          - Suilven\FreeTextSearch\Tests\Models\FlickrSet
+
+        has_one:
+          - Suilven\FreeTextSearch\Tests\Models\FlickrAuthor
+
+        # Multi valued attribute
+        has_many:
+          - Suilven\FreeTextSearch\Tests\Models\FlickrTag
+
+SilverStripe\Core\Injector\Injector:
+  FreeTextSearcherImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\Searcher
+  FreeTextSuggesterImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\Suggester
+
