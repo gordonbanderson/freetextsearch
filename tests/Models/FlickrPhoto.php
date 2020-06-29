@@ -18,24 +18,15 @@ class FlickrPhoto extends DataObject implements TestOnly
 
     private static $db = [
         'Title' => 'Varchar(255)',
-        'FlickrID' => 'Varchar',
         'Description' => 'HTMLText',
         'TakenAt' => 'Datetime',
-        'FlickrLastUpdated' => 'Date',
-        'GeoIsPublic' => 'Boolean',
 
-        // flag to indicate requiring a flickr API update
-        'IsDirty' => 'Boolean',
 
         'Orientation' => 'Int',
-        'WoeID' => 'Int',
-        'Accuracy' => 'Int',
+        'PostCode' => 'Varchar(20)',
         'FlickrPlaceID' => 'Varchar(255)',
-        'Rotation' => 'Int',
-        'IsPublic' => 'Boolean',
         'Aperture' => 'Float',
         'ShutterSpeed' => 'Varchar',
-        'ImageUniqueID' => 'Varchar',
         'FocalLength35mm' => 'Int',
         'ISO' => 'Int',
 
