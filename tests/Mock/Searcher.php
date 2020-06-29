@@ -16,7 +16,7 @@ class Searcher extends SearcherBase
     /** @return array<string,array<string,string>> */
     public function search(string $q): array
     {
-        error_log('***** MOCK SEARCH *****');
+        \error_log('***** MOCK SEARCH *****');
 
         $result = [];
         switch ($q) {
