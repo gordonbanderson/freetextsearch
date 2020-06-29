@@ -7,7 +7,7 @@
  * Time: 17:01 น.
  */
 
-namespace Suilven\FreeTextSearch\Factory;
+namespace Suilven\FreeTextSearch\Interfaces;
 
 interface Suggester
 {
