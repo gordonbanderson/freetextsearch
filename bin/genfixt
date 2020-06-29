@@ -73,8 +73,14 @@ class GenerateFixtures
 
     public function generateFlickrPhotos()
     {
+        /** @var \Suilven\UKPostCodes\API $postcodesAPI */
+        $postcodesAPI = new \Suilven\UKPostCodes\API();
+
+        /** @var \Suilven\UKPostCodes\Models\PostCode $postcodeObj */
+        $postcodeObj = $postcodesAPI->random();
+
         $entries = [];
-        for ($i=0; $i<25;$i++) {
+        for ($i=0; $i<50;$i++) {
             $properties = [
                 'Title' => $this->reg->Sentence(true),
                 'Description' => $this->reg->Paragraph(),
@@ -82,9 +88,18 @@ class GenerateFixtures
                 'ShutterSpeed' => $this->getRandomShutterSpeed(),
                 'Orientation' => $this->getRandomOrientation(),
                 'ISO' => $this->getRandomISO(),
-                'FocalLength35mm'=> 10 * intdiv(rand(24, 600), 10)
+                'FocalLength35mm'=> 10 * intdiv(rand(24, 600), 10),
+                'Latitude' => $postcodeObj->latitude,
+                'Longitude' => $postcodeObj->longitude,
+                'PostCode' => $postcodeObj->postcode
             ];
             $entries['flickrphoto_' . $i ] = $properties;
+
+            if (rand(0,100) < 70) {
+                $nearest = $postcodeObj->nearest();
+                shuffle($nearest);
+                $postcodeObj = $nearest[0];
+            }
         }
 
 
