@@ -16,12 +16,16 @@ class Searcher extends SearcherBase
     /** @return array<string,array<string,string>> */
     public function search(string $q): array
     {
+        error_log('***** MOCK SEARCH *****');
+
         $result = [];
         switch ($q) {
-            case 'sheep':
+            case 'Fish':
                 $result = [
-                    'Title' => 'Sheep in New Zealand',
+                    'Title' => 'Fishing in New Zealand',
                 ];
+                $result['ResultsFound'] = 1;
+                $result['AllFacets'] = [];
         }
 
         return $result;
