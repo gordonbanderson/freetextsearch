@@ -11,6 +11,13 @@ namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
 
+/**
+ * Class Indexes
+ *
+ * @package Suilven\FreeTextSearch
+ *
+ * @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
+ */
 class Indexes
 {
     /**
@@ -72,12 +79,10 @@ class Indexes
                 continue;
             }
 
-            if (!isset($indexConfig['index']['tokens'])) {
-                continue;
-            }
-
-            foreach ($indexConfig['index']['tokens'] as $token) {
-                $result[] = \strtolower($token);
+            if (isset($indexConfig['index']['tokens'])) {
+                foreach ($indexConfig['index']['tokens'] as $token) {
+                    $result[] = \strtolower($token);
+                }
             }
         }
 
@@ -98,12 +103,10 @@ class Indexes
                 continue;
             }
 
-            if (!isset($indexConfig['index']['has_one'])) {
-                continue;
-            }
-
-            foreach ($indexConfig['index']['has_one'] as $hasOne) {
-                $result[] = \strtolower($hasOne);
+            if (isset($indexConfig['index']['has_one'])) {
+                foreach ($indexConfig['index']['has_one'] as $hasOne) {
+                    $result[] = \strtolower($hasOne);
+                }
             }
         }
 
@@ -124,12 +127,10 @@ class Indexes
                 continue;
             }
 
-            if (!isset($indexConfig['index']['has_many'])) {
-                continue;
-            }
-
-            foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                $result[] = \strtolower($hasManyField);
+            if (isset($indexConfig['index']['has_many'])) {
+                foreach ($indexConfig['index']['has_many'] as $hasManyField) {
+                    $result[] = \strtolower($hasManyField);
+                }
             }
         }
 
