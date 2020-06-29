@@ -8,7 +8,11 @@ use Suilven\FreeTextSearch\Tests\Models\FlickrPhoto;
 
 class SearchPageControllerTest extends FunctionalTest
 {
-    protected static $fixture_file = ['tests/fixtures/pages.yml'];
+    protected static $fixture_file = [
+        'tests/fixtures/pages.yml',
+        'tests/fixtures/sitetree.yml',
+        'tests/fixtures/flickrphotos.yml'
+    ];
 
     protected static $extra_dataobjects = [
         FlickrPhoto::class,
