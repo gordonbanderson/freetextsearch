@@ -3,7 +3,6 @@
 namespace Suilven\FreeTextSearch\Tests;
 
 use SilverStripe\Dev\SapphireTest;
-use Suilven\FreeTextSearch\Index;
 use Suilven\FreeTextSearch\Indexes;
 
 class IndexesTest extends SapphireTest
@@ -11,7 +10,7 @@ class IndexesTest extends SapphireTest
     /**
      * Assert that index objects are create correctly from the configuration file
      */
-    public function testGetIndexes()
+    public function testGetIndexes(): void
     {
         $indexes = new Indexes();
         $indices = $indexes->getIndexes();
@@ -22,7 +21,7 @@ class IndexesTest extends SapphireTest
             'MenuTitle',
             'Content',
             'ParentID',
-            'Sort'
+            'Sort',
         ], $indices[0]->getFields());
         $this->assertEquals([], $indices[0]->getHasOneFields());
         $this->assertEquals([], $indices[0]->getHasManyFields());
@@ -32,7 +31,7 @@ class IndexesTest extends SapphireTest
         $this->assertEquals([
             'FirstName',
             'Surname',
-            'Email'
+            'Email',
         ], $indices[1]->getFields());
         $this->assertEquals([], $indices[1]->getHasOneFields());
         $this->assertEquals([], $indices[1]->getHasManyFields());
@@ -41,20 +40,19 @@ class IndexesTest extends SapphireTest
         $this->assertEquals('flickrphotos', $indices[2]->getName());
         $this->assertEquals([
             'Title',
-            'Description'
+            'Description',
         ], $indices[2]->getFields());
         $this->assertEquals(['Suilven\ManticoreSearch\Tests\Models\FlickrAuthor'], $indices[2]->getHasOneFields());
         $this->assertEquals(['Suilven\ManticoreSearch\Tests\Models\FlickrTag'], $indices[2]->getHasManyFields());
         $this->assertEquals([
             'Aperture',
             'ShutterSpeed',
-            'ISO'
+            'ISO',
         ], $indices[2]->getTokens());
-
     }
 
 
-    public function testGetFacetFields()
+    public function testGetFacetFields(): void
     {
         $indexes = new Indexes();
 
@@ -62,27 +60,31 @@ class IndexesTest extends SapphireTest
         $this->assertEquals([
             'aperture',
             'shutterspeed',
-            'iso'
+            'iso',
         ], $indexes->getFacetFields('flickrphotos'));
     }
 
 
-    public function testGetHasOneFields()
+    public function testGetHasOneFields(): void
     {
         $indexes = new Indexes();
 
         // @todo Why is this being lowercased
-        $this->assertEquals(['suilven\manticoresearch\tests\models\flickrauthor'],
-            $indexes->getHasOneFields('flickrphotos'));
+        $this->assertEquals(
+            ['suilven\manticoresearch\tests\models\flickrauthor'],
+            $indexes->getHasOneFields('flickrphotos')
+        );
     }
 
 
-    public function testGetHasManyFields()
+    public function testGetHasManyFields(): void
     {
         $indexes = new Indexes();
 
         // @todo Why is this being lowercased
-        $this->assertEquals(['suilven\manticoresearch\tests\models\flickrtag'],
-            $indexes->getHasManyFields('flickrphotos'));
+        $this->assertEquals(
+            ['suilven\manticoresearch\tests\models\flickrtag'],
+            $indexes->getHasManyFields('flickrphotos')
+        );
     }
 }

@@ -14,21 +14,24 @@ class IndexTest extends SapphireTest
         $this->assertEquals('testname', $index->getName());
     }
 
-    public function testSetClass()
+
+    public function testSetClass(): void
     {
         $index = new Index();
         $index->setClass('\Page');
         $this->assertEquals('\Page', $index->getClass());
     }
 
-    public function testSetClassNull()
+
+    public function testSetClassNull(): void
     {
         $index = new Index();
         $index->setClass(null);
         $this->assertNull($index->getClass());
     }
 
-    public function testHasOneFields()
+
+    public function testHasOneFields(): void
     {
         $index = new Index();
         $this->assertEquals([], $index->getHasOneFields());
@@ -42,7 +45,8 @@ class IndexTest extends SapphireTest
         $this->assertEquals(['first', 'second', 'third', 'fourth'], $index->getHasOneFields());
     }
 
-    public function testHasManyields()
+
+    public function testHasManyields(): void
     {
         $index = new Index();
         $this->assertEquals([], $index->getHasManyFields());
@@ -57,7 +61,7 @@ class IndexTest extends SapphireTest
     }
 
 
-    public function testAddTokens()
+    public function testAddTokens(): void
     {
         $index = new Index();
         $this->assertEquals([], $index->getTokens());
@@ -72,7 +76,7 @@ class IndexTest extends SapphireTest
     }
 
 
-    public function testAddFields()
+    public function testAddFields(): void
     {
         $index = new Index();
         $this->assertEquals([], $index->getFields());
