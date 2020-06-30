@@ -1,5 +1,5 @@
 ---
-Name: test-models
+Name: freetextsearch-test-models
 After: freetextindexes
 Only:
   envvarset:
