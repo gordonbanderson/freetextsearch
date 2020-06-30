@@ -1,0 +1,9 @@
+Suilven\FreeTextSearch\Page\SearchPage:
+  site-search:
+    Title: Site Search
+    Content: This is a site search page
+
+  photo-search:
+    Title: Photo Search
+    Content: This is a photo search page
+    IndexToSearch: flickrphotos

@@ -7,20 +7,21 @@
  * Time: 17:01 น.
  */
 
-namespace Suilven\FreeTextSearch\Factory;
+namespace Suilven\FreeTextSearch\Interfaces;
+
+use Suilven\FreeTextSearch\Container\SearchResults;
 
 /**
  * Interface Searcher
  *
- * @package Suilven\FreeTextSearch\Factory
+ * @package Suilven\FreeTextSearch\Interfaces
  * @todo Fix this once output format decided upon
  *
  * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
-
  */
 interface Searcher
 {
-    /** @param array<string,string> $filters */
+    /** @param array<string,string|int|float> $filters */
     public function setFilters(array $filters): void;
 
 
@@ -46,7 +47,7 @@ interface Searcher
     /**
      * @param string $q the search query
      * @todo Fix annotation
-     * @return array<string,array>
+     * @return SearchResults
      */
-    public function search(string $q): array;
+    public function search(string $q): SearchResults;
 }

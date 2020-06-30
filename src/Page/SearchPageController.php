@@ -149,20 +149,20 @@ class SearchPageController extends \PageController
 
     /**
      * @param array<string, string|int|bool> $selected
-     * @return array
+     * @param string|null $q
      */
-    public function performSearchIncludingFacets(array $selected, SearchPage $model, string $q): array
+    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q)
     {
         $factory = new SearcherFactory();
 
         /** @var \Suilven\FreeTextSearch\Factory\Searcher $searcher */
         $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
-        $searcher->setIndexName($model->IndexToSearch);
+        $searcher->setIndexName($searchPage->IndexToSearch);
 
 
-        $facets = $model->getFacetFields();
-        $hasManyFields = $model->getHasManyFields();
+        $facets = $searchPage->getFacetFields();
+        $hasManyFields = $searchPage->getHasManyFields();
 
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
