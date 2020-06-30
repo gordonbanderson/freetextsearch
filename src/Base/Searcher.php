@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
+use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Interfaces\Searcher;
 
 abstract class SearcherBase implements Searcher
@@ -31,8 +32,8 @@ abstract class SearcherBase implements Searcher
     /** @var array<string> */
     private $hasManyTokens;
 
-    /** @return array<string,array<string,string>> */
-    abstract public function search(string $q): array;
+
+    abstract public function search(string $q): SearchResults;
 
 
     /** @param array<string,string|int|float> $filters */

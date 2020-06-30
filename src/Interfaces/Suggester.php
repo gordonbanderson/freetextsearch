@@ -9,15 +9,17 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
+use Suilven\FreeTextSearch\Container\SuggesterResults;
+
 interface Suggester
 {
 
     /**
      * @param string $q the text term to query
      * @param int $limit the number of results to return at a max, default is 5
-     * @return array<string> suggested terms based on the $q parameter
+     * @return SuggesterResults suggested terms based on the $q parameter
      */
-    public function suggest(string $q, int $limit = 5): array;
+    public function suggest(string $q, int $limit = 5): SuggesterResults;
 
 
     /** @param string $newIndex the name of the index */

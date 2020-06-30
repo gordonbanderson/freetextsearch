@@ -9,13 +9,14 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
+use Suilven\FreeTextSearch\Container\SuggesterResults;
+
 abstract class Suggester implements \Suilven\FreeTextSearch\Interfaces\Suggester
 {
     /** @var string */
     private $index;
 
-    /** @return array<string> */
-    abstract public function suggest(string $q, int $limit = 5): array;
+    abstract public function suggest(string $q, int $limit = 5): SuggesterResults;
 
 
     public function setIndex(string $newIndex): void

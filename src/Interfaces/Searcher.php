@@ -9,6 +9,8 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
+use Suilven\FreeTextSearch\Container\SearchResults;
+
 /**
  * Interface Searcher
  *
@@ -16,7 +18,6 @@ namespace Suilven\FreeTextSearch\Interfaces;
  * @todo Fix this once output format decided upon
  *
  * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
-
  */
 interface Searcher
 {
@@ -46,7 +47,7 @@ interface Searcher
     /**
      * @param string $q the search query
      * @todo Fix annotation
-     * @return array<string,array>
+     * @return SearchResults
      */
-    public function search(string $q): array;
+    public function search(string $q): SearchResults;
 }
