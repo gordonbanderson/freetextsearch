@@ -22,6 +22,9 @@ interface Indexer
 
     public function processIndexes($dataObject);
 
+    public function addDataObjectToIndex($dataObject, $index);
+
+
 
 
     /** @param string $newIndex the name of the index */
