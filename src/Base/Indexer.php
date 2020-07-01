@@ -47,7 +47,6 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
                     $client = $coreClient->getConnection();
                     $manticoreIndex = new \Manticoresearch\Index($client, $indice->getName());
                     $manticoreIndex->addDocument($payload, $dataObject->ID);
-
                 }
             }
 

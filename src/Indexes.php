@@ -20,6 +20,8 @@ use SilverStripe\Core\Config\Config;
  */
 class Indexes
 {
+
+
     /**
      * Get indexes from config
      *
