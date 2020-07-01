@@ -20,8 +20,19 @@ use SilverStripe\Core\Config\Config;
  */
 class Indexes
 {
+    private $indexesByName;
 
 
+    public function getIndex($name)
+    {
+        if (is_null($this->indexesByName))
+        {
+            $this->getIndexes();
+        }
+        return $this->indexesByName[$name];
+    }
+
+    
     /**
      * Get indexes from config
      *
@@ -32,6 +43,8 @@ class Indexes
         $indexes = [];
 
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') ;
+
+        $this->indexesByName = []; // reset
 
         foreach ($indexesConfig as $indexConfig) {
             $index = new Index();
@@ -63,6 +76,8 @@ class Indexes
             }
 
             $indexes[] = $index;
+
+            $this->indexesByName[$index->getName()] = $index;
         }
 
         return $indexes;
