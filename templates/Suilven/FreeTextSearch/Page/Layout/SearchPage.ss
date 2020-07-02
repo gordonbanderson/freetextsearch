@@ -1,9 +1,8 @@
-<% include Header %>
 <main role="main" class="container">
     <% if $SideBar %>
         <% include SideBar %>
     <% end_if %>
-    <h1 class="mt-5">$Title</h1>
+    <h1 class="mt-5">$Title **** SEARXH PAGE TEMPLATE ****</h1>
     <form action="$URL">
         <div class="col-xs-12">
             <div class="input-group">
@@ -16,7 +15,7 @@
     </form>
 
 
-    <% if $Records %>
+    <% if $SearchResultsRecords %>
         <p>$ResultsFound results found in $Time seconds</p>
 
             <% loop $Records %>
@@ -79,7 +78,5 @@
         <p>Sorry, your search query did not return any results.</p>
     <% end_if %>
 </main>
-
-<% include Footer %>
 
 
