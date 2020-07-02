@@ -43,6 +43,8 @@ class CreateIndexTask extends BuildTask
 
         $factory = new IndexCreatorFactory();
         $indexCreator = $factory->getIndexCreator();
+
+        // @todo Does the index need dropped prior to re-creation?
         $indexCreator->createIndex($name);
 
 

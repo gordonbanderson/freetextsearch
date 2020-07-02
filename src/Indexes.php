@@ -32,7 +32,7 @@ class Indexes
         return $this->indexesByName[$name];
     }
 
-    
+
     /**
      * Get indexes from config
      *

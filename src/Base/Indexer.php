@@ -19,14 +19,20 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     /** @var string */
     protected $index;
 
-    public function index($dataObject)
+    public abstract function index($dataObject);
+
+    protected function getFieldsToIndex($dataObject)
     {
         $indexes = new Indexes();
         $indices = $indexes->getIndexes();
 
+        $payload = [];
+
         /** @var Index $indice */
         foreach($indices as $indice)
         {
+            $indicePayload = [];
+
             $clazz = $indice->getClass();
             $classes = $dataObject->getClassAncestry();
             error_log(print_r($classes, true));
@@ -38,22 +44,20 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
                     foreach($fields as $field)
                     {
                         $value = $dataObject->$field;
-                        $payload[$field] = $value;
+                        $indicePayload[$field] = $value;
                     }
 
-                    error_log(print_r($payload, true));
 
-                    $coreClient = new Client();
-                    $client = $coreClient->getConnection();
-                    $manticoreIndex = new \Manticoresearch\Index($client, $indice->getName());
-                    $manticoreIndex->addDocument($payload, $dataObject->ID);
+
                 }
             }
 
-        }
-    }
+            $payload[$indice->getName()] = $indicePayload;
 
-    public abstract function addDataObjectToIndex($dataObject, $index) ;
+        }
+
+        return $payload;
+    }
 
 
     /**

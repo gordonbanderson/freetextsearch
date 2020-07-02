@@ -11,6 +11,7 @@ namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
+use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
 
@@ -51,7 +52,7 @@ class SearchPageController extends \PageController
 
         unset($selected['start']);
 
-        $results = [];
+        $results = new SearchResults();
 
 
         //unset($selected['q']);
@@ -61,12 +62,12 @@ class SearchPageController extends \PageController
         }
 
 
-        $results['Query'] = $q;
+        $results->setQuery($q);
 
 
         // @todo In the case of facets and no search term this fails
         // This is intended for a search where a search term has been provided, but no results
-        if (isset($q) && $results['ResultsFound'] === 0) {
+        if (isset($q) && $results->getNumberOfResults() === 0) {
             // get suggestions
             $factory = new SuggesterFactory();
 
@@ -82,6 +83,8 @@ class SearchPageController extends \PageController
             // @todo FIX - only one result returned for now
         }
 
+
+        /*
         $facetted = isset($results['AllFacets']);
 
 
@@ -97,7 +100,6 @@ class SearchPageController extends \PageController
                 $facets = $proxyResults['AllFacets'];
             }
 
-            /** @var \SilverStripe\View\ArrayData $facet */
             foreach ($facets as $facet) {
                 $name = $facet->getField('Name');
                 if ($name === $model->ShowTagCloudFor) {
@@ -138,12 +140,14 @@ class SearchPageController extends \PageController
            // echo "li.tag{$i} { font-size: {$i}px;};\n";
         //}
 
+        */
+
 
         // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
-        $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
-        $results['CleanedLink'] = $this->Link();
+       // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
+       // $results['CleanedLink'] = $this->Link();
 
-        return $results;
+        return ['SearchResults' => $results];
     }
 
 

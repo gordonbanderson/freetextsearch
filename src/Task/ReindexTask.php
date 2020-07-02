@@ -39,9 +39,12 @@ class ReindexTask extends BuildTask
         }
 
         //$size = isset($_GET['size']) ? $_GET['size'] : 'small';
-        $do = SiteTree::get()->first();
-        error_log('Data object: ' . $do->ID);
-        $do->write();
+
+        foreach(SiteTree::get() as $do) {
+            error_log('Data object: ' . $do->ID);
+            $do->write();
+        }
+
 
     }
 

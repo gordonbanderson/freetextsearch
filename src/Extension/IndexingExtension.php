@@ -21,6 +21,7 @@ class IndexingExtension extends Extension
         //$this->owner->parent::onAfterWrite();
         $factory = new IndexerFactory();
         $indexer = $factory->getIndexer();
+        error_log('INDEXER: ' . get_class($indexer));
         $indexer->index($this->owner);
     }
 }

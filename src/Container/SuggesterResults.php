@@ -17,6 +17,7 @@ class SuggesterResults
     private $query;
 
 
+    /** @var array<string> */
     private $results;
 
 
@@ -41,6 +42,9 @@ class SuggesterResults
     }
 
 
+    /**
+     * @param $newResults array<string>
+     */
     public function setResults($newResults)
     {
         $this->results = $newResults;

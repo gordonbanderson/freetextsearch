@@ -9,6 +9,15 @@
 
 namespace Suilven\FreeTextSearch\Container;
 
+use SilverStripe\ORM\ArrayList;
+
+/**
+ * Class SearchResults
+ *
+ * Store the search results in a manner that is renderable in a SilverStripe template
+ *
+ * @package Suilven\FreeTextSearch\Container
+ */
 class SearchResults
 {
 
@@ -21,9 +30,12 @@ class SearchResults
 
     private $pageSize;
 
-    private string $query;
+    /** @var string */
+    private $query;
 
+    /** @var ArrayList */
     private $results;
+
 
 
     /** @var float the time in seconds */
@@ -39,6 +51,12 @@ class SearchResults
     public function setIndex(string $newIndex): void
     {
         $this->index = $newIndex;
+    }
+
+
+    public function getNumberOfResults()
+    {
+        return count($this->results);
     }
 
     public function setPage($newPage)
@@ -57,10 +75,14 @@ class SearchResults
     }
 
 
+    /**
+     * @param ArrayList $newResults
+     */
     public function setResults($newResults)
     {
         $this->results = $newResults;
     }
+
 
 
     public function setTime($newTime)
