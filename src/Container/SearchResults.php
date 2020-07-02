@@ -34,7 +34,7 @@ class SearchResults
     private $query;
 
     /** @var ArrayList */
-    private $results;
+    private $records;
 
 
 
@@ -56,7 +56,7 @@ class SearchResults
 
     public function getNumberOfResults()
     {
-        return count($this->results);
+        return count($this->records);
     }
 
     public function setPage($newPage)
@@ -76,11 +76,11 @@ class SearchResults
 
 
     /**
-     * @param ArrayList $newResults
+     * @param ArrayList $newRecords
      */
-    public function setResults($newResults)
+    public function setRecords($newRecords)
     {
-        $this->results = $newResults;
+        $this->records = $newRecords;
     }
 
 
