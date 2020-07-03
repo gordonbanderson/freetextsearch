@@ -180,6 +180,7 @@ class SearchPageController extends \PageController
     }
 
 
+    /** @param array<string,int|string|float|bool> $selected */
     public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
     {
         $factory = new SearcherFactory();

@@ -19,13 +19,16 @@ namespace Suilven\FreeTextSearch\Container;
 class SearchResults
 {
 
+    /** @var array<string,int|bool|float|string> */
     private $facets;
 
     /** @var string */
     private $index;
 
+    /** @var int */
     private $page;
 
+    /** @var int */
     private $pageSize;
 
     /** @var string */
@@ -38,8 +41,8 @@ class SearchResults
     private $time;
 
 
-
-    public function setFacets($newFacets): void
+    /** @param array<string,int|bool|float|string> $newFacets */
+    public function setFacets(array $newFacets): void
     {
         $this->facets = $newFacets;
     }
@@ -51,49 +54,43 @@ class SearchResults
     }
 
 
-    public function getFred()
-    {
-        return 'FRED****';
-    }
-
-
-    public function getNumberOfResults()
+    public function getNumberOfResults(): int
     {
         return \count($this->records);
     }
 
 
-    public function getPage()
+    public function getPage(): int
     {
         return $this->page;
     }
 
 
-    public function setPage($newPage): void
+    public function setPage(int $newPage): void
     {
         $this->page = $newPage;
     }
 
 
-    public function getPageSize()
+    public function getPageSize(): int
     {
         return $this->pageSize;
     }
 
 
-    public function setPageSize($newPageSize): void
+    public function setPageSize(int $newPageSize): void
     {
         $this->pageSize = $newPageSize;
     }
 
 
-    public function getQuery()
+    public function getQuery(): string
     {
         return $this->query;
     }
 
 
-    public function setQuery($newQuery): void
+    public function setQuery(string $newQuery): void
     {
         $this->query = $newQuery;
     }
@@ -105,19 +102,19 @@ class SearchResults
     }
 
 
-    public function getRecords()
+    public function getRecords(): \SilverStripe\ORM\ArrayList
     {
         return $this->records;
     }
 
 
-    public function getTime()
+    public function getTime(): float
     {
         return $this->time;
     }
 
 
-    public function setTime($newTime): void
+    public function setTime(float $newTime): void
     {
         $this->time = $newTime;
     }

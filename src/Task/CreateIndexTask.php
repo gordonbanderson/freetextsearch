@@ -24,7 +24,7 @@ class CreateIndexTask extends BuildTask
 
     private static $segment = 'create-index';
 
-    public function run($request)
+    public function run(\SilverStripe\Control\HTTPRequest $request)
     {
         // check this script is being run by admin
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
@@ -32,9 +32,7 @@ class CreateIndexTask extends BuildTask
             return Security::permissionFailure($this);
         }
 
-        $name = isset($_GET['name'])
-            ? $_GET['name']
-            : 'all';
+        $name = $request->param('index');
 
         $factory = new IndexCreatorFactory();
         $indexCreator = $factory->getIndexCreator();
