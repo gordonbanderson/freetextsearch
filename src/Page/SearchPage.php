@@ -55,13 +55,16 @@ class SearchPage extends \Page
         'IndexToSearch' => 'sitetree',
     ];
 
-    public function getSearchResults()
+    /**
+     * Accessor to the search results object
+     */
+    public function getSearchResults(): SearchResults
     {
         return $this->searchResults;
     }
 
 
-    public function setSearchResults($newSearchResults): void
+    public function setSearchResults(SearchResults $newSearchResults): void
     {
         $this->searchResults = $newSearchResults;
     }

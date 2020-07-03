@@ -16,21 +16,28 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     /** @var string */
     protected $index;
 
-    abstract public function index($dataObject): void;
+    /**
+     * Index a single data objecct
+     *
+     * @param \SilverStripe\ORM\DataObject $dataObject
+     */
+    abstract public function index(DataObject $dataObject): void;
 
 
-    public function processIndexes(DataObject $dataObject): void
-    {
-    }
-
-
+    /** @param string $newIndex the new index name */
     public function setIndex(string $newIndex): void
     {
         $this->index = $newIndex;
     }
 
 
-    protected function getFieldsToIndex($dataObject)
+    /**
+     * Get the indexable fields for a given dataobject as an array
+     *
+     * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object
+     * @return array<string>
+     */
+    protected function getFieldsToIndex(DataObject $dataObject): array
     {
         $indexes = new Indexes();
         $indices = $indexes->getIndexes();

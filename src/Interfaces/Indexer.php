@@ -12,10 +12,12 @@ namespace Suilven\FreeTextSearch\Interfaces;
 interface Indexer
 {
 
+    /**
+     * Index a single data objecct
+     *
+     * @param \SilverStripe\ORM\DataObject $dataObject
+     */
     public function index(DataObject $dataObject): void;
-
-
-    public function processIndexes($dataObject): void;
 
 
     /** @param string $newIndex the name of the index */

@@ -12,7 +12,9 @@ namespace Suilven\FreeTextSearch\Task;
 use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use Suilven\FreeTextSearch\Indexes;
 
 class ReindexTask extends BuildTask
 {
@@ -25,7 +27,8 @@ class ReindexTask extends BuildTask
 
     private static $segment = 'reindex';
 
-    public function run($request)
+    /** @return */
+    public function run(HTTPRequest $request)
     {
         $climate = new CLImate();
 
@@ -35,7 +38,12 @@ class ReindexTask extends BuildTask
             return Security::permissionFailure($this);
         }
 
-        //$size = isset($_GET['size']) ? $_GET['size'] : 'small';
+        /** @var string $indexName */
+        $indexName = $request->param('index');
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($indexName);
+        $clazz = $index->getClass();
+
 
         $climate->border();
         $climate->green()->bold('Indexing sitetree');
@@ -45,7 +53,7 @@ class ReindexTask extends BuildTask
         $progress = $climate->progress()->total($nDocuments);
 
         $ctr = 0;
-        foreach (SiteTree::get() as $do) {
+        foreach ($clazz::get() as $do) {
             $do->write();
 
             $ctr++;

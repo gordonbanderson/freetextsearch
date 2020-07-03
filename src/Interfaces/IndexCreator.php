@@ -12,6 +12,8 @@ namespace Suilven\FreeTextSearch\Interfaces;
 interface IndexCreator
 {
 
-    /** @param \Suilven\FreeTextSearch\Interfaces\DataObject $dataObject */
-    public function createIndex($indexName): void;
+    /**
+     * (Re)create an index.
+     */
+    public function createIndex(string $indexName): void;
 }

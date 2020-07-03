@@ -38,7 +38,7 @@ class SearchPageController extends \PageController
     ];
 
 
-    public function index()
+    public function index(): \SilverStripe\View\ViewableData_Customised
     {
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
@@ -152,7 +152,6 @@ class SearchPageController extends \PageController
         foreach ($records as $record) {
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
-            $keyedArray = [];
 
             $keys = \array_keys($highlightsArray);
             foreach ($keys as $highlightedField) {
@@ -181,12 +180,11 @@ class SearchPageController extends \PageController
     }
 
 
-    /** @param array<string, string|int|bool> $selected */
-    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q)
+    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
     {
         $factory = new SearcherFactory();
 
-        /** @var \Suilven\FreeTextSearch\Factory\Searcher $searcher */
+        /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
         $searcher = $factory->getSearcher();
         $searcher->setFilters($selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
