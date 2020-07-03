@@ -27,6 +27,9 @@ use Suilven\FreeTextSearch\Indexes;
  */
 class SearchPage extends \Page
 {
+    /** @var \Suilven\FreeTextSearch\Page\SearchResults */
+    private $searchResults;
+
     private static $table_name = 'SearchPage';
 
     /** @var array database fields */
@@ -51,6 +54,20 @@ class SearchPage extends \Page
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
     ];
+
+    /**
+     * Accessor to the search results object
+     */
+    public function getSearchResults(): SearchResults
+    {
+        return $this->searchResults;
+    }
+
+
+    public function setSearchResults(SearchResults $newSearchResults): void
+    {
+        $this->searchResults = $newSearchResults;
+    }
 
 
     /**

@@ -14,7 +14,7 @@ use Suilven\FreeTextSearch\Container\SuggesterResults;
 abstract class Suggester implements \Suilven\FreeTextSearch\Interfaces\Suggester
 {
     /** @var string */
-    private $index;
+    protected $index;
 
     abstract public function suggest(string $q, int $limit = 5): SuggesterResults;
 

@@ -10,7 +10,9 @@ Suilven\FreeTextSearch\Indexes:
         class: SilverStripe\CMS\Model\SiteTree
         fields:
           - Title
-          - MenuTitle
           - Content
-          - ParentID
-          - Sort
+
+#@todo Figure out why commented out fields not indexed
+#          - MenuTitle
+#          - ParentID
+ #         - Sort

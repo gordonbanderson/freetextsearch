@@ -1,0 +1,7 @@
+---
+Name: freetextindexes-extensions
+---
+
+SilverStripe\ORM\DataObject:
+  extensions:
+    - Suilven\FreeTextSearch\Extension\IndexingExtension

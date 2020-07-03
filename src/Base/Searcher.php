@@ -15,22 +15,22 @@ use Suilven\FreeTextSearch\Interfaces\Searcher;
 abstract class SearcherBase implements Searcher
 {
     /** @var array<string,string|int|float> $filters */
-    private $filters;
+    protected $filters;
 
     /** @var int */
-    private $pageSize;
+    protected $pageSize;
 
     /** @var int */
-    private $page;
+    protected $page;
 
     /** @var string */
-    private $indexName;
+    protected $indexName;
 
     /** @var array<string,string> */
-    private $facettedTokens;
+    protected $facettedTokens;
 
     /** @var array<string> */
-    private $hasManyTokens;
+    protected $hasManyTokens;
 
 
     abstract public function search(string $q): SearchResults;

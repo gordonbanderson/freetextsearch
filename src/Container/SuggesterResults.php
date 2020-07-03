@@ -14,14 +14,17 @@ class SuggesterResults
     /** @var string */
     private $index;
 
+    /** @var string */
     private $query;
 
-
+    /** @var array<string> */
     private $results;
-
 
     /** @var float the time in seconds */
     private $time;
+
+    /** @var int */
+    private $limit;
 
 
     public function setIndex(string $newIndex): void
@@ -30,25 +33,28 @@ class SuggesterResults
     }
 
 
-    public function setPageSize($newPage)
+    public function setLimit(int $newLimit): void
     {
-        $this->page = $newPage;
+        $this->limit = $newLimit;
     }
 
-    public function setQuery($newQuery)
+
+    public function setQuery(string $newQuery): void
     {
         $this->query = $newQuery;
     }
 
 
-    public function setResults($newResults)
+    /** @return array<string> */
+    public function getResults(): array
     {
-        $this->results = $newResults;
+        return $this->results;
     }
 
 
-    public function setTime($newTime)
+    /** @param array<string> $newResults */
+    public function setResults(array $newResults): void
     {
-        $this->time = $newTime;
+        $this->results = $newResults;
     }
 }
