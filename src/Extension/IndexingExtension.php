@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Created by PhpStorm.
@@ -18,10 +18,13 @@ class IndexingExtension extends Extension
 
     public function onAfterWrite()
     {
-        //$this->owner->parent::onAfterWrite();
+        $this->owner->onAfterWrite();
+
+
         $factory = new IndexerFactory();
         $indexer = $factory->getIndexer();
-        error_log('INDEXER: ' . get_class($indexer));
+
         $indexer->index($this->owner);
+
     }
 }

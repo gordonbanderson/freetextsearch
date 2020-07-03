@@ -35,7 +35,6 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
             $clazz = $indice->getClass();
             $classes = $dataObject->getClassAncestry();
-            error_log(print_r($classes, true));
 
             foreach($classes as $indiceClass)
             {
@@ -51,7 +50,6 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
                 }
             }
-
             $payload[$indice->getName()] = $indicePayload;
 
         }

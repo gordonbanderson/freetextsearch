@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Task;
 
+use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Dev\BuildTask;
@@ -32,6 +33,8 @@ class ReindexTask extends BuildTask
 
     public function run($request)
     {
+        $climate = new CLImate();
+
         // check this script is being run by admin
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
         if (!$canAccess) {
@@ -40,11 +43,20 @@ class ReindexTask extends BuildTask
 
         //$size = isset($_GET['size']) ? $_GET['size'] : 'small';
 
-        foreach(SiteTree::get() as $do) {
-            error_log('Data object: ' . $do->ID);
-            $do->write();
-        }
+        $climate->border();
+        $climate->green()->bold('Indexing sitetree');
+        $climate->border();
 
+        $nDocuments = SiteTree::get()->count();
+        $progress = $climate->progress()->total($nDocuments);
+
+        $ctr = 0;
+        foreach(SiteTree::get() as $do) {
+            $do->write();
+
+            $ctr++;
+            $progress->current($ctr);
+        }
 
     }
 
