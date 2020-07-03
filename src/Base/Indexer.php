@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
+use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Indexes;
 
 abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer

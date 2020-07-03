@@ -9,6 +9,8 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
+use SilverStripe\ORM\DataObject;
+
 interface Indexer
 {
 
