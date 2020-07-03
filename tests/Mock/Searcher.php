@@ -28,6 +28,9 @@ class Searcher extends SearcherBase
                 $result['AllFacets'] = [];
         }
 
+        // seconds
+        $result['Time'] = 0.017;
+
         return $result;
     }
 }

@@ -16,10 +16,8 @@ class SuggesterResults
 
     private $query;
 
-
     /** @var array<string> */
     private $results;
-
 
     /** @var float the time in seconds */
     private $time;
@@ -31,27 +29,25 @@ class SuggesterResults
     }
 
 
-    public function setPageSize($newPage)
+    public function setPageSize($newPage): void
     {
         $this->page = $newPage;
     }
 
-    public function setQuery($newQuery)
+
+    public function setQuery($newQuery): void
     {
         $this->query = $newQuery;
     }
 
 
-    /**
-     * @param $newResults array<string>
-     */
-    public function setResults($newResults)
+    public function setResults($newResults): void
     {
         $this->results = $newResults;
     }
 
 
-    public function setTime($newTime)
+    public function setTime($newTime): void
     {
         $this->time = $newTime;
     }

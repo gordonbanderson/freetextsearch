@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -149,14 +149,14 @@ class SearchPageController extends \PageController
 
         $records = $results->getRecords();
         $newRecords = new ArrayList();
-        foreach($records as $record) {
+        foreach ($records as $record) {
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
             $keyedArray = [];
 
-            $keys = array_keys($highlightsArray);
-            foreach($keys as $highlightedField) {
-                foreach($highlightsArray[$highlightedField] as $highlightsForField) {
+            $keys = \array_keys($highlightsArray);
+            foreach ($keys as $highlightedField) {
+                foreach ($highlightsArray[$highlightedField] as $highlightsForField) {
                     $do = new DataObject();
                     $do->Snippet = '...' . $highlightsForField . '...';
 
@@ -176,15 +176,12 @@ class SearchPageController extends \PageController
             'Records' => $newRecords,
             'Page' => $results->getPage(),
             'PageSize' => $results->getPageSize(),
-            'Time' => $results->getTime()
+            'Time' => $results->getTime(),
         ]));
     }
 
 
-    /**
-     * @param array<string, string|int|bool> $selected
-     * @param string|null $q
-     */
+    /** @param array<string, string|int|bool> $selected */
     public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q)
     {
         $factory = new SearcherFactory();

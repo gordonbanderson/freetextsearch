@@ -17,7 +17,7 @@ interface Suggester
     /**
      * @param string $q the text term to query
      * @param int $limit the number of results to return at a max, default is 5
-     * @return SuggesterResults suggested terms based on the $q parameter
+     * @return \Suilven\FreeTextSearch\Container\SuggesterResults suggested terms based on the $q parameter
      */
     public function suggest(string $q, int $limit = 5): SuggesterResults;
 

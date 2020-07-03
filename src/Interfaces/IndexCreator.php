@@ -9,14 +9,9 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
-use SilverStripe\ORM\DataObject;
-
 interface IndexCreator
 {
 
-    /**
-     * @param DataObject $dataObject
-     */
-    public function createIndex($indexName);
-
+    /** @param \Suilven\FreeTextSearch\Interfaces\DataObject $dataObject */
+    public function createIndex($indexName): void;
 }

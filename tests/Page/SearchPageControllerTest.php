@@ -11,7 +11,7 @@ class SearchPageControllerTest extends FunctionalTest
     protected static $fixture_file = [
         'tests/fixtures/pages.yml',
         'tests/fixtures/sitetree.yml',
-        'tests/fixtures/flickrphotos.yml'
+        'tests/fixtures/flickrphotos.yml',
     ];
 
     protected static $extra_dataobjects = [
@@ -43,7 +43,10 @@ class SearchPageControllerTest extends FunctionalTest
         $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
         $photoSearchPage->publishRecursive();
 
+        $this->assertInstanceOf('Suilven\FreeTextSearch\Page\SearchPage', $photoSearchPage);
+
         $page = $this->get('/photo-search/?q=Fish');
-        \error_log(\print_r($$page, 1));
+        \error_log('----------------------------------');
+        \error_log(\print_r($page, true));
     }
 }

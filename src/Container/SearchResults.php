@@ -9,8 +9,6 @@
 
 namespace Suilven\FreeTextSearch\Container;
 
-use SilverStripe\ORM\ArrayList;
-
 /**
  * Class SearchResults
  *
@@ -33,7 +31,7 @@ class SearchResults
     /** @var string */
     private $query;
 
-    /** @var ArrayList */
+    /** @var \SilverStripe\ORM\ArrayList */
     private $records;
 
     /** @var float the time in seconds */
@@ -41,10 +39,11 @@ class SearchResults
 
 
 
-    public function setFacets($newFacets)
+    public function setFacets($newFacets): void
     {
         $this->facets = $newFacets;
     }
+
 
     public function setIndex(string $newIndex): void
     {
@@ -60,7 +59,7 @@ class SearchResults
 
     public function getNumberOfResults()
     {
-        return count($this->records);
+        return \count($this->records);
     }
 
 
@@ -69,36 +68,38 @@ class SearchResults
         return $this->page;
     }
 
-    public function setPage($newPage)
+
+    public function setPage($newPage): void
     {
         $this->page = $newPage;
     }
+
 
     public function getPageSize()
     {
         return $this->pageSize;
     }
 
-    public function setPageSize($newPageSize)
+
+    public function setPageSize($newPageSize): void
     {
         $this->pageSize = $newPageSize;
     }
+
 
     public function getQuery()
     {
         return $this->query;
     }
 
-    public function setQuery($newQuery)
+
+    public function setQuery($newQuery): void
     {
         $this->query = $newQuery;
     }
 
 
-    /**
-     * @param ArrayList $newRecords
-     */
-    public function setRecords($newRecords)
+    public function setRecords(ArrayList $newRecords): void
     {
         $this->records = $newRecords;
     }
@@ -109,12 +110,14 @@ class SearchResults
         return $this->records;
     }
 
+
     public function getTime()
     {
         return $this->time;
     }
 
-    public function setTime($newTime)
+
+    public function setTime($newTime): void
     {
         $this->time = $newTime;
     }

@@ -9,19 +9,13 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
-use SilverStripe\ORM\DataObject;
-
 interface Indexer
 {
 
-    /**
-     * @param DataObject $dataObject
-     */
-    public function index($dataObject);
+    public function index(DataObject $dataObject): void;
 
 
-    public function processIndexes($dataObject);
-
+    public function processIndexes($dataObject): void;
 
 
     /** @param string $newIndex the name of the index */

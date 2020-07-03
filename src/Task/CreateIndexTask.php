@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -9,16 +9,9 @@
 
 namespace Suilven\FreeTextSearch\Task;
 
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Dev\BuildTask;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\TextField;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
-use Suilven\FreeTextSearch\Indexes;
-
 
 class CreateIndexTask extends BuildTask
 {
@@ -27,9 +20,9 @@ class CreateIndexTask extends BuildTask
 
     protected $description = 'Create an index of a given name';
 
-    private static $segment = 'create-index';
-
     protected $enabled = true;
+
+    private static $segment = 'create-index';
 
     public function run($request)
     {
@@ -39,15 +32,14 @@ class CreateIndexTask extends BuildTask
             return Security::permissionFailure($this);
         }
 
-        $name = isset($_GET['name']) ? $_GET['name'] : 'all';
+        $name = isset($_GET['name'])
+            ? $_GET['name']
+            : 'all';
 
         $factory = new IndexCreatorFactory();
         $indexCreator = $factory->getIndexCreator();
 
         // @todo Does the index need dropped prior to re-creation?
         $indexCreator->createIndex($name);
-
-
     }
-
 }

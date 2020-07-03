@@ -13,7 +13,6 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
-use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Indexes;
 
 /**
@@ -28,6 +27,9 @@ use Suilven\FreeTextSearch\Indexes;
  */
 class SearchPage extends \Page
 {
+    /** @var \Suilven\FreeTextSearch\Page\SearchResults */
+    private $searchResults;
+
     private static $table_name = 'SearchPage';
 
     /** @var array database fields */
@@ -53,18 +55,13 @@ class SearchPage extends \Page
         'IndexToSearch' => 'sitetree',
     ];
 
-    /**
-     * @var SearchResults
-     */
-    private $searchResults;
-
     public function getSearchResults()
     {
         return $this->searchResults;
     }
 
 
-    public function setSearchResults($newSearchResults)
+    public function setSearchResults($newSearchResults): void
     {
         $this->searchResults = $newSearchResults;
     }

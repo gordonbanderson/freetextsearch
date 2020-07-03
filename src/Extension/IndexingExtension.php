@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -11,12 +11,11 @@ namespace Suilven\FreeTextSearch\Extension;
 
 use SilverStripe\Core\Extension;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
-use Suilven\FreeTextSearch\Index;
 
 class IndexingExtension extends Extension
 {
 
-    public function onAfterWrite()
+    public function onAfterWrite(): void
     {
         $this->owner->onAfterWrite();
 
@@ -25,6 +24,5 @@ class IndexingExtension extends Extension
         $indexer = $factory->getIndexer();
 
         $indexer->index($this->owner);
-
     }
 }

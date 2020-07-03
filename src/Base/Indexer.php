@@ -9,17 +9,26 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
-use SilverStripe\ORM\DataObject;
-use Suilven\FreeTextSearch\Index;
 use Suilven\FreeTextSearch\Indexes;
-use Suilven\ManticoreSearch\Service\Client;
 
 abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
     /** @var string */
     protected $index;
 
-    public abstract function index($dataObject);
+    abstract public function index($dataObject): void;
+
+
+    public function processIndexes(DataObject $dataObject): void
+    {
+    }
+
+
+    public function setIndex(string $newIndex): void
+    {
+        $this->index = $newIndex;
+    }
+
 
     protected function getFieldsToIndex($dataObject)
     {
@@ -28,47 +37,27 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
         $payload = [];
 
-        /** @var Index $indice */
-        foreach($indices as $indice)
-        {
+        /** @var \Suilven\FreeTextSearch\Index $indice */
+        foreach ($indices as $indice) {
             $indicePayload = [];
 
             $clazz = $indice->getClass();
             $classes = $dataObject->getClassAncestry();
 
-            foreach($classes as $indiceClass)
-            {
-                if ($indiceClass == $clazz) {
-                    $fields = $indice->getFields();
-                    foreach($fields as $field)
-                    {
-                        $value = $dataObject->$field;
-                        $indicePayload[$field] = $value;
-                    }
+            foreach ($classes as $indiceClass) {
+                if ($indiceClass !== $clazz) {
+                    continue;
+                }
 
-
-
+                $fields = $indice->getFields();
+                foreach ($fields as $field) {
+                    $value = $dataObject->$field;
+                    $indicePayload[$field] = $value;
                 }
             }
             $payload[$indice->getName()] = $indicePayload;
-
         }
 
         return $payload;
-    }
-
-
-    /**
-     * @param DataObject $dataObject
-     */
-    public function processIndexes($dataObject)
-    {
-
-    }
-
-
-    public function setIndex(string $newIndex): void
-    {
-        $this->index = $newIndex;
     }
 }

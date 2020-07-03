@@ -25,10 +25,10 @@ class Indexes
 
     public function getIndex($name)
     {
-        if (is_null($this->indexesByName))
-        {
+        if (\is_null($this->indexesByName)) {
             $this->getIndexes();
         }
+
         return $this->indexesByName[$name];
     }
 
@@ -44,7 +44,8 @@ class Indexes
 
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') ;
 
-        $this->indexesByName = []; // reset
+        // reset
+        $this->indexesByName = [];
 
         foreach ($indexesConfig as $indexConfig) {
             $index = new Index();

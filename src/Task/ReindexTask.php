@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -13,12 +13,6 @@ use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Dev\BuildTask;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\TextField;
-use Suilven\FreeTextSearch\Indexes;
-
 
 class ReindexTask extends BuildTask
 {
@@ -27,9 +21,9 @@ class ReindexTask extends BuildTask
 
     protected $description = 'Reindex all dataobjects referred to in indexes';
 
-    private static $segment = 'reindex';
-
     protected $enabled = true;
+
+    private static $segment = 'reindex';
 
     public function run($request)
     {
@@ -51,13 +45,11 @@ class ReindexTask extends BuildTask
         $progress = $climate->progress()->total($nDocuments);
 
         $ctr = 0;
-        foreach(SiteTree::get() as $do) {
+        foreach (SiteTree::get() as $do) {
             $do->write();
 
             $ctr++;
             $progress->current($ctr);
         }
-
     }
-
 }

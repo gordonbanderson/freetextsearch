@@ -47,7 +47,6 @@ interface Searcher
     /**
      * @param string $q the search query
      * @todo Fix annotation
-     * @return SearchResults
      */
     public function search(string $q): SearchResults;
 }
