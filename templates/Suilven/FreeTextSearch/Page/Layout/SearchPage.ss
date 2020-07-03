@@ -2,26 +2,27 @@
     <% if $SideBar %>
         <% include SideBar %>
     <% end_if %>
-    <h1 class="mt-5">$Title **** SEARXH PAGE TEMPLATE ****</h1>
+    <h1 class="mt-5">$Title</h1>
     <form action="$URL">
         <div class="col-xs-12">
             <div class="input-group">
                 <input name="q" type="text" class="form-control" placeholder="Search..." value="$Query">
                 <span class="input-group-btn">
-            <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
+                <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
           </span>
             </div>
         </div>
     </form>
 
-
-    <% if $SearchResultsRecords %>
-        <p>$ResultsFound results found in $Time seconds</p>
+    <% if $NumberOfResults > 0 %>
+        <p>$NumberOfResults results found in $Time seconds</p>
 
             <% loop $Records %>
-                    <h3><a href="$Record.Link">$Record.Title</a></h3>
-                    <div>$Record.AbsoluteLink</div>
-                    $Record.Snippets.RAW
+                    <h3><a href="$Link">$ResultTitle</a></h3>
+                    <div>$AbsoluteLink</div>
+                    <% loop $Highlights %>
+                     $Snippet.RAW
+                    <% end_loop %>
                 <hr/>
             <% end_loop %>
 
@@ -75,7 +76,7 @@
 
 
     <% else %>
-        <p>Sorry, your search query did not return any results.</p>
+        <p>Sorry, your search query did not return any results</p>
     <% end_if %>
 </main>
 

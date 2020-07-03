@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Created by PhpStorm.
@@ -10,6 +10,7 @@
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
@@ -37,8 +38,7 @@ class SearchPageController extends \PageController
     ];
 
 
-    /** @return array */
-    public function index(): array
+    public function index()
     {
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
@@ -47,7 +47,7 @@ class SearchPageController extends \PageController
         $selected = $this->getRequest()->getVars();
 
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
-        $model = SearchPage::get_by_id('Suilven\FreeTextSearch\Page\SearchPage', $this->ID);
+        $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
 
         unset($selected['start']);
@@ -144,10 +144,40 @@ class SearchPageController extends \PageController
 
 
         // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
-       // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
-       // $results['CleanedLink'] = $this->Link();
+        // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
+        // $results['CleanedLink'] = $this->Link();
 
-        return ['SearchResults' => $results];
+        $records = $results->getRecords();
+        $newRecords = new ArrayList();
+        foreach($records as $record) {
+            $highsList = new ArrayList();
+            $highlightsArray = $record->Highlights;
+            $keyedArray = [];
+
+            $keys = array_keys($highlightsArray);
+            foreach($keys as $highlightedField) {
+                foreach($highlightsArray[$highlightedField] as $highlightsForField) {
+                    $do = new DataObject();
+                    $do->Snippet = '...' . $highlightsForField . '...';
+
+                    $highsList->push($do);
+                }
+            }
+
+
+
+            $record->Highlights = $highsList;
+            $newRecords->push($record);
+        }
+
+        return $this->customise(new ArrayData([
+            'NumberOfResults' => $results->getNumberOfResults(),
+            'Query' => $results->getQuery(),
+            'Records' => $newRecords,
+            'Page' => $results->getPage(),
+            'PageSize' => $results->getPageSize(),
+            'Time' => $results->getTime()
+        ]));
     }
 
 

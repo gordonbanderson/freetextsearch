@@ -36,8 +36,6 @@ class SearchResults
     /** @var ArrayList */
     private $records;
 
-
-
     /** @var float the time in seconds */
     private $time;
 
@@ -54,9 +52,21 @@ class SearchResults
     }
 
 
+    public function getFred()
+    {
+        return 'FRED****';
+    }
+
+
     public function getNumberOfResults()
     {
         return count($this->records);
+    }
+
+
+    public function getPage()
+    {
+        return $this->page;
     }
 
     public function setPage($newPage)
@@ -64,9 +74,19 @@ class SearchResults
         $this->page = $newPage;
     }
 
-    public function setPageSize($newPage)
+    public function getPageSize()
     {
-        $this->page = $newPage;
+        return $this->pageSize;
+    }
+
+    public function setPageSize($newPageSize)
+    {
+        $this->pageSize = $newPageSize;
+    }
+
+    public function getQuery()
+    {
+        return $this->query;
     }
 
     public function setQuery($newQuery)
@@ -84,6 +104,15 @@ class SearchResults
     }
 
 
+    public function getRecords()
+    {
+        return $this->records;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
 
     public function setTime($newTime)
     {
