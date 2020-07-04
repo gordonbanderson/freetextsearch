@@ -11,6 +11,9 @@ Suilven\FreeTextSearch\Indexes:
         fields:
           - Title
           - Content
+          - ParentID
+          - MenuTitle
+          - Sort
 
 #@todo Figure out why commented out fields not indexed
 #          - MenuTitle
