@@ -27,8 +27,14 @@ class ReindexTask extends BuildTask
 
     private static $segment = 'reindex';
 
-    /** @return */
-    public function run(HTTPRequest $request)
+    /**
+     * Implement this method in the task subclass to
+     * execute via the TaskRunner
+     *
+     * @param HTTPRequest $request
+     * @return
+     */
+    public function run($request)
     {
         $climate = new CLImate();
 
@@ -39,17 +45,20 @@ class ReindexTask extends BuildTask
         }
 
         /** @var string $indexName */
-        $indexName = $request->param('index');
+        $indexName = $request->getVar('index');
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
         $clazz = $index->getClass();
 
+
+        $startTime = microtime(true);
 
         $climate->border();
         $climate->green()->bold('Indexing sitetree');
         $climate->border();
 
         $nDocuments = SiteTree::get()->count();
+        $climate->green()->info('Indexing ' . $nDocuments .' objects');
         $progress = $climate->progress()->total($nDocuments);
 
         $ctr = 0;
@@ -59,5 +68,20 @@ class ReindexTask extends BuildTask
             $ctr++;
             $progress->current($ctr);
         }
+
+        $endTime = microtime(true);
+        $delta = $endTime-$startTime;
+
+        $rate = round($delta / $nDocuments, 2);
+
+        $elapsedStr = round($delta, 2);
+
+        $climate->bold()->blue()->inline("{$nDocuments}");
+        $climate->blue()->inline(' objects indexed in ');
+        $climate->bold()->blue()->inline("{$elapsedStr}");
+        $climate->blue()->inline('s, ');
+        $climate->bold()->blue()->inline("{$rate}");
+        $climate->blue()->inline(' per second ');
+
     }
 }
