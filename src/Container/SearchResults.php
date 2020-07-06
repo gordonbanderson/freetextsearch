@@ -9,6 +9,8 @@
 
 namespace Suilven\FreeTextSearch\Container;
 
+use SilverStripe\ORM\ArrayList;
+
 /**
  * Class SearchResults
  *
@@ -39,6 +41,11 @@ class SearchResults
 
     /** @var float the time in seconds */
     private $time;
+
+    public function __construct()
+    {
+        $this->time = 0;
+    }
 
 
     /** @param array<string,int|bool|float|string> $newFacets */
