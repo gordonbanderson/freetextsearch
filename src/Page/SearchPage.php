@@ -53,6 +53,7 @@ class SearchPage extends \Page
 
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
+        'ShowInsearch' => false
     ];
 
     /**

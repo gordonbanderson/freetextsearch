@@ -14,7 +14,9 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Indexes;
+use Suilven\ManticoreSearch\Service\BulkIndexer;
 
 class ReindexTask extends BuildTask
 {
@@ -48,6 +50,8 @@ class ReindexTask extends BuildTask
         $indexName = $request->getVar('index');
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
+
+        /** @var string $clazz */
         $clazz = $index->getClass();
 
 
@@ -58,21 +62,40 @@ class ReindexTask extends BuildTask
         $climate->border();
 
         $nDocuments = SiteTree::get()->count();
+        $bulkSize = 500; // @todo configurable
+        $pages = 1+round($nDocuments / $bulkSize);
+        $climate->green('Pages: ' . $pages);
         $climate->green()->info('Indexing ' . $nDocuments .' objects');
         $progress = $climate->progress()->total($nDocuments);
 
-        $ctr = 0;
-        foreach ($clazz::get() as $do) {
-            $do->write();
+        $factory = new BulkIndexerFactory();
+        $bulkIndexer = $factory->getBulkIndexer();
+        $bulkIndexer->setIndex($indexName);
 
-            $ctr++;
-            $progress->current($ctr);
+        for ($i = 0; $i < $pages; $i++)
+        {
+            $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter('ShowInSearch', true);
+            foreach($dataObjects as $do) {
+                // @hack @todo FIX
+                if ($do->ID !== 6) {
+                    $bulkIndexer->addDataObject($do);
+                }
+
+            }
+            $bulkIndexer->indexDataObjects();
+            $current = $bulkSize * ($i+1);
+            if ($current > $nDocuments) {
+                $current = $nDocuments;
+            }
+            $progress->current($current);
         }
+
+
 
         $endTime = microtime(true);
         $delta = $endTime-$startTime;
 
-        $rate = round($delta / $nDocuments, 2);
+        $rate = round($nDocuments / $delta, 2);
 
         $elapsedStr = round($delta, 2);
 
@@ -81,7 +104,7 @@ class ReindexTask extends BuildTask
         $climate->bold()->blue()->inline("{$elapsedStr}");
         $climate->blue()->inline('s, ');
         $climate->bold()->blue()->inline("{$rate}");
-        $climate->blue()->inline(' per second ');
+        $climate->blue(' per second ');
 
     }
 }

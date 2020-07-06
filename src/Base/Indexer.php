@@ -32,40 +32,5 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     }
 
 
-    /**
-     * Get the indexable fields for a given dataobject as an array
-     *
-     * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object
-     * @return array<string>
-     */
-    protected function getFieldsToIndex(DataObject $dataObject): array
-    {
-        $indexes = new Indexes();
-        $indices = $indexes->getIndexes();
 
-        $payload = [];
-
-        /** @var \Suilven\FreeTextSearch\Index $indice */
-        foreach ($indices as $indice) {
-            $indicePayload = [];
-
-            $clazz = $indice->getClass();
-            $classes = $dataObject->getClassAncestry();
-
-            foreach ($classes as $indiceClass) {
-                if ($indiceClass !== $clazz) {
-                    continue;
-                }
-
-                $fields = $indice->getFields();
-                foreach ($fields as $field) {
-                    $value = $dataObject->$field;
-                    $indicePayload[$field] = $value;
-                }
-            }
-            $payload[$indice->getName()] = $indicePayload;
-        }
-
-        return $payload;
-    }
 }

@@ -33,7 +33,7 @@ abstract class SearcherBase implements Searcher
     protected $hasManyTokens;
 
 
-    abstract public function search(string $q): SearchResults;
+    abstract public function search(?string $q): SearchResults;
 
 
     /** @param array<string,string|int|float> $filters */
