@@ -76,7 +76,7 @@ class ReindexTask extends BuildTask
         {
             $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter('ShowInSearch', true);
             foreach($dataObjects as $do) {
-                // @hack
+                // @hack @todo FIX
                 if ($do->ID !== 6) {
                     $bulkIndexer->addDataObject($do);
                 }
@@ -84,8 +84,10 @@ class ReindexTask extends BuildTask
             }
             $bulkIndexer->indexDataObjects();
             $current = $bulkSize * ($i+1);
-            $progressValue = $current > $bulkSize ? $bulkSize : $current;
-            $progress->current(10);
+            if ($current > $nDocuments) {
+                $current = $nDocuments;
+            }
+            $progress->current($current);
         }
 
 
@@ -93,7 +95,7 @@ class ReindexTask extends BuildTask
         $endTime = microtime(true);
         $delta = $endTime-$startTime;
 
-        $rate = round($bulkSize * ($delta / $pages), 2);
+        $rate = round($nDocuments / $delta, 2);
 
         $elapsedStr = round($delta, 2);
 
