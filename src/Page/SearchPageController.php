@@ -15,6 +15,7 @@ use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\RandomEnglish\RandomEnglishGenerator;
 
 /**
  * Class SearchPageController
@@ -27,7 +28,7 @@ use Suilven\FreeTextSearch\Factory\SuggesterFactory;
  */
 class SearchPageController extends \PageController
 {
-    private static $allowed_actions = ['index'];
+    private static $allowed_actions = ['index', 'random'];
 
     private static $db = [
         'PageSize' => 'Int',
@@ -36,6 +37,23 @@ class SearchPageController extends \PageController
     private static $defaults = [
         'PageSize' => 10,
     ];
+
+    public function random()
+    {
+        $parentIDs = [8,9,13];
+        $re = new RandomEnglishGenerator();
+        for($i=0; $i < 5000; $i++) {
+            $title = $re->sentence(true);
+            $content = $re->paragraph(20);
+            $do = new \Page();
+            $do->Title = $title;
+            $do->Content = $content;
+            shuffle($parentIDs);
+            $do->ParentID = $parentIDs[0];
+            $do->write();
+            $do->publishSingle();
+        }
+    }
 
 
     public function index(): \SilverStripe\View\ViewableData_Customised

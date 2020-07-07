@@ -14,6 +14,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Indexes;
 use Suilven\ManticoreSearch\Service\BulkIndexer;
@@ -62,7 +63,8 @@ class ReindexTask extends BuildTask
         $climate->border();
 
         $nDocuments = SiteTree::get()->count();
-        $bulkSize = 500; // @todo configurable
+        $config = SiteConfig::current_site_config();
+        $bulkSize = $config->BulkSize;
         $pages = 1+round($nDocuments / $bulkSize);
         $climate->green('Pages: ' . $pages);
         $climate->green()->info('Indexing ' . $nDocuments .' objects');

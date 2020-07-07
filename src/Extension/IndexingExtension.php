@@ -10,19 +10,40 @@
 namespace Suilven\FreeTextSearch\Extension;
 
 use SilverStripe\Core\Extension;
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
 
-class IndexingExtension extends Extension
+class IndexingExtension extends DataExtension
 {
+    private static $db= [
+      'IsDirtyFreeTextSearch' => 'Boolean'
+    ];
+
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        $config = SiteConfig::current_site_config();
+        if ($config->FreeTextSearchIndexingModeInBulk === true) {
+            $this->owner->IsDirtyFreeTextSearch = true;
+        }
+
+    }
 
     public function onAfterWrite(): void
     {
         $this->owner->onAfterWrite();
 
+        $config = SiteConfig::current_site_config();
+        if ($config->FreeTextSearchIndexingModeInBulk === false) {
+            $factory = new IndexerFactory();
+            $indexer = $factory->getIndexer();
 
-        $factory = new IndexerFactory();
-        $indexer = $factory->getIndexer();
-
-        $indexer->index($this->owner);
+            $indexer->index($this->owner);
+            $this->owner->IsDirtyFreeTextSearch = false;
+            $this->owner->write();
+        }
     }
 }
