@@ -16,8 +16,6 @@ interface Indexer
 
     /**
      * Index a single data objecct
-     *
-     * @param \SilverStripe\ORM\DataObject $dataObject
      */
     public function index(DataObject $dataObject): void;
 

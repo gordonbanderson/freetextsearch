@@ -11,8 +11,9 @@ namespace Suilven\FreeTextSearch\Task;
 
 use League\CLImate\CLImate;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
 
 class CreateIndexTask extends BuildTask
@@ -24,15 +25,17 @@ class CreateIndexTask extends BuildTask
 
     protected $enabled = true;
 
+    /** @var string */
     private static $segment = 'create-index';
-
 
     /**
      * Implement this method in the task subclass to
      * execute via the TaskRunner
      *
-     * @param HTTPRequest $request
-     * @return
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingAnyTypeHint
+     * @param \SilverStripe\Control\HTTPRequest $request
+     * @return \SilverStripe\Control\HTTPResponse|void
      */
     public function run($request)
     {
@@ -41,7 +44,7 @@ class CreateIndexTask extends BuildTask
         // check this script is being run by admin
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
         if (!$canAccess) {
-            return Security::permissionFailure($this);
+            return Security::permissionFailure(null);
         }
 
         $name = $request->getVar('index');

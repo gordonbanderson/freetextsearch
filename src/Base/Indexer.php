@@ -10,7 +10,6 @@
 namespace Suilven\FreeTextSearch\Base;
 
 use SilverStripe\ORM\DataObject;
-use Suilven\FreeTextSearch\Indexes;
 
 abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
@@ -18,9 +17,7 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     protected $index;
 
     /**
-     * Index a single data objecct
-     *
-     * @param \SilverStripe\ORM\DataObject $dataObject
+     * Index a single data object
      */
     abstract public function index(DataObject $dataObject): void;
 
@@ -30,7 +27,4 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     {
         $this->index = $newIndex;
     }
-
-
-
 }

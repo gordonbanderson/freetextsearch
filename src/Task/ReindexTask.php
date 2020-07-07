@@ -12,12 +12,12 @@ namespace Suilven\FreeTextSearch\Task;
 use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Indexes;
-use Suilven\ManticoreSearch\Service\BulkIndexer;
 
 class ReindexTask extends BuildTask
 {
@@ -28,14 +28,17 @@ class ReindexTask extends BuildTask
 
     protected $enabled = true;
 
+    /** @var string */
     private static $segment = 'reindex';
 
     /**
      * Implement this method in the task subclass to
      * execute via the TaskRunner
      *
-     * @param HTTPRequest $request
-     * @return
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingAnyTypeHint
+     * @param \SilverStripe\Control\HTTPRequest $request
+     * @return \SilverStripe\Control\HTTPResponse|void
      */
     public function run($request)
     {
@@ -44,8 +47,9 @@ class ReindexTask extends BuildTask
         // check this script is being run by admin
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
         if (!$canAccess) {
-            return Security::permissionFailure($this);
+            return Security::permissionFailure(null);
         }
+
 
         /** @var string $indexName */
         $indexName = $request->getVar('index');
@@ -56,7 +60,7 @@ class ReindexTask extends BuildTask
         $clazz = $index->getClass();
 
 
-        $startTime = microtime(true);
+        $startTime = \microtime(true);
 
         $climate->border();
         $climate->green()->bold('Indexing sitetree');
@@ -64,8 +68,10 @@ class ReindexTask extends BuildTask
 
         $nDocuments = SiteTree::get()->count();
         $config = SiteConfig::current_site_config();
+
+        // * @phpstan-ignore-next-line
         $bulkSize = $config->BulkSize;
-        $pages = 1+round($nDocuments / $bulkSize);
+        $pages = 1+\round($nDocuments / $bulkSize);
         $climate->green('Pages: ' . $pages);
         $climate->green()->info('Indexing ' . $nDocuments .' objects');
         $progress = $climate->progress()->total($nDocuments);
@@ -74,15 +80,15 @@ class ReindexTask extends BuildTask
         $bulkIndexer = $factory->getBulkIndexer();
         $bulkIndexer->setIndex($indexName);
 
-        for ($i = 0; $i < $pages; $i++)
-        {
+        for ($i = 0; $i < $pages; $i++) {
             $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter('ShowInSearch', true);
-            foreach($dataObjects as $do) {
+            foreach ($dataObjects as $do) {
                 // @hack @todo FIX
-                if ($do->ID !== 6) {
-                    $bulkIndexer->addDataObject($do);
+                if ($do->ID === 6) {
+                    continue;
                 }
 
+                $bulkIndexer->addDataObject($do);
             }
             $bulkIndexer->indexDataObjects();
             $current = $bulkSize * ($i+1);
@@ -94,12 +100,12 @@ class ReindexTask extends BuildTask
 
 
 
-        $endTime = microtime(true);
+        $endTime = \microtime(true);
         $delta = $endTime-$startTime;
 
-        $rate = round($nDocuments / $delta, 2);
+        $rate = \round($nDocuments / $delta, 2);
 
-        $elapsedStr = round($delta, 2);
+        $elapsedStr = \round($delta, 2);
 
         $climate->bold()->blue()->inline("{$nDocuments}");
         $climate->blue()->inline(' objects indexed in ');
@@ -107,6 +113,5 @@ class ReindexTask extends BuildTask
         $climate->blue()->inline('s, ');
         $climate->bold()->blue()->inline("{$rate}");
         $climate->blue(' per second ');
-
     }
 }

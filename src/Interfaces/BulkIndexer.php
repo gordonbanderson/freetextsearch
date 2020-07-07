@@ -16,14 +16,11 @@ interface BulkIndexer
 
     /**
      * Index a single data objecct
-     *
-     * @param \SilverStripe\ORM\DataObject $dataObject
      */
     public function addDataObject(DataObject $dataObject): void;
 
-    public function indexDataObjects();
 
-
+    public function indexDataObjects(): void;
 
 
     /** @param string $newIndex the name of the index */

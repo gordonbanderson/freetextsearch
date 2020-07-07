@@ -9,10 +9,8 @@
 
 namespace Suilven\FreeTextSearch\Helper;
 
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Indexes;
-use Suilven\FreeTextSearch\Interfaces\Indexer;
 
 class IndexingHelper
 {
