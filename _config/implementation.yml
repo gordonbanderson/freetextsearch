@@ -1,0 +1,7 @@
+---
+Name: implementation-freetext
+---
+
+SilverStripe\Core\Injector\Injector:
+  FreeTextIndexablePayloadMutatorImplementation:
+    class: Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator

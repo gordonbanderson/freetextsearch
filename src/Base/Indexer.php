@@ -10,6 +10,7 @@
 namespace Suilven\FreeTextSearch\Base;
 
 use SilverStripe\ORM\DataObject;
+use Suilven\FreeTextSearch\Helper\IndexingHelper;
 
 abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
@@ -26,5 +27,16 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     public function setIndex(string $newIndex): void
     {
         $this->index = $newIndex;
+    }
+
+    /**
+     * @param \SilverStripe\ORM\DataObject $dataObject
+     * @return array
+     */
+    protected function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
+    {
+        $helper = new IndexingHelper();
+        $payload = $helper->getFieldsToIndex($dataObject);
+        return $payload;
     }
 }
