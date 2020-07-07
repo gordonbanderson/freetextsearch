@@ -5,3 +5,7 @@ Name: freetextindexes-extensions
 SilverStripe\ORM\DataObject:
   extensions:
     - Suilven\FreeTextSearch\Extension\IndexingExtension
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - Suilven\FreeTextSearch\SiteConfig\FreeTextSearchSiteConfig
