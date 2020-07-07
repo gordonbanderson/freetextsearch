@@ -38,17 +38,17 @@ class SearchPageController extends \PageController
         'PageSize' => 10,
     ];
 
-    public function random()
+    public function random(): void
     {
-        $parentIDs = [8,9,13];
+        $parentIDs = [8, 9, 13];
         $re = new RandomEnglishGenerator();
-        for($i=0; $i < 5000; $i++) {
+        for ($i=0; $i < 5000; $i++) {
             $title = $re->sentence(true);
             $content = $re->paragraph(20);
             $do = new \Page();
             $do->Title = $title;
             $do->Content = $content;
-            shuffle($parentIDs);
+            \shuffle($parentIDs);
             $do->ParentID = $parentIDs[0];
             $do->write();
             $do->publishSingle();

@@ -11,7 +11,6 @@ namespace Suilven\FreeTextSearch\Factory;
 
 use SilverStripe\Core\Injector\Injector;
 use Suilven\FreeTextSearch\Interfaces\BulkIndexer;
-use Suilven\FreeTextSearch\Interfaces\Indexer;
 
 class BulkIndexerFactory
 {

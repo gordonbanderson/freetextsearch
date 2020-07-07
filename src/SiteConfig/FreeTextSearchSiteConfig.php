@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -13,16 +13,13 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\ORM\DataExtension;
-use Suilven\FreeTextSearch\Container\SuggesterResults;
 
 class FreeTextSearchSiteConfig extends DataExtension
 {
-    private static $db = array(
+    private static $db = [
         'BulkSize' => 'Int',
-
-        // Enums do not work, breaks build.  True to index in bulk, false not to
         'FreeTextSearchIndexingModeInBulk' => 'Boolean',
-    );
+    ];
 
     private static $defaults = [
         'BulkSize' => 500,
@@ -30,10 +27,19 @@ class FreeTextSearchSiteConfig extends DataExtension
     ];
 
 
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields): FieldList
     {
-        $fields->addFieldToTab("Root.FreeTextSearch", new NumericField("BulkSize", 'The number of documents to index at once in bulk'));
-        $fields->addFieldToTab('Root.FreeTextSearch', new CheckboxField('FreeTextSearchIndexingModeInBulk', 'True to index in bulk, false to index individually'));
+        $fields->addFieldToTab("Root.FreeTextSearch", new NumericField(
+            "BulkSize",
+            'The number of documents to index at once in bulk'
+        ));
+        $fields->addFieldToTab(
+            'Root.FreeTextSearch',
+            new CheckboxField(
+                'FreeTextSearchIndexingModeInBulk',
+                'True to index in bulk, false to index individually'
+            )
+        );
 
         return $fields;
     }
