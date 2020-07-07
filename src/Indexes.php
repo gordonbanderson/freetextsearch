@@ -29,6 +29,7 @@ class Indexes
      */
     public function getIndex(string $name): Index
     {
+        // @phpstan-ignore-next-line
         if (\is_null($this->indexesByName)) {
             $this->getIndexes();
         }

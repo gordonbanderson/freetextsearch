@@ -27,13 +27,12 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         /** @var \Suilven\FreeTextSearch\Index $indice */
         foreach ($indices as $indice) {
             $clazz = $indice->getClass();
+            // @phpstan-ignore-next-line
             $instance = \Singleton::getInstance($clazz);
             $classes = $instance->getClassAncestry();
-            \error_log(\print_r($classes, true));
 
             foreach ($classes as $indiceClass) {
                     $fields = $indice->getFields();
-                    \error_log(\print_r($fields, 1));
             }
         }
     }
