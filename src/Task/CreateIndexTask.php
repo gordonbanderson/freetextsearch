@@ -11,7 +11,6 @@ namespace Suilven\FreeTextSearch\Task;
 
 use League\CLImate\CLImate;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
 
@@ -31,7 +30,9 @@ class CreateIndexTask extends BuildTask
      * Implement this method in the task subclass to
      * execute via the TaskRunner
      *
-     * @param HTTPRequest $request
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingAnyTypeHint
+     * @param \Suilven\FreeTextSearch\Task\HTTPRequest $request
      * @return
      */
     public function run($request)
