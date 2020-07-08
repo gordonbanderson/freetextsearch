@@ -59,6 +59,6 @@ class ReindexTask extends BuildTask
         $indexName = $request->getVar('index');
 
         $helper = new BulkIndexingHelper();
-        $helper->bulkIndex($indexName, $climate);
+        $helper->bulkIndex($indexName, true, $climate);
     }
 }
