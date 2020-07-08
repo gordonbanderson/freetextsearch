@@ -28,7 +28,7 @@ use Suilven\RandomEnglish\RandomEnglishGenerator;
  */
 class SearchPageController extends \PageController
 {
-    private static $allowed_actions = ['index', 'random'];
+    private static $allowed_actions = ['index'];
 
     private static $db = [
         'PageSize' => 'Int',
@@ -37,24 +37,6 @@ class SearchPageController extends \PageController
     private static $defaults = [
         'PageSize' => 10,
     ];
-
-    public function random(): void
-    {
-        $parentIDs = [8, 9, 13];
-        $re = new RandomEnglishGenerator();
-        for ($i=0; $i < 5000; $i++) {
-            $title = $re->sentence(true);
-            $content = $re->paragraph(20);
-            $do = new \Page();
-            $do->Title = $title;
-            $do->Content = $content;
-            \shuffle($parentIDs);
-            $do->ParentID = $parentIDs[0];
-            $do->write();
-            $do->publishSingle();
-        }
-    }
-
 
     public function index(): \SilverStripe\View\ViewableData_Customised
     {
@@ -83,23 +65,18 @@ class SearchPageController extends \PageController
         $results->setQuery($q);
 
 
-        // @todo In the case of facets and no search term this fails
-        // This is intended for a search where a search term has been provided, but no results
-        if (isset($q) && $results->getNumberOfResults() === 0) {
-            // get suggestions
-            $factory = new SuggesterFactory();
 
-            /** @var \Suilven\FreeTextSearch\Factory\Suggester $suggester */
-            $suggester = $factory->getSuggester();
 
-            // @todo this is returning blank
-            $suggester->setIndex($model->IndexToSearch);
-            $suggestions = $suggester->suggest($q);
+        // get suggestions
+        $factory = new SuggesterFactory();
 
-            $results['Suggestions'] = new ArrayList($suggestions);
+        /** @var \Suilven\FreeTextSearch\Factory\Suggester $suggester */
+        $suggester = $factory->getSuggester();
 
-            // @todo FIX - only one result returned for now
-        }
+        // @todo this is returning blank
+        $suggester->setIndex($model->IndexToSearch);
+        $suggestions = $suggester->suggest($q);
+
 
 
         /*
@@ -193,6 +170,7 @@ class SearchPageController extends \PageController
             'Records' => $newRecords,
             'Page' => $results->getPage(),
             'PageSize' => $results->getPageSize(),
+            'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
         ]));
     }

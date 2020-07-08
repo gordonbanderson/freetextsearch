@@ -39,12 +39,15 @@ class SearchResults
     /** @var \SilverStripe\ORM\ArrayList */
     private $records;
 
+    private $suggestions;
+
     /** @var float the time in seconds */
     private $time;
 
     public function __construct()
     {
         $this->time = 0;
+        $this->suggestions =[];
     }
 
 
@@ -112,6 +115,17 @@ class SearchResults
     public function getRecords(): \SilverStripe\ORM\ArrayList
     {
         return $this->records;
+    }
+
+    public function getSuggestions()
+    {
+        return $this->suggestions;
+    }
+
+
+    public function setSuggestions($newSuggestions)
+    {
+        $this->suggestions = $newSuggestions;
     }
 
 

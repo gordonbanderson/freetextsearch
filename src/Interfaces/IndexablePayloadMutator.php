@@ -14,5 +14,5 @@ use SilverStripe\ORM\DataObject;
 interface IndexablePayloadMutator
 {
 
-    public function mutatePayload($payload);
+    public function mutatePayload($dataObject, $payload);
 }
