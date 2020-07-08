@@ -2,7 +2,7 @@
 Name: freetextindexes-extensions
 ---
 
-SilverStripe\ORM\DataObject:
+SilverStripe\CMS\Model\SiteTree:
   extensions:
     - Suilven\FreeTextSearch\Extension\IndexingExtension
 
