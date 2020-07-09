@@ -21,7 +21,8 @@
     },
     "require": {
         "php": "~7",
-        "silverstripe\/cms": "^4"
+        "silverstripe/cms": "^4",
+        "symbiote/silverstripe-queuedjobs": "^4.5"
     },
     "require-dev": {
         "ergebnis\/composer-normalize": "^2.5",

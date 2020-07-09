@@ -12,6 +12,8 @@ namespace Suilven\FreeTextSearch\Extension;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
+use Suilven\FreeTextSearch\QueuedJob\BulkIndexDirtyJob;
+use Symbiote\QueuedJobs\Services\QueuedJobService;
 
 /**
  * Class IndexingExtension
@@ -32,8 +34,9 @@ class IndexingExtension extends DataExtension
         parent::onBeforeWrite();
 
         $config = SiteConfig::current_site_config();
-        // * @phpstan-ignore-next-line
-        if ($config->FreeTextSearchIndexingModeInBulk !== true) {
+
+        // @phpstan-ignore-next-line
+        if ($config->FreeTextSearchIndexingModeInBulk === 0) {
             return;
         }
 
@@ -44,23 +47,24 @@ class IndexingExtension extends DataExtension
 
     public function onAfterWrite(): void
     {
-        // @phpstan-ignore-next-line
-        $this->owner->onAfterWrite();
-
-        $config = SiteConfig::current_site_config();
+       parent::onAfterWrite();
+       $config = SiteConfig::current_site_config();
 
         // @phpstan-ignore-next-line
-        if ($config->FreeTextSearchIndexingModeInBulk !== false) {
-            return;
+        if ($config->FreeTextSearchIndexingModeInBulk === 1) {
+            // Add a bulk index job to the queue.
+            // Given same parameters, in this case index name, only one queued job is created
+            // even if multiple documents saved in between cron jobs
+            $job = new BulkIndexDirtyJob();
+            $job->hyrdate('sitetree'); // @todo update all relevant indexes
+            QueuedJobService::singleton()->queueJob($job);
+        } else {
+            // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
+            $factory = new IndexerFactory();
+            $indexer = $factory->getIndexer();
+
+            $indexer->index($this->owner);
         }
 
-        $factory = new IndexerFactory();
-        $indexer = $factory->getIndexer();
-
-        $indexer->index($this->owner);
-
-        // @phpstan-ignore-next-line
-        $this->owner->IsDirtyFreeTextSearch = false;
-        $this->owner->write();
     }
 }
