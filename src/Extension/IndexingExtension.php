@@ -12,6 +12,8 @@ namespace Suilven\FreeTextSearch\Extension;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
+use Suilven\FreeTextSearch\QueuedJob\BulkIndexDirtyJob;
+use Symbiote\QueuedJobs\Services\QueuedJobService;
 
 /**
  * Class IndexingExtension
@@ -29,48 +31,40 @@ class IndexingExtension extends DataExtension
 
     public function onBeforeWrite(): void
     {
-        //parent::onBeforeWrite();
-
-        error_log('++++ IE obw ' . $this->owner->ID);
+        parent::onBeforeWrite();
 
         $config = SiteConfig::current_site_config();
 
-        error_log('Checking for non bulk');
         // @phpstan-ignore-next-line
-        if ($config->FreeTextSearchIndexingModeInBulk === false) {
-            error_log('Non bulk');
+        if ($config->FreeTextSearchIndexingModeInBulk === 0) {
             return;
         }
 
-        error_log('Setting IsDirtyFreeTextSearch to true for bulk indexing');
         // @phpstan-ignore-next-line
         $this->owner->IsDirtyFreeTextSearch = true;
-
-        // this works
-        // $this->owner->Content = 'Content from OBW';
     }
 
 
-    public function onAfterWriteNOT(): void
+    public function onAfterWrite(): void
     {
+       parent::onAfterWrite();
+       $config = SiteConfig::current_site_config();
+
         // @phpstan-ignore-next-line
-       // $this->owner->onAfterWrite();
+        if ($config->FreeTextSearchIndexingModeInBulk === 1) {
+            // Add a bulk index job to the queue.
+            // Given same parameters, in this case index name, only one queued job is created
+            // even if multiple documents saved in between cron jobs
+            $job = new BulkIndexDirtyJob();
+            $job->hyrdate('sitetree'); // @todo update all relevant indexes
+            QueuedJobService::singleton()->queueJob($job);
+        } else {
+            // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
+            $factory = new IndexerFactory();
+            $indexer = $factory->getIndexer();
 
-        error_log('++++ IE oaw' . $this->owner->ID);
-
-
-        $config = SiteConfig::current_site_config();
-
-        // defer indexing to bulk
-        // @phpstan-ignore-next-line
-        if ($config->FreeTextSearchIndexingModeInBulk === true) {
-            return;
+            $indexer->index($this->owner);
         }
 
-        // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
-        $factory = new IndexerFactory();
-        $indexer = $factory->getIndexer();
-
-        $indexer->index($this->owner);
     }
 }

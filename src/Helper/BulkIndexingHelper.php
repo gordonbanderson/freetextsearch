@@ -50,6 +50,8 @@ class BulkIndexingHelper
 
         $nDocuments = SiteTree::get()->filter($filters)->count();
 
+        error_log('N DOCUMENTS: ' . $nDocuments);
+
         if ($nDocuments > 0) {
             $config = SiteConfig::current_site_config();
 
@@ -58,7 +60,7 @@ class BulkIndexingHelper
             $pages = 1+\round($nDocuments / $bulkSize);
             $progress = !is_null($climate) ? $climate->progress()->total($nDocuments) : null;
 
-            if (is_null($climate)) {
+            if (!is_null($climate)) {
                 $climate->green('Pages: ' . $pages);
                 $climate->green()->info('Indexing ' . $nDocuments .' objects');
             }
@@ -70,11 +72,6 @@ class BulkIndexingHelper
             for ($i = 0; $i < $pages; $i++) {
                 $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter($filters);
                 foreach ($dataObjects as $do) {
-                    // @hack @todo FIX
-                    if ($do->ID === 6) {
-                        continue;
-                    }
-
                     // Note this adds data to the payload, does not actually indexing against the third party search engine
                     $bulkIndexer->addDataObject($do);
                 }

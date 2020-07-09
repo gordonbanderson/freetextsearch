@@ -9,23 +9,34 @@
 
 namespace Suilven\FreeTextSearch\QueuedJob;
 
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\TextField;
-use Suilven\FreeTextSearch\Indexes;
+use Suilven\FreeTextSearch\Helper\BulkIndexingHelper;
 use Symbiote\QueuedJobs\Services\AbstractQueuedJob;
 
 class BulkIndexDirtyJob extends AbstractQueuedJob
 {
 
-    public function getTitle()
+    // variable $indexName cannot be declared here, because serialization of the job does not store this variable
+
+    public function getTitle(): string
     {
         return 'Bulk Index Dirty DataObjects';
     }
 
-    public function process()
+    public function hyrdate($newIndexName)
     {
-        // TODO: Implement process() method.
+        $this->indexName = $newIndexName;
+    }
+
+    public function setup(): void
+    {
+        $this->totalSteps = 1;
+    }
+
+    public function process(): void
+    {
+        $helper = new BulkIndexingHelper();
+        $helper->bulkIndex($this->indexName, true);
+
+        $this->isComplete = true;
     }
 }
