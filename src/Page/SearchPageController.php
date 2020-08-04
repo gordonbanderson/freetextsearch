@@ -1,12 +1,5 @@
 <?php declare(strict_types = 1);
 
-/**
- * Created by PhpStorm.
- * User: gordon
- * Date: 25/3/2561
- * Time: 17:01 น.
- */
-
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
@@ -18,15 +11,17 @@ use Suilven\FreeTextSearch\Factory\SuggesterFactory;
 use Suilven\FreeTextSearch\Interfaces\Suggester;
 use Suilven\RandomEnglish\RandomEnglishGenerator;
 
+// @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
+
 /**
  * Class SearchPageController
  *
  * @package Suilven\FreeTextSearch\Page
  * @property int $ID Page ID
  * @property int $PageSize the number of results to show on each page
- * @todo Fix the annotation once format decided upon
- * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
+ *
  */
+
 class SearchPageController extends \PageController
 {
     /** @var string[]  */

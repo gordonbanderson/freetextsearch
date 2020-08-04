@@ -1,11 +1,7 @@
 <?php declare(strict_types = 1);
 
-/**
- * Created by PhpStorm.
- * User: gordon
- * Date: 24/3/2561
- * Time: 20:51 น.
- */
+// @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
+
 
 namespace Suilven\FreeTextSearch;
 
@@ -16,7 +12,7 @@ use SilverStripe\Core\Config\Config;
  *
  * @package Suilven\FreeTextSearch
  *
- * @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
+ *
  */
 class Indexes
 {
