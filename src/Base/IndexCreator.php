@@ -30,8 +30,12 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         $instance = \Singleton::getInstance($clazz);
         $classes = $instance->getClassAncestry();
 
+        // @todo Fix this class
+        \error_log(\print_r($classes, true));
+        /*
         foreach ($classes as $indiceClass) {
             $fields = $indice->getFields();
         }
+        */
     }
 }

@@ -7,7 +7,6 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
-use Suilven\FreeTextSearch\Factory\SuggesterFactory;
 
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
@@ -63,11 +62,14 @@ class SearchPageController extends \PageController
 
 
 
-        // get suggestions
+
+
+        /*
+         *
+         *         // get suggestions
 
         $factory = new SuggesterFactory();
 
-        /** @var \Suilven\FreeTextSearch\Interfaces\Suggester $suggester */
         $suggester = $factory->getSuggester();
 
         // @todo this is returning blank
@@ -76,7 +78,7 @@ class SearchPageController extends \PageController
 
 
 
-        /*
+
         $facetted = isset($results['AllFacets']);
 
 

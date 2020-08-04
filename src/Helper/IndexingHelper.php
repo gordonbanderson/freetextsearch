@@ -18,7 +18,7 @@ class IndexingHelper
      * Get the indexable fields for a given dataobject as an array
      *
      * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object
-     * @return array<string, array<string,mixed>>
+     * @return array<string, array<string,string|int|float|bool>>
      */
     public function getFieldsToIndex(DataObject $dataObject): array
     {
