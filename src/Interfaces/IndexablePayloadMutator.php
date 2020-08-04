@@ -18,5 +18,5 @@ interface IndexablePayloadMutator
      * @param DataObject $dataObject the data object to index
      * @param array<string,string> $payload the payload to index
      */
-    public function mutatePayload($dataObject, $payload): void;
+    public function mutatePayload($dataObject, &$payload): void;
 }

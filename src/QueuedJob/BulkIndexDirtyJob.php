@@ -40,7 +40,7 @@ class BulkIndexDirtyJob extends AbstractQueuedJob
     public function process(): void
     {
         $helper = new BulkIndexingHelper();
-        
+
         // @phpstan-ignore-next-line
         $helper->bulkIndex($this->indexName, true);
 

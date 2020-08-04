@@ -9,13 +9,18 @@
 
 namespace Suilven\FreeTextSearch\Implementation;
 
-class IdentityIndexablePayloadMutator
+use SilverStripe\ORM\DataObject;
+use Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator;
+
+class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
 {
 
-    public function mutatePayload($dataObjecct, $payload)
+    /**
+     * @param DataObject $dataObject the data object to index
+     * @param array<string,string> $payload the payload to index
+     */
+    public function mutatePayload($dataObject, &$payload): void
     {
-        $payload['Link'] = $dataObjecct->Link();
-
-        return $payload;
+        $payload['Link'] = $dataObject->Link();
     }
 }

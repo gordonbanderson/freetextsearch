@@ -159,6 +159,7 @@ class SearchPageController extends \PageController
             foreach ($keys as $highlightedField) {
                 foreach ($highlightsArray[$highlightedField] as $highlightsForField) {
                     $do = new DataObject();
+                    // @phpstan-ignore-next-line
                     $do->Snippet = '...' . $highlightsForField . '...';
 
                     $highsList->push($do);
