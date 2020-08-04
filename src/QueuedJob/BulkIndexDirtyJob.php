@@ -22,15 +22,19 @@ class BulkIndexDirtyJob extends AbstractQueuedJob
         return 'Bulk Index Dirty DataObjects';
     }
 
-    public function hyrdate($newIndexName)
+
+    /** @param string $newIndexName the name of the index */
+    public function hydrate(string $newIndexName): void
     {
         $this->indexName = $newIndexName;
     }
+
 
     public function setup(): void
     {
         $this->totalSteps = 1;
     }
+
 
     public function process(): void
     {

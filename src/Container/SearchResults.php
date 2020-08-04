@@ -39,6 +39,7 @@ class SearchResults
     /** @var \SilverStripe\ORM\ArrayList */
     private $records;
 
+    /** @var array<string> */
     private $suggestions;
 
     /** @var float the time in seconds */
@@ -117,13 +118,14 @@ class SearchResults
         return $this->records;
     }
 
+
     public function getSuggestions()
     {
         return $this->suggestions;
     }
 
 
-    public function setSuggestions($newSuggestions)
+    public function setSuggestions($newSuggestions): void
     {
         $this->suggestions = $newSuggestions;
     }

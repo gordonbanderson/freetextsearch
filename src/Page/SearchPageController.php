@@ -15,6 +15,7 @@ use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\FreeTextSearch\Interfaces\Suggester;
 use Suilven\RandomEnglish\RandomEnglishGenerator;
 
 /**
@@ -28,12 +29,17 @@ use Suilven\RandomEnglish\RandomEnglishGenerator;
  */
 class SearchPageController extends \PageController
 {
+    /** @var string[]  */
     private static $allowed_actions = ['index'];
 
+    /** @var array<string,string> */
     private static $db = [
         'PageSize' => 'Int',
     ];
 
+    /**
+     * @var array<string,int|float|string>
+     */
     private static $defaults = [
         'PageSize' => 10,
     ];
@@ -68,9 +74,10 @@ class SearchPageController extends \PageController
 
 
         // get suggestions
+
         $factory = new SuggesterFactory();
 
-        /** @var \Suilven\FreeTextSearch\Factory\Suggester $suggester */
+        /** @var Suggester $suggester */
         $suggester = $factory->getSuggester();
 
         // @todo this is returning blank

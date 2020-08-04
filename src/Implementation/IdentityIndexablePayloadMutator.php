@@ -9,14 +9,13 @@
 
 namespace Suilven\FreeTextSearch\Implementation;
 
-use SilverStripe\ORM\DataObject;
-
 class IdentityIndexablePayloadMutator
 {
 
     public function mutatePayload($dataObjecct, $payload)
     {
         $payload['Link'] = $dataObjecct->Link();
+
         return $payload;
     }
 }

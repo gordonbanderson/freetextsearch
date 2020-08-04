@@ -29,6 +29,7 @@ interface Searcher
     public function setPageSize(int $pageSize): void;
 
 
+    /** Set the index name */
     public function setIndexName(string $indexName): void;
 
 
