@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -33,6 +33,5 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         foreach ($classes as $indiceClass) {
             $fields = $indice->getFields();
         }
-
     }
 }

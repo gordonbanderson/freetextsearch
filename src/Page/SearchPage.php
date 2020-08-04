@@ -27,10 +27,10 @@ use Suilven\FreeTextSearch\Indexes;
  */
 class SearchPage extends \Page
 {
-    /** @var SearchResults */
+    /** @var \Suilven\FreeTextSearch\Container\SearchResults */
     private $searchResults;
 
-    /** @var string  */
+    /** @var string */
     private static $table_name = 'SearchPage';
 
     /** @var array database fields */

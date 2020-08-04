@@ -19,7 +19,6 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
     /**
      * Index a single data object
-     *
      */
     abstract public function index(DataObject $dataObject): void;
 

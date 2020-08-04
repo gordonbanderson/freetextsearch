@@ -2,7 +2,6 @@
 
 // @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
 
-
 namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
@@ -11,8 +10,6 @@ use SilverStripe\Core\Config\Config;
  * Class Indexes
  *
  * @package Suilven\FreeTextSearch
- *
- *
  */
 class Indexes
 {

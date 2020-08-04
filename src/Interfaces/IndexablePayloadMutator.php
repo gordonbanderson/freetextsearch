@@ -9,14 +9,12 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
-use SilverStripe\ORM\DataObject;
-
 interface IndexablePayloadMutator
 {
 
     /**
-     * @param DataObject $dataObject the data object to index
+     * @param \SilverStripe\ORM\DataObject $dataObject the data object to index
      * @param array<string,string> $payload the payload to index
      */
-    public function mutatePayload($dataObject, &$payload): void;
+    public function mutatePayload(DataObject $dataObject, array &$payload): void;
 }

@@ -123,16 +123,14 @@ class SearchResults
      *
      * @return array<string>
      */
-    public function getSuggestions()
+    public function getSuggestions(): array
     {
         return $this->suggestions;
     }
 
 
-    /**
-     * @param array<string> $newSuggestions
-     */
-    public function setSuggestions($newSuggestions): void
+    /** @param array<string> $newSuggestions */
+    public function setSuggestions(array $newSuggestions): void
     {
         $this->suggestions = $newSuggestions;
     }

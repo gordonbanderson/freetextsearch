@@ -8,8 +8,6 @@ use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
-use Suilven\FreeTextSearch\Interfaces\Suggester;
-use Suilven\RandomEnglish\RandomEnglishGenerator;
 
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
@@ -19,12 +17,11 @@ use Suilven\RandomEnglish\RandomEnglishGenerator;
  * @package Suilven\FreeTextSearch\Page
  * @property int $ID Page ID
  * @property int $PageSize the number of results to show on each page
- *
  */
 
 class SearchPageController extends \PageController
 {
-    /** @var string[]  */
+    /** @var array<string> */
     private static $allowed_actions = ['index'];
 
     /** @var array<string,string> */
@@ -32,9 +29,7 @@ class SearchPageController extends \PageController
         'PageSize' => 'Int',
     ];
 
-    /**
-     * @var array<string,int|float|string>
-     */
+    /** @var array<string,int|float|string> */
     private static $defaults = [
         'PageSize' => 10,
     ];
@@ -72,7 +67,7 @@ class SearchPageController extends \PageController
 
         $factory = new SuggesterFactory();
 
-        /** @var Suggester $suggester */
+        /** @var \Suilven\FreeTextSearch\Interfaces\Suggester $suggester */
         $suggester = $factory->getSuggester();
 
         // @todo this is returning blank

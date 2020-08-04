@@ -11,7 +11,6 @@ namespace Suilven\FreeTextSearch\Interfaces;
 
 use Suilven\FreeTextSearch\Container\SearchResults;
 
-
 //@phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 interface Searcher
 {

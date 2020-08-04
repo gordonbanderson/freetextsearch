@@ -19,10 +19,7 @@ use Suilven\FreeTextSearch\Indexes;
 
 class BulkIndexingHelper
 {
-    /**
-     * @param bool $dirty Set this to true to only index 'dirty' DataObjects, false to reindex all
-     * @param \League\CLImate\CLImate|null $climate
-     */
+    /** @param bool $dirty Set this to true to only index 'dirty' DataObjects, false to reindex all */
     public function bulkIndex(string $indexName, bool $dirty = false, ?CLImate $climate = null): void
     {
         $indexes = new Indexes();
