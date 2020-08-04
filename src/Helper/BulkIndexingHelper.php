@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Helper;
 
+use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DB;

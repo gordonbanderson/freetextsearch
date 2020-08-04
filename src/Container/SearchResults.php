@@ -119,12 +119,19 @@ class SearchResults
     }
 
 
+    /** Accessor to the suggestions
+     *
+     * @return array<string>
+     */
     public function getSuggestions()
     {
         return $this->suggestions;
     }
 
 
+    /**
+     * @param array<string> $newSuggestions
+     */
     public function setSuggestions($newSuggestions): void
     {
         $this->suggestions = $newSuggestions;

@@ -41,6 +41,7 @@ class IndexingHelper
 
                 $fields = $indice->getFields();
                 foreach ($fields as $field) {
+                    // @phpstan-ignore-next-line
                     $value = $dataObject->$field;
                     $indicePayload[$field] = $value;
                 }

@@ -26,6 +26,7 @@ class BulkIndexDirtyJob extends AbstractQueuedJob
     /** @param string $newIndexName the name of the index */
     public function hydrate(string $newIndexName): void
     {
+        // @phpstan-ignore-next-line
         $this->indexName = $newIndexName;
     }
 
@@ -39,6 +40,8 @@ class BulkIndexDirtyJob extends AbstractQueuedJob
     public function process(): void
     {
         $helper = new BulkIndexingHelper();
+        
+        // @phpstan-ignore-next-line
         $helper->bulkIndex($this->indexName, true);
 
         $this->isComplete = true;
