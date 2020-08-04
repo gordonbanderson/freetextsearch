@@ -14,13 +14,14 @@ use Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator;
 
 class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
 {
-
     /**
      * @param DataObject $dataObject the data object to index
      * @param array<string,string> $payload the payload to index
      */
     public function mutatePayload($dataObject, &$payload): void
     {
+        // @todo Put check here for the Link method?
+        // @phpstan-ignore-next-line
         $payload['Link'] = $dataObject->Link();
     }
 }

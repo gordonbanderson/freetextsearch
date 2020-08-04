@@ -63,7 +63,7 @@ class SearchPageController extends \PageController
 
         //unset($selected['q']);
 
-        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected)) {
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 

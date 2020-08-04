@@ -31,7 +31,7 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     }
 
 
-    /** @return array<string> */
+    /** @return array<string, array<string,mixed>> */
     protected function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
     {
         $helper = new IndexingHelper();
