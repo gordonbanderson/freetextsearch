@@ -42,7 +42,7 @@ install:
     - 'composer require --no-update manticoresoftware/manticoresearch-php:dev-master'
     - 'git clone https://github.com/gordonbanderson/silverstripe-manticore-search.git'
     - 'composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile'
-    - 'export UNIT_TESTING_CONFIG_ENABLED=1'
+    - 'export UNIT_TESTING_FTS_CONFIG_ENABLED=1'
 before_script:
     - 'phpenv rehash'
     - 'phpenv config-rm xdebug.ini'
