@@ -35,6 +35,13 @@ matrix:
 
 services:
     - mysql
+
+# As silverstripe-manticore-search is being used for testing purposes, manticore needs installed
+before_install:
+    - 'docker pull manticoresearch/manticore'
+    - 'docker network create manticore'
+    - 'docker run --rm --publish 9308:9308 --network manticore --name=manticoresearch-manticore --detach manticoresearch/manticore'
+    - 'docker ps'
 install:
     - 'composer validate'
     - 'composer global require hirak/prestissimo'
