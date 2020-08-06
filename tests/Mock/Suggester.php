@@ -9,10 +9,12 @@
 
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
+use Suilven\FreeTextSearch\Container\SuggesterResults;
+
 class Suggester extends \Suilven\FreeTextSearch\Base\Suggester implements \Suilven\FreeTextSearch\Interfaces\Suggester
 {
     /** @return array<string> */
-    public function suggest(string $q, int $limit = 5): array
+    public function suggest(string $q, int $limit = 5): SuggesterResults
     {
         $result = 'unknown';
         switch ($q) {

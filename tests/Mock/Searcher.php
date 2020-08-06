@@ -10,11 +10,12 @@
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
 use Suilven\FreeTextSearch\Base\SearcherBase;
+use Suilven\FreeTextSearch\Container\SearchResults;
 
 class Searcher extends SearcherBase
 {
     /** @return array<string,array<string,string>> */
-    public function search(string $q): array
+    public function search(?string $q): SearchResults
     {
         \error_log('***** MOCK SEARCH *****');
 
