@@ -44,8 +44,6 @@ class BulkIndexingHelper
 
         $nDocuments = SiteTree::get()->filter($filters)->count();
 
-        \error_log('N DOCUMENTS: ' . $nDocuments);
-
         if ($nDocuments > 0) {
             $config = SiteConfig::current_site_config();
 

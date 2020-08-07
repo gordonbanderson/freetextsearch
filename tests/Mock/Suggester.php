@@ -16,16 +16,18 @@ class Suggester extends \Suilven\FreeTextSearch\Base\Suggester implements \Suilv
     /** @return array<string> */
     public function suggest(string $q, int $limit = 5): SuggesterResults
     {
-        $result = 'unknown';
+        $result = new SuggesterResults();
         switch ($q) {
             case 'webmister':
-                $result = 'webmaster';
+                $result->setResults(['webmaster']);
 
                 break;
         }
 
-        if (\sizeof($result) > $limit) {
-            $result = \array_slice($result, 0, $limit);
+        $suggestions = $result->getResults();
+        if (\sizeof($suggestions) > $limit) {
+            $suggestions = \array_slice($result, 0, $limit);
+            $result->setResults($suggestions);
         }
 
         return $result;

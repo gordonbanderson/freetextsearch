@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
+use SilverStripe\ORM\ArrayList;
 use Suilven\FreeTextSearch\Container\SearchResults;
 
 class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
@@ -16,20 +17,23 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
     /** @return array<string,array<string,string>> */
     public function search(?string $q): SearchResults
     {
-        \error_log('***** MOCK SEARCH *****');
-
-        $result = [];
+        $result = new SearchResults();
         switch ($q) {
             case 'Fish':
-                $result = [
-                    'Title' => 'Fishing in New Zealand',
+                $records = [
+                    [
+                        'Title' => 'Fishing in New Zealand',
+                    ],
                 ];
-                $result['ResultsFound'] = 1;
-                $result['AllFacets'] = [];
-        }
+                $recordsList = new ArrayList($records);
+                $result->setRecords($recordsList);
 
-        // seconds
-        $result['Time'] = 0.017;
+                $result->setTime(0.017);
+                $result->setFacets([]);
+
+                $result->setPageSize(10);
+                $result->setPage(1);
+        }
 
         return $result;
     }

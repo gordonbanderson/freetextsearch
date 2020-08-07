@@ -147,7 +147,9 @@ class SearchPageController extends \PageController
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
 
-            $keys = \array_keys($highlightsArray);
+            $keys = \is_null($highlightsArray)
+                ? []
+                : \array_keys($highlightsArray);
             foreach ($keys as $highlightedField) {
                 foreach ($highlightsArray[$highlightedField] as $highlightsForField) {
                     $do = new DataObject();

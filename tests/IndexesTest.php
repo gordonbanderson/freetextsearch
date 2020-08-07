@@ -7,6 +7,26 @@ use Suilven\FreeTextSearch\Indexes;
 
 class IndexesTest extends SapphireTest
 {
+    public function testGetIndex()
+    {
+        $indexes = new Indexes();
+        $index = $indexes->getIndex('sitetree');
+        $this->assertEquals('sitetree', $index->getName());
+        $this->assertEquals([
+            'Title',
+            'Content',
+            'ParentID',
+            'MenuTitle',
+            'Sort',
+            'Created',
+            'LastEdited',
+        ], $index->getFields());
+        $this->assertEquals([], $index->getHasOneFields());
+        $this->assertEquals([], $index->getHasManyFields());
+        $this->assertEquals([], $index->getTokens());
+    }
+
+
     /**
      * Assert that index objects are create correctly from the configuration file
      */
@@ -18,10 +38,12 @@ class IndexesTest extends SapphireTest
         $this->assertEquals('sitetree', $indices[0]->getName());
         $this->assertEquals([
             'Title',
-            'MenuTitle',
             'Content',
             'ParentID',
+            'MenuTitle',
             'Sort',
+            'Created',
+            'LastEdited',
         ], $indices[0]->getFields());
         $this->assertEquals([], $indices[0]->getHasOneFields());
         $this->assertEquals([], $indices[0]->getHasManyFields());
