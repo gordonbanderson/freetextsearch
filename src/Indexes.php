@@ -13,7 +13,7 @@ use SilverStripe\Core\Config\Config;
  */
 class Indexes
 {
-    /** @var array<string, \Suilven\FreeTextSearch\Index> */
+    /** @var array<string, \Suilven\FreeTextSearch\Index>|null */
     private $indexesByName;
 
 

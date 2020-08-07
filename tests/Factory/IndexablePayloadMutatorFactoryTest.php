@@ -4,8 +4,6 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexablePayloadMutatorFactory;
-use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
-use Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator;
 
 class IndexablePayloadMutatorFactoryTest extends SapphireTest
 {
@@ -14,7 +12,9 @@ class IndexablePayloadMutatorFactoryTest extends SapphireTest
         $factory = new IndexablePayloadMutatorFactory();
         $indexCreator = $factory->getIndexablePayloadMutator();
         $this->assertInstanceOf('Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator', $indexCreator);
-        $this->assertInstanceOf('Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator',
-            $indexCreator);
+        $this->assertInstanceOf(
+            'Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator',
+            $indexCreator
+        );
     }
 }

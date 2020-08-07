@@ -2,8 +2,6 @@
 
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
-use SilverStripe\ORM\DataObject;
-
 // @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
 class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexCreator
 {
