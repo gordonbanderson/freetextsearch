@@ -30,6 +30,10 @@ class Suggester extends \Suilven\FreeTextSearch\Base\Suggester implements \Suilv
             $result->setResults($suggestions);
         }
 
+        $result->setQuery($q);
+        $result->setLimit($limit);
+        $result->setIndex('unit_test_index');
+
         return $result;
     }
 }

@@ -33,6 +33,9 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
 
                 $result->setPageSize(10);
                 $result->setPage(1);
+
+                $result->setIndex('unit_test_index');
+                $result->setSuggestions(['fush']);
         }
 
         return $result;
