@@ -22,7 +22,6 @@
     "require": {
         "php": "~7.1",
         "league/climate": "^3.5",
-        "silverstripe/cms": "^4",
         "silverstripe/recipe-cms": "4.x-dev",
         "symbiote/silverstripe-queuedjobs": "^4.5"
     },
