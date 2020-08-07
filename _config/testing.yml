@@ -52,3 +52,10 @@ SilverStripe\Core\Injector\Injector:
     class: Suilven\FreeTextSearch\Tests\Mock\Suggester
   FreeTextIndexerImplementation:
     class: Suilven\FreeTextSearch\Tests\Mock\Indexer
+  FreeTextBulkIndexerImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\BulkIndexer
+  FreeTextIndexCreatorImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\IndexCreator
+  FreeTextIndexablePayloadMutatorImplementation:
+    class: Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator
+

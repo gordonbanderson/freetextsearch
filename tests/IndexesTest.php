@@ -7,7 +7,7 @@ use Suilven\FreeTextSearch\Indexes;
 
 class IndexesTest extends SapphireTest
 {
-    public function testGetIndex()
+    public function testGetIndex(): void
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex('sitetree');
