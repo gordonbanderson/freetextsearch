@@ -9,10 +9,9 @@
 
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
-use Suilven\FreeTextSearch\Base\SearcherBase;
 use Suilven\FreeTextSearch\Container\SearchResults;
 
-class Searcher extends SearcherBase
+class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
 {
     /** @return array<string,array<string,string>> */
     public function search(?string $q): SearchResults
