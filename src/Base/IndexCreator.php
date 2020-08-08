@@ -16,24 +16,26 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     /**
      * (Re)create an index of the given name, using the index configuration from YML
      *
-     * @todo Tidy up this method in conjunction with manticore search module
      * @param string $indexName The name of the index
+     * @todo Tidy up this method in conjunction with manticore search module
      */
     public function createIndex(string $indexName): void
     {
         $indexes = new Indexes();
-        $indices = $indexes->getIndexes();
+        $indice = $indexes->getIndex($indexName);
 
-        /** @var \Suilven\FreeTextSearch\Index $indice */
-        foreach ($indices as $indice) {
-            $clazz = $indice->getClass();
-            // @phpstan-ignore-next-line
-            $instance = \Singleton::getInstance($clazz);
-            $classes = $instance->getClassAncestry();
 
-            foreach ($classes as $indiceClass) {
-                    $fields = $indice->getFields();
-            }
+        $clazz = $indice->getClass();
+        // @phpstan-ignore-next-line
+        $instance = \Singleton::getInstance($clazz);
+        $classes = $instance->getClassAncestry();
+
+        // @todo Fix this class
+        \error_log(\print_r($classes, true));
+        /*
+        foreach ($classes as $indiceClass) {
+            $fields = $indice->getFields();
         }
+        */
     }
 }

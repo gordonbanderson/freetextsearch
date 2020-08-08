@@ -13,6 +13,7 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
+use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Indexes;
 
 /**
@@ -23,13 +24,13 @@ use Suilven\FreeTextSearch\Indexes;
  * @property int $PageSize the number of results to show on each page
  * @property bool $ShowAllIfEmptyQuery - show all or no results for an empty query
  * @property string $ShowTagCloudFor - show a tag cloud
- * @phpstan-ignore-next-line
  */
 class SearchPage extends \Page
 {
-    /** @var \Suilven\FreeTextSearch\Page\SearchResults */
+    /** @var \Suilven\FreeTextSearch\Container\SearchResults */
     private $searchResults;
 
+    /** @var string */
     private static $table_name = 'SearchPage';
 
     /** @var array database fields */
@@ -51,6 +52,7 @@ class SearchPage extends \Page
         'ShowTagCloudFor' => 'Varchar',
     ];
 
+    /** @var array<string,int|bool|string|float> */
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
         'ShowInsearch' => false,

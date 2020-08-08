@@ -29,14 +29,12 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
         $this->index = $newIndex;
     }
 
-    /**
-     * @param \SilverStripe\ORM\DataObject $dataObject
-     * @return array
-     */
+
+    /** @return array<string, array<string,string|int|float|bool>> */
     protected function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
     {
         $helper = new IndexingHelper();
-        $payload = $helper->getFieldsToIndex($dataObject);
-        return $payload;
+
+        return $helper->getFieldsToIndex($dataObject);
     }
 }

@@ -10,9 +10,8 @@
 namespace Suilven\FreeTextSearch\Base;
 
 use Suilven\FreeTextSearch\Container\SearchResults;
-use Suilven\FreeTextSearch\Interfaces\Searcher;
 
-abstract class SearcherBase implements Searcher
+abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
 {
     /** @var array<string,string|int|float> $filters */
     protected $filters;

@@ -18,7 +18,7 @@ class IndexingHelper
      * Get the indexable fields for a given dataobject as an array
      *
      * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object
-     * @return array<string>
+     * @return array<string, array<string,string|int|float|bool>>
      */
     public function getFieldsToIndex(DataObject $dataObject): array
     {
@@ -41,6 +41,7 @@ class IndexingHelper
 
                 $fields = $indice->getFields();
                 foreach ($fields as $field) {
+                    // @phpstan-ignore-next-line
                     $value = $dataObject->$field;
                     $indicePayload[$field] = $value;
                 }

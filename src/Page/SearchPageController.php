@@ -1,12 +1,5 @@
 <?php declare(strict_types = 1);
 
-/**
- * Created by PhpStorm.
- * User: gordon
- * Date: 25/3/2561
- * Time: 17:01 น.
- */
-
 namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
@@ -14,8 +7,8 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
-use Suilven\FreeTextSearch\Factory\SuggesterFactory;
-use Suilven\RandomEnglish\RandomEnglishGenerator;
+
+// @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
 /**
  * Class SearchPageController
@@ -23,17 +16,19 @@ use Suilven\RandomEnglish\RandomEnglishGenerator;
  * @package Suilven\FreeTextSearch\Page
  * @property int $ID Page ID
  * @property int $PageSize the number of results to show on each page
- * @todo Fix the annotation once format decided upon
- * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
  */
+
 class SearchPageController extends \PageController
 {
+    /** @var array<string> */
     private static $allowed_actions = ['index'];
 
+    /** @var array<string,string> */
     private static $db = [
         'PageSize' => 'Int',
     ];
 
+    /** @var array<string,int|float|string> */
     private static $defaults = [
         'PageSize' => 10,
     ];
@@ -57,7 +52,7 @@ class SearchPageController extends \PageController
 
         //unset($selected['q']);
 
-        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected)) {
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
 
@@ -67,10 +62,14 @@ class SearchPageController extends \PageController
 
 
 
-        // get suggestions
+
+
+        /*
+         *
+         *         // get suggestions
+
         $factory = new SuggesterFactory();
 
-        /** @var \Suilven\FreeTextSearch\Factory\Suggester $suggester */
         $suggester = $factory->getSuggester();
 
         // @todo this is returning blank
@@ -79,7 +78,7 @@ class SearchPageController extends \PageController
 
 
 
-        /*
+
         $facetted = isset($results['AllFacets']);
 
 
@@ -148,10 +147,13 @@ class SearchPageController extends \PageController
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
 
-            $keys = \array_keys($highlightsArray);
+            $keys = \is_null($highlightsArray)
+                ? []
+                : \array_keys($highlightsArray);
             foreach ($keys as $highlightedField) {
                 foreach ($highlightsArray[$highlightedField] as $highlightsForField) {
                     $do = new DataObject();
+                    // @phpstan-ignore-next-line
                     $do->Snippet = '...' . $highlightsForField . '...';
 
                     $highsList->push($do);

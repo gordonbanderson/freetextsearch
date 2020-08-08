@@ -3,11 +3,12 @@ Name: freetextsearch-test-models
 After: freetextindexes
 Only:
   envvarset:
-    - UNIT_TESTING_CONFIG_ENABLED
+    - UNIT_TESTING_FTS_CONFIG_ENABLED
 ---
 
 Suilven\SphinxSearch\Service\Client:
-  host: 'manticore'
+  # Name of Docker instance on Travis
+  host: 'manticoresearch-manticore'
 
 Suilven\FreeTextSearch\Indexes:
   indexes:
@@ -49,4 +50,12 @@ SilverStripe\Core\Injector\Injector:
     class: Suilven\FreeTextSearch\Tests\Mock\Searcher
   FreeTextSuggesterImplementation:
     class: Suilven\FreeTextSearch\Tests\Mock\Suggester
+  FreeTextIndexerImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\Indexer
+  FreeTextBulkIndexerImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\BulkIndexer
+  FreeTextIndexCreatorImplementation:
+    class: Suilven\FreeTextSearch\Tests\Mock\IndexCreator
+  FreeTextIndexablePayloadMutatorImplementation:
+    class: Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator
 

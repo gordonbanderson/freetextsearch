@@ -11,7 +11,6 @@ namespace Suilven\FreeTextSearch\SiteConfig;
 
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\ORM\DataExtension;
 
@@ -40,7 +39,7 @@ class FreeTextSearchSiteConfig extends DataExtension
     ];
 
 
-    /** @return \SilverStripe\Forms\FieldList<FormField> */
+    /** @return \SilverStripe\Forms\FieldList<\SilverStripe\Forms\FormField> */
     public function updateCMSFields(FieldList $fields): FieldList
     {
         $fields->addFieldToTab("Root.FreeTextSearch", new NumericField(

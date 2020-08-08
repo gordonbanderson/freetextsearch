@@ -1,8 +1,6 @@
 parameters:
     checkMissingIterableValueType: false
-    scanDirectories:
-        - ../app/src
-    scanFiles:
+    bootstrapFiles:
         - ../app/src/Page.php
         - ../app/src/PageController.php
 

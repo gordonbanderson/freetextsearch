@@ -47,8 +47,9 @@ class IndexingExtension extends DataExtension
 
     public function onAfterWrite(): void
     {
-       parent::onAfterWrite();
-       $config = SiteConfig::current_site_config();
+        parent::onAfterWrite();
+
+        $config = SiteConfig::current_site_config();
 
         // @phpstan-ignore-next-line
         if ($config->FreeTextSearchIndexingModeInBulk === 1) {
@@ -56,7 +57,8 @@ class IndexingExtension extends DataExtension
             // Given same parameters, in this case index name, only one queued job is created
             // even if multiple documents saved in between cron jobs
             $job = new BulkIndexDirtyJob();
-            $job->hyrdate('sitetree'); // @todo update all relevant indexes
+            // @todo update all relevant indexes
+            $job->hydrate('sitetree');
             QueuedJobService::singleton()->queueJob($job);
         } else {
             // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
@@ -65,6 +67,5 @@ class IndexingExtension extends DataExtension
 
             $indexer->index($this->owner);
         }
-
     }
 }

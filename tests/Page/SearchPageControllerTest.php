@@ -46,7 +46,7 @@ class SearchPageControllerTest extends FunctionalTest
         $this->assertInstanceOf('Suilven\FreeTextSearch\Page\SearchPage', $photoSearchPage);
 
         $page = $this->get('/photo-search/?q=Fish');
-        \error_log('----------------------------------');
-        \error_log(\print_r($page, true));
+        \error_log('PAGE:');
+        \error_log($page->getBody());
     }
 }

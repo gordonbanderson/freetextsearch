@@ -11,14 +11,7 @@ namespace Suilven\FreeTextSearch\Interfaces;
 
 use Suilven\FreeTextSearch\Container\SearchResults;
 
-/**
- * Interface Searcher
- *
- * @package Suilven\FreeTextSearch\Interfaces
- * @todo Fix this once output format decided upon
- *
- * @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
- */
+//@phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 interface Searcher
 {
     /** @param array<string,string|int|float> $filters */
@@ -29,6 +22,7 @@ interface Searcher
     public function setPageSize(int $pageSize): void;
 
 
+    /** Set the index name */
     public function setIndexName(string $indexName): void;
 
 

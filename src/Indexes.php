@@ -1,11 +1,6 @@
 <?php declare(strict_types = 1);
 
-/**
- * Created by PhpStorm.
- * User: gordon
- * Date: 24/3/2561
- * Time: 20:51 น.
- */
+// @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
 
 namespace Suilven\FreeTextSearch;
 
@@ -15,12 +10,10 @@ use SilverStripe\Core\Config\Config;
  * Class Indexes
  *
  * @package Suilven\FreeTextSearch
- *
- * @phpcs:disable SlevomatCodingStandard.ControlStructures.EarlyExit.EarlyExitNotUsed
  */
 class Indexes
 {
-    /** @var array<string, \Suilven\FreeTextSearch\Index> */
+    /** @var array<string, \Suilven\FreeTextSearch\Index>|null */
     private $indexesByName;
 
 
@@ -29,7 +22,6 @@ class Indexes
      */
     public function getIndex(string $name): Index
     {
-        // @phpstan-ignore-next-line
         if (\is_null($this->indexesByName)) {
             $this->getIndexes();
         }

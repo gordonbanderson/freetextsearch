@@ -14,7 +14,7 @@ use SilverStripe\ORM\DataObject;
 
 class FlickrAuthor extends DataObject implements TestOnly
 {
-    private static $table_name = 'FlickrAuthor';
+    private static $table_name = 'TestFTSFlickrAuthor';
 
     private static $db = [
         'Value' => 'Varchar',
