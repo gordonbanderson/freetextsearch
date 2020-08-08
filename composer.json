@@ -59,20 +59,5 @@
         "checkCode": "composer lint && composer checkcs && composer phpstan",
         "lint": "vendor/bin/parallel-lint src/ tests/",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G --level=6 -c tests/phpstan.neon src/"
-    },
-    "extra": {
-        "project-files-installed": [
-            "app/.htaccess",
-            "app/_config.php",
-            "app/_config/mimevalidator.yml",
-            "app/_config/mysite.yml",
-            "app/src/Page.php",
-            "app/src/PageController.php"
-        ],
-        "public-files-installed": [
-            ".htaccess",
-            "index.php",
-            "web.config"
-        ]
     }
 }
