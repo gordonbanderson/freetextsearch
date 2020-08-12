@@ -45,6 +45,10 @@ class IndexingExtension extends DataExtension
     }
 
 
+    /**
+     * @TODO this breaks on a virginal install
+     * @throws \SilverStripe\ORM\ValidationException
+     */
     public function onAfterWrite(): void
     {
         parent::onAfterWrite();
