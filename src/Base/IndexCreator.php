@@ -9,6 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
+use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Indexes;
 
 abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexCreator
@@ -27,7 +28,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         $clazz = $indice->getClass();
         // @phpstan-ignore-next-line
-        $instance = \Singleton::getInstance($clazz);
+        $instance = DataObject::singleton($clazz);
         $classes = $instance->getClassAncestry();
 
         // @todo Fix this class
