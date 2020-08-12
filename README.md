@@ -1,10 +1,7 @@
 # Free Text Search Base
-[![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=FIX_CI)](https://travis-ci.org/gordonbanderson/freetextsearch)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=FIX_CI)
-[![Build Status](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/build.png?b=FIX_CI)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/build-status/FIX_CI)
-[![CircleCI](https://circleci.com/gh/gordonbanderson/freetextsearch.svg?style=svg)](https://circleci.com/gh/gordonbanderson/freetextsearch)
-
-[![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=FIX_CI)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=FIX_CI)
+[![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=CODE_COVERAGE)](https://travis-ci.org/gordonbanderson/freetextsearch)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=CODE_COVERAGE)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=CODE_COVERAGE)
+[![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=CODE_COVERAGE)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=CODE_COVERAGE)
 
 
 [![Latest Stable Version](https://poser.pugx.org/suilven/freetextsearch/version)](https://packagist.org/packages/suilven/freetextsearch)
@@ -21,7 +18,8 @@
 [![GitHub Activity](https://img.shields.io/github/commit-activity/m/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
 [![GitHub Issues](https://img.shields.io/github/issues/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch/issues)
 
-![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/branch.svg?branch=FIX_CI)
+![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/branch.svg?branch=CODE_COVERAGE)
+
 
 # **** WORK IN PROGRESS ****
 

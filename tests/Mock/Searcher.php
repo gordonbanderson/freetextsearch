@@ -36,6 +36,13 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
 
                 $result->setIndex('unit_test_index');
                 $result->setSuggestions(['fush']);
+
+                /*
+                $highlights = ['Title' => [
+                    '<b>Fish</b>ing in New Zealand',
+                    ],
+                ];
+                */
         }
 
         return $result;

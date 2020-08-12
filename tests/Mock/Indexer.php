@@ -14,10 +14,20 @@ use SilverStripe\ORM\DataObject;
 // @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
 class Indexer extends \Suilven\FreeTextSearch\Base\Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
+    /** @var array<string, (string|int|float|bool)>|null */
+    private $payload;
+
 
     // @phpstan-ignore-next-line
     public function index(DataObject $dataObject): void
     {
-        // Do nothing, this is for testing, dev/build flush=all fails first up without this
+        $this->payload = $this->getIndexablePayload($dataObject);
+    }
+
+
+    /** @return array<string, (string|int|float|bool)>|null */
+    public function getIndexedPayload(): ?array
+    {
+        return $this->payload;
     }
 }

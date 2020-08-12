@@ -14,6 +14,7 @@ class SuggesterFactoryTest extends SapphireTest
         $this->assertInstanceOf('Suilven\FreeTextSearch\Interfaces\Suggester', $suggester);
         $this->assertInstanceOf('Suilven\FreeTextSearch\Tests\Mock\Suggester', $suggester);
 
+        $suggester->setIndex('sitetree');
         $suggestions = $suggester->suggest('webmister');
         $this->assertEquals(['webmaster'], $suggestions->getResults());
     }

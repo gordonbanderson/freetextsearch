@@ -19,8 +19,13 @@ use Suilven\FreeTextSearch\Indexes;
 
 class BulkIndexingHelper
 {
-    /** @param bool $dirty Set this to true to only index 'dirty' DataObjects, false to reindex all */
-    public function bulkIndex(string $indexName, bool $dirty = false, ?CLImate $climate = null): void
+    /**
+     * Bulk index all or just the 'dirty' items
+     *
+     * @param bool $dirty Set this to true to only index 'dirty' DataObjects, false to reindex all
+     * @return int the number of documents indexed
+     */
+    public function bulkIndex(string $indexName, bool $dirty = false, ?CLImate $climate = null): int
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
@@ -66,7 +71,7 @@ class BulkIndexingHelper
             for ($i = 0; $i < $pages; $i++) {
                 $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter($filters);
                 foreach ($dataObjects as $do) {
-                    // Note this adds data to the payload, doesn't actually indexing against the 4rd party search engine
+                    // Note this adds data to the payload, doesn't actually indexing against the 3rd party search engine
                     $bulkIndexer->addDataObject($do);
                 }
 
@@ -109,5 +114,7 @@ class BulkIndexingHelper
 
         // @todo How to get the table name from versions?
         DB::query("UPDATE \"{$table}_Live\" SET \"IsDirtyFreeTextSearch\" = 0");
+
+        return $nDocuments;
     }
 }
