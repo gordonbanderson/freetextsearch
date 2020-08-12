@@ -27,7 +27,6 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
 
         $clazz = $indice->getClass();
-        // @phpstan-ignore-next-line
         $instance = DataObject::singleton($clazz);
         $classes = $instance->getClassAncestry();
 

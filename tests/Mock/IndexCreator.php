@@ -3,7 +3,8 @@
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
 // @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
-class IndexCreator extends \Suilven\FreeTextSearch\Base\IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexCreator
+class IndexCreator extends \Suilven\FreeTextSearch\Base\IndexCreator implements
+    \Suilven\FreeTextSearch\Interfaces\IndexCreator
 {
 
     public function createIndex(string $indexName): void

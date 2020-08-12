@@ -7,10 +7,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\SiteConfig\SiteConfig;
-use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Helper\BulkIndexingHelper;
-use Suilven\FreeTextSearch\Interfaces\BulkIndexer;
-use Suilven\FreeTextSearch\QueuedJob\BulkIndexDirtyJob;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 use Symbiote\QueuedJobs\Services\QueuedJob;
 
@@ -42,11 +39,14 @@ class BulkIndexerTest extends SapphireTest
         $this->assertEquals(1, $after - $before);
         $jobDescriptor = QueuedJobDescriptor::get()->first();
         $this->assertEquals('Bulk Index Dirty DataObjects', $jobDescriptor->JobTitle);
-        $this->assertEquals('O:8:"stdClass":1:{s:9:"indexName";s:8:"sitetree";}', $jobDescriptor->SavedJobData);
+        $this->assertEquals(
+            'O:8:"stdClass":1:{s:9:"indexName";s:8:"sitetree";}',
+            $jobDescriptor->SavedJobData
+        );
 
         // create the job class
         $impl = $jobDescriptor->Implementation;
-        /** @var BulkIndexDirtyJob $job */
+        /** @var \Suilven\FreeTextSearch\Tests\Factory\BulkIndexDirtyJob $job */
         $job = Injector::inst()->create($impl);
 
         // populate data - taken from QueuedJobService
@@ -54,17 +54,21 @@ class BulkIndexerTest extends SapphireTest
         $messages = null;
 
         // switching to php's serialize methods... not sure why this wasn't done from the start!
-        $jobData = @unserialize($jobDescriptor->SavedJobData);
-        $messages = @unserialize($jobDescriptor->SavedJobMessages);
+        $jobData = @\unserialize($jobDescriptor->SavedJobData);
+        $messages = @\unserialize($jobDescriptor->SavedJobMessages);
 
         // try decoding as json if null
-        $jobData = $jobData ?: json_decode($jobDescriptor->SavedJobData);
-        $messages = $messages ?: json_decode($jobDescriptor->SavedJobMessages);
+        $jobData = $jobData
+            ? $jobData
+            : \json_decode($jobDescriptor->SavedJobData);
+        $messages = $messages
+            ? $messages
+            : \json_decode($jobDescriptor->SavedJobMessages);
 
         $job->setJobData(
             $jobDescriptor->TotalSteps,
             $jobDescriptor->StepsProcessed,
-            $jobDescriptor->JobStatus == QueuedJob::STATUS_COMPLETE,
+            $jobDescriptor->JobStatus === QueuedJob::STATUS_COMPLETE,
             $jobData,
             $messages
         );
@@ -77,12 +81,11 @@ class BulkIndexerTest extends SapphireTest
     }
 
 
-    public function testBulkIndexAll()
+    public function testBulkIndexAll(): void
     {
         $helper = new BulkIndexingHelper();
         $helper->bulkIndex('sitetree', false, new CLImate());
         // @todo assertions
-
     }
 
 

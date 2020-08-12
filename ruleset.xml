@@ -59,7 +59,10 @@
 	<rule ref="SlevomatCodingStandard.ControlStructures.UselessIfConditionWithReturn"/>
 
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowShortTernaryOperator"/>
+	<!--
+	The following rule clashes with this one
 	<rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
+	-->
 	<rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowContinueWithoutIntegerOperandInSwitch"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit"/>

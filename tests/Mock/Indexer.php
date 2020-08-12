@@ -14,7 +14,7 @@ use SilverStripe\ORM\DataObject;
 // @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
 class Indexer extends \Suilven\FreeTextSearch\Base\Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
-    /** @var null|array<string,string|int|float|bool> */
+    /** @var array<string, (string|int|float|bool)>|null */
     private $payload;
 
 
@@ -24,7 +24,9 @@ class Indexer extends \Suilven\FreeTextSearch\Base\Indexer implements \Suilven\F
         $this->payload = $this->getIndexablePayload($dataObject);
     }
 
-    public function getIndexedPayload()
+
+    /** @return array<string, (string|int|float|bool)>|null */
+    public function getIndexedPayload(): ?array
     {
         return $this->payload;
     }

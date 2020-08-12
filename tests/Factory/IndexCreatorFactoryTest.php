@@ -2,7 +2,6 @@
 
 namespace Suilven\FreeTextSearch\Tests\Factory;
 
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
 

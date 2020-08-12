@@ -17,8 +17,6 @@ class SuggesterFactoryTest extends SapphireTest
         $suggester->setIndex('sitetree');
         $suggestions = $suggester->suggest('webmister');
         $this->assertEquals(['webmaster'], $suggestions->getResults());
-
-
     }
 
     // @todo test set limit

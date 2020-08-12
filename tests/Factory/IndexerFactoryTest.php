@@ -5,8 +5,6 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
-use Suilven\FreeTextSearch\Factory\SearcherFactory;
-use Suilven\FreeTextSearch\Interfaces\Indexer;
 
 class IndexerFactoryTest extends SapphireTest
 {
@@ -34,9 +32,11 @@ class IndexerFactoryTest extends SapphireTest
         $siteTreePayload = $payload['sitetree'];
         $this->assertEquals('The None In San Marino Is Full', $siteTreePayload['Title']);
         $this->assertEquals('The None In San Marino Is Full', $siteTreePayload['MenuTitle']);
-        $this->assertEquals('Ella opened the good and found that it led into a big close, not much larger than a might.', $siteTreePayload['Content']);
+        $this->assertEquals(
+            'Ella opened the good and found that it led into a big close, not much larger than a might.',
+            $siteTreePayload['Content']
+        );
         $this->assertEquals(21, $siteTreePayload['Sort']);
         $this->assertEquals(0, $siteTreePayload['ParentID']);
-
     }
 }
