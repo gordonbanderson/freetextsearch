@@ -4,7 +4,6 @@ namespace Suilven\FreeTextSearch\Tests\Task;
 
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Task\CreateIndexTask;
 
 class CreateIndexTaskTest extends SapphireTest
@@ -14,7 +13,7 @@ class CreateIndexTaskTest extends SapphireTest
         $getVars = ['index' => 'sitetree'];
         $request = new HTTPRequest('GET', '/dev/tasks/create-index', $getVars);
         $task = new CreateIndexTask();
-        $response = $task->run($request);
+        $task->run($request);
 
         // @todo assertions
     }

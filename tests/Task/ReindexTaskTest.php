@@ -4,8 +4,6 @@ namespace Suilven\FreeTextSearch\Tests\Task;
 
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\SiteConfig\SiteConfig;
-use Suilven\FreeTextSearch\Task\CreateIndexTask;
 use Suilven\FreeTextSearch\Task\ReindexTask;
 
 class ReindexTaskTest extends SapphireTest
@@ -15,7 +13,7 @@ class ReindexTaskTest extends SapphireTest
         $getVars = ['index' => 'sitetree'];
         $request = new HTTPRequest('GET', '/dev/tasks/index', $getVars);
         $task = new ReindexTask();
-        $response = $task->run($request);
+        $task->run($request);
 
         // @todo assertions
     }

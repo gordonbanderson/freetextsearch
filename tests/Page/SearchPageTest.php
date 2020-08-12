@@ -75,7 +75,7 @@ class SearchPageTest extends SapphireTest
     }
 
 
-    public function testSetGetSearchResults()
+    public function testSetGetSearchResults(): void
     {
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $photoSearchPage */
         $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
@@ -87,7 +87,7 @@ class SearchPageTest extends SapphireTest
         $photoSearchPage->setSearchResults($searchResults);
 
         $obtainedSearchResults = $photoSearchPage->getSearchResults();
-        $this->assertEquals('test', $searchResults->getQuery());
-        $this->assertEquals(9.58, $searchResults->getTime());
+        $this->assertEquals('test', $obtainedSearchResults->getQuery());
+        $this->assertEquals(9.58, $obtainedSearchResults->getTime());
     }
 }
