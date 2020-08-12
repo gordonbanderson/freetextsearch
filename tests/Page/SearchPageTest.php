@@ -3,6 +3,7 @@
 namespace Suilven\FreeTextSearch\Tests\Page;
 
 use SilverStripe\Dev\SapphireTest;
+use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Page\SearchPage;
 
 class SearchPageTest extends SapphireTest
@@ -71,5 +72,22 @@ class SearchPageTest extends SapphireTest
             'ShowTagCloudFor',
             'ShowAllIfEmptyQuery',
         ], $names);
+    }
+
+
+    public function testSetGetSearchResults()
+    {
+        /** @var \Suilven\FreeTextSearch\Page\SearchPage $photoSearchPage */
+        $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
+
+        $searchResults = new SearchResults();
+        $searchResults->setQuery('test');
+        $searchResults->setTime(9.58);
+
+        $photoSearchPage->setSearchResults($searchResults);
+
+        $obtainedSearchResults = $photoSearchPage->getSearchResults();
+        $this->assertEquals('test', $searchResults->getQuery());
+        $this->assertEquals(9.58, $searchResults->getTime());
     }
 }
