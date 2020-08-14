@@ -53,6 +53,8 @@ class IndexingExtension extends DataExtension
     {
         parent::onAfterWrite();
 
+        error_log('OAW ' . $this->getOwner()->ID);
+
         $config = SiteConfig::current_site_config();
 
         // @phpstan-ignore-next-line
@@ -63,6 +65,8 @@ class IndexingExtension extends DataExtension
             $job = new BulkIndexDirtyJob();
             // @todo update all relevant indexes
             $job->hydrate('sitetree');
+            // @todo this breaks manticore search with a strange db error
+            error_log("ADDING QJ");
             QueuedJobService::singleton()->queueJob($job);
         } else {
             // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
