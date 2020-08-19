@@ -15,19 +15,24 @@ use SilverStripe\ORM\DataObject;
 class Indexer extends \Suilven\FreeTextSearch\Base\Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
     /** @var array<string, (string|int|float|bool)>|null */
-    private $payload;
+    private static $payload = [];
 
 
     // @phpstan-ignore-next-line
     public function index(DataObject $dataObject): void
     {
-        $this->payload = $this->getIndexablePayload($dataObject);
+        self::$payload[] = $this->getIndexablePayload($dataObject);
     }
 
 
     /** @return array<string, (string|int|float|bool)>|null */
-    public function getIndexedPayload(): ?array
+    public static function getIndexedPayload(): ?array
     {
-        return $this->payload;
+        return self::$payload;
+    }
+
+    public static function resetIndexedPayload()
+    {
+        self::$payload = [];
     }
 }
