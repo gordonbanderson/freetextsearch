@@ -2,10 +2,8 @@
 
 namespace Suilven\FreeTextSearch\Tests\Task;
 
-use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\Security\Permission;
 use Suilven\FreeTextSearch\Task\CreateIndexTask;
 
 class CreateIndexTaskTest extends SapphireTest
@@ -18,6 +16,7 @@ class CreateIndexTaskTest extends SapphireTest
         $response = $task->run($request);
         $this->assertNull($response);
     }
+
 
     public function testCreateIndexTaskFailForSecurity(): void
     {

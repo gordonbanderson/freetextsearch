@@ -31,7 +31,8 @@ class Indexer extends \Suilven\FreeTextSearch\Base\Indexer implements \Suilven\F
         return self::$payload;
     }
 
-    public static function resetIndexedPayload()
+
+    public static function resetIndexedPayload(): void
     {
         self::$payload = [];
     }

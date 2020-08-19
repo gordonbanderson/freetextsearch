@@ -5,7 +5,6 @@ namespace Suilven\FreeTextSearch\Tests\Extension;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
-use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Tests\Mock\Indexer;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 
@@ -22,7 +21,7 @@ class IndexingExtensionTest extends SapphireTest
     }
 
 
-    public function testIndividualDocument()
+    public function testIndividualDocument(): void
     {
         Indexer::resetIndexedPayload();
 
@@ -41,14 +40,13 @@ class IndexingExtensionTest extends SapphireTest
         $this->assertEquals(0, QueuedJobDescriptor::get()->count());
 
         $payload = Indexer::getIndexedPayload();
-        $this->assertEquals(1, sizeof($payload));
+        $this->assertEquals(1, \sizeof($payload));
         $firstPagePayload = $payload[0];
         $this->assertEquals([], $firstPagePayload['flickrphotos']);
         $this->assertEquals([], $firstPagePayload['members']);
         $this->assertEquals('Rupert liked playing chess', $firstPagePayload['sitetree']['Title']);
         $this->assertEquals('Rupert liked playing chess', $firstPagePayload['sitetree']['MenuTitle']);
         $this->assertEquals('<p>THe black queen had been taken</p>', $firstPagePayload['sitetree']['Content']);
-
     }
 
 

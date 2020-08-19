@@ -39,7 +39,7 @@ class CreateIndexTask extends BuildTask
 
         // for testing purposes
         $fail = $request->getVar('fail');
-        if (!is_null($fail)) {
+        if (!\is_null($fail)) {
             $canAccess = false;
         }
 

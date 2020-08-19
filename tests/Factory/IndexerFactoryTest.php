@@ -28,7 +28,7 @@ class IndexerFactoryTest extends SapphireTest
 
         // the mock stores the indexed content.  Firstly check that members and flickrphotos have no updates
         $allDocumentsPayload = Indexer::getIndexedPayload();
-        $this->assertEquals(1, sizeof($allDocumentsPayload));
+        $this->assertEquals(1, \sizeof($allDocumentsPayload));
         $indexedDocumentPayload = $allDocumentsPayload[0];
 
         $this->assertEquals([], $indexedDocumentPayload['members']);
