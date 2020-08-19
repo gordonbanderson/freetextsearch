@@ -6,6 +6,7 @@ use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Helper\BulkIndexingHelper;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
@@ -27,7 +28,13 @@ class BulkIndexerTest extends SapphireTest
 
     public function testSingleDocumentBeingQueuedForBulkIndexing(): void
     {
+        // only one job is created per index when there are dirty objects to index.  This is dealt with within the
+        // queued jobs module, in that the job parameters are identical.  One job will already be present from
+        // loading of the fixtures.  As such, clear the queue
+        DB::query('DELETE FROM "QueuedJobDescriptor"');
+
         $before = QueuedJobDescriptor::get()->count();
+        error_log('testSingleDocumentBeingQueuedForBulkIndexing ' . $before);
 
         $page = $this->objFromFixture(SiteTree::class, 'sitetree_10');
         $page->Title = 'This is a new title';
@@ -37,6 +44,8 @@ class BulkIndexerTest extends SapphireTest
 
         // assert that 1 job has been created, then inspect the contents
         $this->assertEquals(1, $after - $before);
+
+        // check the contents of the job queue
         $jobDescriptor = QueuedJobDescriptor::get()->first();
         $this->assertEquals('Bulk Index Dirty DataObjects', $jobDescriptor->JobTitle);
         $this->assertEquals(
