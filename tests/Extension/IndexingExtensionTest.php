@@ -6,7 +6,6 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Tests\Mock\Indexer;
-use Suilven\FreeTextSearch\Tests\Models\FlickrPhoto;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 
 class IndexingExtensionTest extends SapphireTest
