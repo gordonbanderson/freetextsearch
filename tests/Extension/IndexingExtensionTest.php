@@ -6,6 +6,7 @@ use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Tests\Mock\Indexer;
+use Suilven\FreeTextSearch\Tests\Models\FlickrPhoto;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 
 class IndexingExtensionTest extends SapphireTest
@@ -21,7 +22,7 @@ class IndexingExtensionTest extends SapphireTest
     }
 
 
-    public function testIndividualDocument(): void
+    public function testIndividualPage(): void
     {
         Indexer::resetIndexedPayload();
 
@@ -48,7 +49,7 @@ class IndexingExtensionTest extends SapphireTest
         $this->assertEquals('Rupert liked playing chess', $firstPagePayload['sitetree']['MenuTitle']);
         $this->assertEquals('<p>THe black queen had been taken</p>', $firstPagePayload['sitetree']['Content']);
     }
-
+    
 
     public function tearDown(): void
     {
