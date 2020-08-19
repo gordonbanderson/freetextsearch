@@ -205,8 +205,11 @@ class SearchPageController extends \PageController
 
         // page 1 is the first page
         $page = isset($start)
-            ? ($start / $this->PageSize) + 1
+            ? \ceil($start / $this->PageSize) + 1
             : 1;
+
+        $page = \intval($page);
+        \error_log('PAGE: ' . $page);
         $searcher->setPage($page);
 
         return $searcher->search($q);

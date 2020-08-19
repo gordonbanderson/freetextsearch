@@ -46,8 +46,15 @@ class ReindexTask extends BuildTask
 
         // check this script is being run by admin
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
+
+        // for testing purposes
+        $fail = $request->getVar('fail');
+        if (!\is_null($fail)) {
+            $canAccess = false;
+        }
+
         if (!$canAccess) {
-            return Security::permissionFailure(null);
+            return Security::permissionFailure(null, 'Permission denied');
         }
 
 

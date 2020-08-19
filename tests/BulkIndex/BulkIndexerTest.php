@@ -34,7 +34,7 @@ class BulkIndexerTest extends SapphireTest
         DB::query('DELETE FROM "QueuedJobDescriptor"');
 
         $before = QueuedJobDescriptor::get()->count();
-        error_log('testSingleDocumentBeingQueuedForBulkIndexing ' . $before);
+        \error_log('testSingleDocumentBeingQueuedForBulkIndexing ' . $before);
 
         $page = $this->objFromFixture(SiteTree::class, 'sitetree_10');
         $page->Title = 'This is a new title';

@@ -5,6 +5,7 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
+use Suilven\FreeTextSearch\Tests\Mock\Indexer;
 
 class IndexerFactoryTest extends SapphireTest
 {
@@ -12,6 +13,8 @@ class IndexerFactoryTest extends SapphireTest
 
     public function testFactory(): void
     {
+        Indexer::resetIndexedPayload();
+
         $factory = new IndexerFactory();
 
         /** @var \Suilven\FreeTextSearch\Tests\Mock\Indexer $indexer */
@@ -24,12 +27,15 @@ class IndexerFactoryTest extends SapphireTest
         $indexer->index($page);
 
         // the mock stores the indexed content.  Firstly check that members and flickrphotos have no updates
-        $payload = $indexer->getIndexedPayload();
-        $this->assertEquals([], $payload['members']);
-        $this->assertEquals([], $payload['flickrphotos']);
+        $allDocumentsPayload = Indexer::getIndexedPayload();
+        $this->assertEquals(1, \sizeof($allDocumentsPayload));
+        $indexedDocumentPayload = $allDocumentsPayload[0];
+
+        $this->assertEquals([], $indexedDocumentPayload['members']);
+        $this->assertEquals([], $indexedDocumentPayload['flickrphotos']);
 
         // check non timestamped data for the page in question
-        $siteTreePayload = $payload['sitetree'];
+        $siteTreePayload = $indexedDocumentPayload['sitetree'];
         $this->assertEquals('The None In San Marino Is Full', $siteTreePayload['Title']);
         $this->assertEquals('The None In San Marino Is Full', $siteTreePayload['MenuTitle']);
         $this->assertEquals(
