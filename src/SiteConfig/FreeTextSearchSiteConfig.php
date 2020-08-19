@@ -35,7 +35,9 @@ class FreeTextSearchSiteConfig extends DataExtension
     /** @var array<string,int|string|bool> */
     private static $defaults = [
         'BulkSize' => 500,
-        'FreeTextSearchIndexingModeInBulk' => false,
+
+        // if this is not true, it is a build breaker
+        'FreeTextSearchIndexingModeInBulk' => true,
     ];
 
 

@@ -45,10 +45,14 @@ class IndexingExtension extends DataExtension
     }
 
 
+    /**
+     * @TODO this breaks on a virginal install
+     * @throws \SilverStripe\ORM\ValidationException
+     */
     public function onAfterWrite(): void
     {
         parent::onAfterWrite();
-
+        
         $config = SiteConfig::current_site_config();
 
         // @phpstan-ignore-next-line
@@ -59,6 +63,7 @@ class IndexingExtension extends DataExtension
             $job = new BulkIndexDirtyJob();
             // @todo update all relevant indexes
             $job->hydrate('sitetree');
+
             QueuedJobService::singleton()->queueJob($job);
         } else {
             // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately

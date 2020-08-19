@@ -10,6 +10,11 @@ Suilven\SphinxSearch\Service\Client:
   # Name of Docker instance on Travis
   host: 'manticoresearch-manticore'
 
+# When the tests complete (successfully), if this is not set, the shutdown function is called.  Unfortunately, there
+# is no longer a test database....
+Symbiote\QueuedJobs\Services\QueuedJobService:
+  use_shutdown_function: false
+  
 Suilven\FreeTextSearch\Indexes:
   indexes:
     - index:

@@ -17,10 +17,10 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     protected $filters;
 
     /** @var int */
-    protected $pageSize;
+    protected $pageSize = 15;
 
     /** @var int */
-    protected $page;
+    protected $page = 1;
 
     /** @var string */
     protected $indexName;
