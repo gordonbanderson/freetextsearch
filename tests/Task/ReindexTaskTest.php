@@ -13,8 +13,20 @@ class ReindexTaskTest extends SapphireTest
         $getVars = ['index' => 'sitetree'];
         $request = new HTTPRequest('GET', '/dev/tasks/index', $getVars);
         $task = new ReindexTask();
-        $task->run($request);
+        $response = $task->run($request);
 
-        // @todo assertions
+        // no response is returned from the task if it is successful
+        $this->assertNull($response);
+    }
+
+
+    public function testCreateIndexTaskNoAccess(): void
+    {
+        $getVars = ['index' => 'sitetree', 'fail' => 1];
+        $request = new HTTPRequest('GET', '/dev/tasks/index', $getVars);
+        $task = new ReindexTask();
+        $response = $task->run($request);
+
+        $this->assertEquals(403, $response->getStatusCode());
     }
 }
