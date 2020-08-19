@@ -48,5 +48,23 @@ class SearchPageControllerTest extends FunctionalTest
         $page = $this->get('/photo-search/?q=Fish');
         \error_log('PAGE:');
         \error_log($page->getBody());
+
+        // @todo assertions
+    }
+
+
+    public function testSearchNotFirstPage(): void
+    {
+        /** @var \Suilven\FreeTextSearch\Page\SearchPage $photoSearchPage */
+        $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
+        $photoSearchPage->publishRecursive();
+
+        $this->assertInstanceOf('Suilven\FreeTextSearch\Page\SearchPage', $photoSearchPage);
+
+        $page = $this->get('/photo-search/?q=Fish&start=10');
+        \error_log('PAGE:');
+        \error_log($page->getBody());
+
+        // @todo more search results and assertions
     }
 }
