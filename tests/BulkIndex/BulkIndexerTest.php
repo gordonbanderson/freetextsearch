@@ -103,16 +103,6 @@ class BulkIndexerTest extends SapphireTest
         $this->checkBulkIndexedPayload();
     }
 
-    private function checkBulkIndexedPayload()
-    {
-        foreach(BulkIndexer::getIndexedPayload() as $documentPayload) {
-            $id = $documentPayload['ID'];
-            $page = DataObject::get_by_id(SiteTree::class, $id);
-            $this->assertEquals($page->Title, $documentPayload['sitetree']['Title']);
-            $this->assertEquals($page->Content, $documentPayload['sitetree']['Content']);
-        }
-    }
-
 
     public function tearDown(): void
     {
@@ -121,5 +111,16 @@ class BulkIndexerTest extends SapphireTest
         $config = SiteConfig::current_site_config();
         $config->FreeTextSearchIndexingModeInBulk = 0;
         $config->write();
+    }
+
+
+    private function checkBulkIndexedPayload(): void
+    {
+        foreach (BulkIndexer::getIndexedPayload() as $documentPayload) {
+            $id = $documentPayload['ID'];
+            $page = DataObject::get_by_id(SiteTree::class, $id);
+            $this->assertEquals($page->Title, $documentPayload['sitetree']['Title']);
+            $this->assertEquals($page->Content, $documentPayload['sitetree']['Content']);
+        }
     }
 }

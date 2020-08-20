@@ -46,10 +46,12 @@ class BulkIndexer implements \Suilven\FreeTextSearch\Interfaces\BulkIndexer
         self::$indexName = $newIndex;
     }
 
-    public static function getIndexName()
+
+    public static function getIndexName(): string
     {
         return self::$indexName;
     }
+
 
     /** @return array<string, (string|int|float|bool)>|null */
     public static function getIndexedPayload(): ?array
