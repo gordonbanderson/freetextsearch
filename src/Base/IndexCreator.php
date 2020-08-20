@@ -31,15 +31,10 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     protected function getFieldSpecs(string $indexName): array
     {
         $indexes = new Indexes();
-
         $index = $indexes->getIndex($indexName);
-
         $fields = [];
-
         $singleton = \singleton($index->getClass());
 
-
-        // @todo different field types
         foreach ($index->getFields() as $field) {
             $fields[] = $field;
         }
