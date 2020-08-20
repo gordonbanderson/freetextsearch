@@ -57,13 +57,6 @@ class SearchPageController extends \PageController
         }
 
 
-        $results->setQuery($q);
-
-
-
-
-
-
         /*
          *
          *         // get suggestions
@@ -161,13 +154,12 @@ class SearchPageController extends \PageController
             }
 
 
-
             $record->Highlights = $highsList;
             $newRecords->push($record);
         }
 
         return $this->customise(new ArrayData([
-            'NumberOfResults' => $results->getNumberOfResults(),
+            'NumberOfResults' => $results->getTotaNumberOfResults(),
             'Query' => $results->getQuery(),
             'Records' => $newRecords,
             'Page' => $results->getPage(),
