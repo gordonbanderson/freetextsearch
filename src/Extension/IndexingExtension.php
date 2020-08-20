@@ -30,6 +30,9 @@ class IndexingExtension extends DataExtension
     ];
 
 
+    /**
+     * If we are bulk indexing mark the dataobject as dirty
+     */
     public function onBeforeWrite(): void
     {
         parent::onBeforeWrite();
@@ -46,7 +49,8 @@ class IndexingExtension extends DataExtension
 
 
     /**
-     * @TODO this breaks on a virginal install
+     * If bulk indexing, add a job to index dirty objects on the queue. Otherwise index immediately
+     *
      * @throws \SilverStripe\ORM\ValidationException
      */
     public function onAfterWrite(): void

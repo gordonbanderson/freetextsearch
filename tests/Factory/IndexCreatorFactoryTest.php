@@ -4,6 +4,7 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
+use Suilven\FreeTextSearch\Tests\Mock\IndexCreator;
 
 class IndexCreatorFactoryTest extends SapphireTest
 {
@@ -18,6 +19,6 @@ class IndexCreatorFactoryTest extends SapphireTest
 
         $indexCreator->createIndex('sitetree');
 
-        // @todo assertions
+        $this->assertEquals('sitetree', IndexCreator::getIndexName());
     }
 }

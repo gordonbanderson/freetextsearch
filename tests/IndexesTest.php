@@ -78,11 +78,10 @@ class IndexesTest extends SapphireTest
     {
         $indexes = new Indexes();
 
-        // @todo Why is this being lowercased
         $this->assertEquals([
-            'aperture',
-            'shutterspeed',
-            'iso',
+            'Aperture',
+            'ShutterSpeed',
+            'ISO',
         ], $indexes->getFacetFields('flickrphotos'));
     }
 
@@ -91,9 +90,8 @@ class IndexesTest extends SapphireTest
     {
         $indexes = new Indexes();
 
-        // @todo Why is this being lowercased
         $this->assertEquals(
-            ['suilven\freetextsearch\tests\models\flickrauthor'],
+            ['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'],
             $indexes->getHasOneFields('flickrphotos')
         );
     }
@@ -103,9 +101,8 @@ class IndexesTest extends SapphireTest
     {
         $indexes = new Indexes();
 
-        // @todo Why is this being lowercased
         $this->assertEquals(
-            ['suilven\freetextsearch\tests\models\flickrtag'],
+            ['Suilven\FreeTextSearch\Tests\Models\FlickrTag'],
             $indexes->getHasManyFields('flickrphotos')
         );
     }

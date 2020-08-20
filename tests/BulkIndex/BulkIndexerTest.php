@@ -6,9 +6,11 @@ use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Helper\BulkIndexingHelper;
+use Suilven\FreeTextSearch\Tests\Mock\BulkIndexer;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 use Symbiote\QueuedJobs\Services\QueuedJob;
 
@@ -28,13 +30,14 @@ class BulkIndexerTest extends SapphireTest
 
     public function testSingleDocumentBeingQueuedForBulkIndexing(): void
     {
+        BulkIndexer::resetIndexedPayload();
+
         // only one job is created per index when there are dirty objects to index.  This is dealt with within the
         // queued jobs module, in that the job parameters are identical.  One job will already be present from
         // loading of the fixtures.  As such, clear the queue
         DB::query('DELETE FROM "QueuedJobDescriptor"');
 
         $before = QueuedJobDescriptor::get()->count();
-        \error_log('testSingleDocumentBeingQueuedForBulkIndexing ' . $before);
 
         $page = $this->objFromFixture(SiteTree::class, 'sitetree_10');
         $page->Title = 'This is a new title';
@@ -85,16 +88,19 @@ class BulkIndexerTest extends SapphireTest
         $job->setup();
         $job->process();
 
-        // @todo How to test assertions here?
-        //$this->assertEquals(1, $job->totalSteps);
+        $this->checkBulkIndexedPayload();
     }
 
 
     public function testBulkIndexAll(): void
     {
+        BulkIndexer::resetIndexedPayload();
         $helper = new BulkIndexingHelper();
         $helper->bulkIndex('sitetree', false, new CLImate());
-        // @todo assertions
+
+        $this->assertEquals('sitetree', BulkIndexer::getIndexName());
+
+        $this->checkBulkIndexedPayload();
     }
 
 
@@ -105,5 +111,16 @@ class BulkIndexerTest extends SapphireTest
         $config = SiteConfig::current_site_config();
         $config->FreeTextSearchIndexingModeInBulk = 0;
         $config->write();
+    }
+
+
+    private function checkBulkIndexedPayload(): void
+    {
+        foreach (BulkIndexer::getIndexedPayload() as $documentPayload) {
+            $id = $documentPayload['ID'];
+            $page = DataObject::get_by_id(SiteTree::class, $id);
+            $this->assertEquals($page->Title, $documentPayload['sitetree']['Title']);
+            $this->assertEquals($page->Content, $documentPayload['sitetree']['Content']);
+        }
     }
 }

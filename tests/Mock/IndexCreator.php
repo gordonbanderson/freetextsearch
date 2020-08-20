@@ -7,8 +7,17 @@ class IndexCreator extends \Suilven\FreeTextSearch\Base\IndexCreator implements
     \Suilven\FreeTextSearch\Interfaces\IndexCreator
 {
 
+    /** @var string */
+    private static $indexName;
+
     public function createIndex(string $indexName): void
     {
         parent::createIndex($indexName);
+    }
+
+
+    public static function getIndexName(): string
+    {
+        return self::$indexName;
     }
 }

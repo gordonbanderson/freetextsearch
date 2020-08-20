@@ -77,13 +77,7 @@ class IndexingHelper
                 }
             }
             $payload[$indice->getName()] = $indicePayload;
-
-            // this halves indexing speed
-          //  $payload['Link'] = $dataObject->Link();
-          //  $payload['AbsoluteLink'] = $dataObject->AbsoluteLink();
         }
-
-        // @todo a possible mutator, specific to different search engines, may be required here
 
         return $payload;
     }
