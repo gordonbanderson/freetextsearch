@@ -32,16 +32,9 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
-        $fields = [];
         $singleton = \singleton($index->getClass());
 
-        foreach ($index->getFields() as $field) {
-            $fields[] = $field;
-        }
-
-        foreach ($index->getTokens() as $token) {
-            $fields[] = $token;
-        }
+        $fields = $this->getFields($indexName);
 
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
@@ -63,5 +56,26 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         }
 
         return $filteredSpecs;
+    }
+
+
+    /**
+     * @param string $indexName
+     * @return array<string,string>
+     */
+    protected function getFields($indexName)
+    {
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($indexName);
+
+        foreach ($index->getFields() as $field) {
+            $fields[] = $field;
+        }
+
+        foreach ($index->getTokens() as $token) {
+            $fields[] = $token;
+        }
+
+        return $fields;
     }
 }
