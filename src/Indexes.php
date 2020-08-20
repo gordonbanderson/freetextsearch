@@ -82,7 +82,7 @@ class Indexes
     }
 
 
-    /** @return array<string> An array of facet fields in lower case, such as ['iso', 'aperture', 'shutterspeed'] */
+    /** @return array<string> An array of facet fields, such as ['ISO', 'Aperture', 'ShutterSpeed'] */
     public function getFacetFields(string $indexName): array
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
@@ -96,7 +96,7 @@ class Indexes
 
             if (isset($indexConfig['index']['tokens'])) {
                 foreach ($indexConfig['index']['tokens'] as $token) {
-                    $result[] = \strtolower($token);
+                    $result[] = $token;
                 }
             }
         }
@@ -120,7 +120,7 @@ class Indexes
 
             if (isset($indexConfig['index']['has_one'])) {
                 foreach ($indexConfig['index']['has_one'] as $hasOne) {
-                    $result[] = \strtolower($hasOne);
+                    $result[] = $hasOne;
                 }
             }
         }
@@ -144,7 +144,7 @@ class Indexes
 
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                    $result[] = \strtolower($hasManyField);
+                    $result[] = $hasManyField;
                 }
             }
         }

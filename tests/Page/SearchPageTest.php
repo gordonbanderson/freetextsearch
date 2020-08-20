@@ -26,9 +26,9 @@ class SearchPageTest extends SapphireTest
         $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
 
         $this->assertEquals([
-            'aperture',
-            'shutterspeed',
-            'iso',
+            'Aperture',
+            'ShutterSpeed',
+            'ISO',
         ], $photoSearchPage->getFacetFields());
     }
 
@@ -39,7 +39,7 @@ class SearchPageTest extends SapphireTest
         $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
 
         $this->assertEquals([
-            'suilven\freetextsearch\tests\models\flickrtag',
+            'Suilven\FreeTextSearch\Tests\Models\FlickrTag',
         ], $photoSearchPage->getHasManyFields());
     }
 
