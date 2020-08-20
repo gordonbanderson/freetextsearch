@@ -38,9 +38,6 @@ interface Searcher
     public function setPage(int $pageNumber): void;
 
 
-    /**
-     * @param string $q the search query
-     * @todo Fix annotation
-     */
+    /** @param string $q the search query */
     public function search(?string $q): SearchResults;
 }
