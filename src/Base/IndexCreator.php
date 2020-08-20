@@ -9,7 +9,7 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
-use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DataObjectSchema;
 use Suilven\FreeTextSearch\Indexes;
 
 abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexCreator
@@ -18,24 +18,55 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
      * (Re)create an index of the given name, using the index configuration from YML
      *
      * @param string $indexName The name of the index
-     * @todo Tidy up this method in conjunction with manticore search module
      */
-    public function createIndex(string $indexName): void
+    abstract public function createIndex(string $indexName): void;
+
+
+    /**
+     * Helper method to get get field specs for a DataObject relevant to it's index definition
+     *
+     * @param string $indexName the name of the index
+     * @return array<string,string>
+     */
+    protected function getFieldSpecs(string $indexName): array
     {
         $indexes = new Indexes();
-        $indice = $indexes->getIndex($indexName);
+
+        $index = $indexes->getIndex($indexName);
+
+        $fields = [];
+
+        $singleton = \singleton($index->getClass());
 
 
-        $clazz = $indice->getClass();
-        $instance = DataObject::singleton($clazz);
-        $classes = $instance->getClassAncestry();
-
-        // @todo Fix this class
-        \error_log(\print_r($classes, true));
-        /*
-        foreach ($classes as $indiceClass) {
-            $fields = $indice->getFields();
+        // @todo different field types
+        foreach ($index->getFields() as $field) {
+            $fields[] = $field;
         }
-        */
+
+        foreach ($index->getTokens() as $token) {
+            $fields[] = $token;
+        }
+
+        /** @var \SilverStripe\ORM\DataObjectSchema $schema */
+        $schema = $singleton->getSchema();
+        $specs = $schema->fieldSpecs($index->getClass(), DataObjectSchema::INCLUDE_CLASS);
+
+        /** @var array<string,string> $filteredSpecs the DB specs for fields related to the index */
+        $filteredSpecs = [];
+
+        foreach ($fields as $field) {
+            $fieldType = $specs[$field];
+
+            // fix likes of varchar(255)
+            $fieldType = \explode('(', $fieldType)[0];
+
+            // remove the class name
+            $fieldType = \explode('.', $fieldType)[1];
+
+            $filteredSpecs[$field] = $fieldType;
+        }
+
+        return $filteredSpecs;
     }
 }
