@@ -80,6 +80,12 @@ class SearchResults
     }
 
 
+    public function getTotalPages()
+    {
+        return ceil($this->totalNumberOfResults / $this->pageSize);
+    }
+
+
     public function getPage(): int
     {
         return $this->page;
