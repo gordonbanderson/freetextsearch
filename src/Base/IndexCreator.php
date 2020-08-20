@@ -36,6 +36,8 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         $fields = $this->getFields($indexName);
 
+        error_log(print_r($fields, true));
+
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
         $specs = $schema->fieldSpecs($index->getClass(), DataObjectSchema::INCLUDE_CLASS);
@@ -44,6 +46,11 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         $filteredSpecs = [];
 
         foreach ($fields as $field) {
+            error_log('CHECKING FIELD ' . $field);
+
+            if ($field === 'Link') {
+                continue;
+            }
             $fieldType = $specs[$field];
 
             // fix likes of varchar(255)
@@ -53,6 +60,10 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             $fieldType = \explode('.', $fieldType)[1];
 
             $filteredSpecs[$field] = $fieldType;
+        }
+
+        if (!isset($filteredSpecs['Link'])) {
+            $filteredSpecs['Link'] = 'Varchar';
         }
 
         return $filteredSpecs;
@@ -75,6 +86,11 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         foreach ($index->getTokens() as $token) {
             $fields[] = $token;
         }
+
+        if (!in_array('Link', $fields)) {
+            $fields[] = 'Link';
+        }
+
 
         return $fields;
     }
