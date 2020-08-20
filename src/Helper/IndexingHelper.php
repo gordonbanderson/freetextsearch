@@ -10,6 +10,7 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\ORM\DataObject;
+use Suilven\FreeTextSearch\Factory\IndexablePayloadMutatorFactory;
 use Suilven\FreeTextSearch\Indexes;
 
 class IndexingHelper
@@ -78,6 +79,10 @@ class IndexingHelper
             }
             $payload[$indice->getName()] = $indicePayload;
         }
+
+        $factory = new IndexablePayloadMutatorFactory();
+        $mutator = $factory->getIndexablePayloadMutator();
+        $mutator->mutatePayload($dataObject, $payload);
 
         return $payload;
     }
