@@ -27,6 +27,9 @@ class SearchResults
     /** @var string */
     private $index;
 
+    /** @var $totalNumberOfResults int the total number of results */
+    private $totalNumberOfResults;
+
     /** @var int */
     private $page;
 
@@ -65,9 +68,15 @@ class SearchResults
     }
 
 
-    public function getNumberOfResults(): int
+    public function getTotaNumberOfResults(): int
     {
-        return \count($this->records);
+        return $this->totalNumberOfResults;
+    }
+
+
+    public function setTotalNumberOfResults(int $newTotalNumberOfResults): void
+    {
+        $this->totalNumberOfResults = $newTotalNumberOfResults;
     }
 
 
