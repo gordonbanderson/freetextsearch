@@ -164,6 +164,7 @@ class SearchPageController extends \PageController
             'Records' => $newRecords,
             'Page' => $results->getPage(),
             'PageSize' => $results->getPageSize(),
+            'Pages' => $results->getTotalPages(),
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
         ]));
