@@ -12,7 +12,7 @@ class IndexCreator extends \Suilven\FreeTextSearch\Base\IndexCreator implements
 
     public function createIndex(string $indexName): void
     {
-        parent::createIndex($indexName);
+        self::$indexName = $indexName;
     }
 
 
