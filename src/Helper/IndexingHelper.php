@@ -78,7 +78,7 @@ class IndexingHelper
             }
             $payload[$indice->getName()] = $indicePayload;
         }
-        
+
         return $payload;
     }
 }
