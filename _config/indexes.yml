@@ -16,4 +16,6 @@ Suilven\FreeTextSearch\Indexes:
           - Sort
           - Created
           - LastEdited
-          - MetaDescription
+
+         # @todo this breaks manticore
+         # - MetaDescription
