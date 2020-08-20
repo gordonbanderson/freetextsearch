@@ -20,8 +20,10 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
      */
     public function mutatePayload(DataObject $dataObject, array &$payload): void
     {
-        // @todo Put check here for the Link method?
-        // @phpstan-ignore-next-line
+        if (!\method_exists($dataObject, 'Link')) {
+            return;
+        }
+
         $payload['Link'] = $dataObject->Link();
     }
 }
