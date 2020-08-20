@@ -15,6 +15,36 @@ use Suilven\FreeTextSearch\Indexes;
 class IndexingHelper
 {
     /**
+     * Get a list of index names associated with the data object
+     *
+     * @return array<string> names of indexes associated with the DataObject in question
+     */
+    public function getIndexes(DataObject $dataObject): array
+    {
+        $indexes = new Indexes();
+        $indices = $indexes->getIndexes();
+
+        $result = [];
+
+        /** @var \Suilven\FreeTextSearch\Index $indice */
+        foreach ($indices as $indice) {
+            $clazz = $indice->getClass();
+            $classes = $dataObject->getClassAncestry();
+
+            foreach ($classes as $indiceClass) {
+                if ($indiceClass !== $clazz) {
+                    continue;
+                }
+
+                $result[] = $indice->getName();
+            }
+        }
+
+        return $result;
+    }
+
+
+    /**
      * Get the indexable fields for a given dataobject as an array
      *
      * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object

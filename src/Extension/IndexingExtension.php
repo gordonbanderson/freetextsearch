@@ -12,6 +12,7 @@ namespace Suilven\FreeTextSearch\Extension;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Factory\IndexerFactory;
+use Suilven\FreeTextSearch\Helper\IndexingHelper;
 use Suilven\FreeTextSearch\QueuedJob\BulkIndexDirtyJob;
 use Symbiote\QueuedJobs\Services\QueuedJobService;
 
@@ -40,8 +41,7 @@ class IndexingExtension extends DataExtension
             return;
         }
 
-        // @phpstan-ignore-next-line
-        $this->owner->IsDirtyFreeTextSearch = true;
+        $this->getOwner()->IsDirtyFreeTextSearch = true;
     }
 
 
@@ -52,7 +52,7 @@ class IndexingExtension extends DataExtension
     public function onAfterWrite(): void
     {
         parent::onAfterWrite();
-        
+
         $config = SiteConfig::current_site_config();
 
         // @phpstan-ignore-next-line
@@ -61,16 +61,21 @@ class IndexingExtension extends DataExtension
             // Given same parameters, in this case index name, only one queued job is created
             // even if multiple documents saved in between cron jobs
             $job = new BulkIndexDirtyJob();
-            // @todo update all relevant indexes
-            $job->hydrate('sitetree');
 
-            QueuedJobService::singleton()->queueJob($job);
+            // a dataobject could belong to multiple indexes.  Update them all
+            $helper = new IndexingHelper();
+            $indexNames = $helper->getIndexes($this->getOwner());
+
+            foreach ($indexNames as $indexName) {
+                $job->hydrate($indexName);
+                QueuedJobService::singleton()->queueJob($job);
+            }
         } else {
             // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
             $factory = new IndexerFactory();
             $indexer = $factory->getIndexer();
 
-            $indexer->index($this->owner);
+            $indexer->index($this->getOwner());
         }
     }
 }
