@@ -4,6 +4,7 @@ namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
@@ -45,7 +46,7 @@ class SearchPageController extends \PageController
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
         // @todo why?
-        unset($selected['start']);
+       // unset($selected['start']);
 
         $results = new SearchResults();
 
@@ -171,6 +172,12 @@ class SearchPageController extends \PageController
             $newRecords->push($record);
         }
 
+        $paginatedList = new PaginatedList($records);
+        $paginatedList->setLimitItems(false);
+        $paginatedList->setPageLength($results->getPageSize());
+        $paginatedList->setTotalItems($results->getTotaNumberOfResults());
+        $paginatedList->setCurrentPage($results->getPage());
+
         return $this->customise(new ArrayData([
             'NumberOfResults' => $results->getTotaNumberOfResults(),
             'Query' => $results->getQuery(),
@@ -180,6 +187,7 @@ class SearchPageController extends \PageController
             'Pages' => $results->getTotalPages(),
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
+            'Pagination' => $paginatedList
         ]));
     }
 
@@ -201,10 +209,6 @@ class SearchPageController extends \PageController
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
-
-        if ($this->PageSize === 0) {
-            $this->PageSize = 15;
-        }
         $searcher->setPageSize($this->PageSize);
         $start = $this->getRequest()->getVar('start');
 
