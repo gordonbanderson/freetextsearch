@@ -1,11 +1,12 @@
+
 <main role="main" class="container">
     <% if $SideBar %>
         <% include SideBar %>
     <% end_if %>
     <h1>$Title</h1>
-    <form action="$URL">
+    <form id="searchForm" action="$URL">
                 <input name="q" type="text"  placeholder="Search..." value="$Query">
-                <button type="button">Search</button>
+                <button type="submit">Search</button>
     </form>
 
     <% if $NumberOfResults > 0 %>
