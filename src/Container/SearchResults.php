@@ -28,16 +28,16 @@ class SearchResults
     private $index;
 
     /** @var $totalNumberOfResults int the total number of results */
-    private $totalNumberOfResults;
+    private $totalNumberOfResults = 0;
 
     /** @var int */
-    private $page;
+    private $page = 0;
 
     /** @var int */
-    private $pageSize;
+    private $pageSize = 20;
 
     /** @var string */
-    private $query;
+    private $query = '';
 
     /** @var \SilverStripe\ORM\ArrayList */
     private $records;
@@ -130,7 +130,7 @@ class SearchResults
 
     public function getRecords(): \SilverStripe\ORM\ArrayList
     {
-        return $this->records;
+        return is_null($this->records) ? new ArrayList([]) : $this->records;
     }
 
 
