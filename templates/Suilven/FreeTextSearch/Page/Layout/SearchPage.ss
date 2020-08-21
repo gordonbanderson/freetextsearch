@@ -2,24 +2,18 @@
     <% if $SideBar %>
         <% include SideBar %>
     <% end_if %>
-    <h1 class="mt-5">$Title</h1>
+    <h1>$Title</h1>
     <form action="$URL">
-        <div class="col-xs-12">
-            <div class="input-group">
-                <input name="q" type="text" class="form-control" placeholder="Search..." value="$Query">
-                <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-          </span>
-            </div>
-        </div>
+                <input name="q" type="text"  placeholder="Search..." value="$Query">
+                <button type="button">Search</button>
     </form>
 
     <% if $NumberOfResults > 0 %>
         <p>$NumberOfResults results found in $Time seconds</p>
 
             <% loop $Records %>
-                    <h3><a href="$Link">$ResultTitle</a></h3>
-                    <div>$AbsoluteLink</div>
+                    <p>$HighlightedLink.RAW</p>
+                    <h3><a href="$Link">$ResultTitle.RAW</a></h3>
                     <% loop $Highlights %>
                      $Snippet.RAW
                     <% end_loop %>
