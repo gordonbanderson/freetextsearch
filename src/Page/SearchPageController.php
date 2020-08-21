@@ -30,7 +30,7 @@ class SearchPageController extends \PageController
 
     /** @var array<string,int|float|string> */
     private static $defaults = [
-        'PageSize' => 10,
+        'PageSize' => 15,
     ];
 
     public function index(): \SilverStripe\View\ViewableData_Customised
@@ -44,7 +44,7 @@ class SearchPageController extends \PageController
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-
+        // @todo why?
         unset($selected['start']);
 
         $results = new SearchResults();
@@ -140,6 +140,20 @@ class SearchPageController extends \PageController
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
 
+            if (isset($highlightsArray['Title'])) {
+                $record->ResultTitle = $highlightsArray['Title'][0];
+                unset($highlightsArray['Title']);
+            }
+
+            $record->HighlightedLink = $record->Link;
+            if (isset($highlightsArray['Link'])) {
+                $record->HighlightedLink = $highlightsArray['Link'][0];
+                unset($highlightsArray['Link']);
+            }
+
+            // this simply repeats the title most times
+            unset($highlightsArray['MenuTitle']);
+
             $keys = \is_null($highlightsArray)
                 ? []
                 : \array_keys($highlightsArray);
@@ -152,7 +166,6 @@ class SearchPageController extends \PageController
                     $highsList->push($do);
                 }
             }
-
 
             $record->Highlights = $highsList;
             $newRecords->push($record);
