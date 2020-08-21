@@ -24,6 +24,6 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
             return;
         }
 
-        $payload['Link'] = $dataObject->Link();
+        $payload['sitetree']['Link'] = $dataObject->Link();
     }
 }
