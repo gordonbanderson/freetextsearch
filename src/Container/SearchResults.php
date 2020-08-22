@@ -27,7 +27,7 @@ class SearchResults
     /** @var string */
     private $index;
 
-    /** @var $totalNumberOfResults int the total number of results */
+    /** @var int the total number of results */
     private $totalNumberOfResults = 0;
 
     /** @var int */
@@ -39,7 +39,7 @@ class SearchResults
     /** @var string */
     private $query = '';
 
-    /** @var \SilverStripe\ORM\ArrayList */
+    /** @var \SilverStripe\ORM\ArrayList|null */
     private $records;
 
     /** @var array<string> */

@@ -16,7 +16,7 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
 {
     /**
      * @param \SilverStripe\ORM\DataObject $dataObject the data object to index
-     * @param array<string,string> $payload the payload to index
+     * @param array<string,array<string,int|float|string|bool>> $payload the payload to index
      */
     public function mutatePayload(DataObject $dataObject, array &$payload): void
     {

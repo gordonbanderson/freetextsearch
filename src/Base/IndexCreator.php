@@ -64,7 +64,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         // if Link undefined in the original index specs, add it if the method exists on the singleton dataobject
         if (!isset($filteredSpecs['Link'])) {
-            if (method_exists($singleton, 'Link')) {
+            if (\method_exists($singleton, 'Link')) {
                 $filteredSpecs['Link'] = 'Varchar';
             }
         }
@@ -73,7 +73,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     }
 
 
-    /** @return array<string,string> */
+    /** @return array<string> */
     protected function getFields(string $indexName): array
     {
         $indexes = new Indexes();
