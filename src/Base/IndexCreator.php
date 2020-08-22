@@ -62,8 +62,11 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             $filteredSpecs[$field] = $fieldType;
         }
 
+        // if Link undefined in the original index specs, add it if the method exists on the singleton dataobject
         if (!isset($filteredSpecs['Link'])) {
-            $filteredSpecs['Link'] = 'Varchar';
+            if (method_exists($singleton, 'Link')) {
+                $filteredSpecs['Link'] = 'Varchar';
+            }
         }
 
         return $filteredSpecs;
