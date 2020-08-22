@@ -1,3 +1,4 @@
+<% require css("suilven/freetextsearch:css/searchpage.css") %>
 
 <main role="main" class="container">
     <% if $SideBar %>
@@ -10,19 +11,20 @@
     </form>
 
     <% if $NumberOfResults > 0 %>
-        <p>$NumberOfResults results found in $Time seconds</p>
+        <div class="searchResultsInfo">$NumberOfResults results found in $Time seconds</div>
 
             <% loop $Records %>
-                    <p>$HighlightedLink.RAW</p>
+                <div class="searchResult">
+                    <p class="url">$HighlightedLink.RAW</p>
                     <h3><a href="$Link">$ResultTitle.RAW</a></h3>
                     <% loop $Highlights %>
                      $Snippet.RAW
                     <% end_loop %>
-                <hr/>
+                </div>
             <% end_loop %>
 
 
-<% with $Pagination %>
+    <% with $Pagination %>
         <% if $MoreThanOnePage %>
             <div class="pagination-container">
                 <nav aria-label="Search pagination for '$Query'">
