@@ -194,7 +194,7 @@ class SearchPageController extends \PageController
         $searcher->setFilters($selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
 
-        error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
+        \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
 
         $facets = $searchPage->getFacetFields();
         $hasManyFields = $searchPage->getHasManyFields();

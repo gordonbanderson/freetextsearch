@@ -83,7 +83,8 @@ class SearchResults
     public function getTotalPages(): int
     {
         $nPages = \ceil($this->totalNumberOfResults / $this->pageSize);
-        return intval($nPages);
+
+        return \intval($nPages);
     }
 
 

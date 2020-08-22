@@ -76,6 +76,8 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
 
+        $fields = [];
+
         foreach ($index->getFields() as $field) {
             $fields[] = $field;
         }
@@ -84,7 +86,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             $fields[] = $token;
         }
 
-        if (!\in_array('Link', $fields)) {
+        if (!\in_array('Link', $fields, true)) {
             $fields[] = 'Link';
         }
 
