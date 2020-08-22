@@ -36,7 +36,7 @@ class IndexCreatorFactoryTest extends SapphireTest
             'Sort' => 'Int',
             'Created' => 'DBDatetime',
             'LastEdited' => 'DBDatetime',
-            'MetaDescription' => 'Text',
+            'Link' => 'Varchar',
         ], $specs);
 
         $specs = $method->invokeArgs($indexCreator, ['members']);
@@ -53,6 +53,7 @@ class IndexCreatorFactoryTest extends SapphireTest
             'Aperture' => 'Float',
             'ShutterSpeed' => 'Varchar',
             'ISO' => 'Int',
+            // @todo test fails here with missing link
         ], $specs);
     }
 }

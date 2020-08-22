@@ -4,6 +4,7 @@ namespace Suilven\FreeTextSearch\Page;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
@@ -23,15 +24,7 @@ class SearchPageController extends \PageController
     /** @var array<string> */
     private static $allowed_actions = ['index'];
 
-    /** @var array<string,string> */
-    private static $db = [
-        'PageSize' => 'Int',
-    ];
 
-    /** @var array<string,int|float|string> */
-    private static $defaults = [
-        'PageSize' => 10,
-    ];
 
     public function index(): \SilverStripe\View\ViewableData_Customised
     {
@@ -44,8 +37,8 @@ class SearchPageController extends \PageController
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-
-        unset($selected['start']);
+        // @todo why?
+       // unset($selected['start']);
 
         $results = new SearchResults();
 
@@ -55,13 +48,6 @@ class SearchPageController extends \PageController
         if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
-
-
-        $results->setQuery($q);
-
-
-
-
 
 
         /*
@@ -147,6 +133,20 @@ class SearchPageController extends \PageController
             $highsList = new ArrayList();
             $highlightsArray = $record->Highlights;
 
+            if (isset($highlightsArray['Title'])) {
+                $record->ResultTitle = $highlightsArray['Title'][0];
+                unset($highlightsArray['Title']);
+            }
+
+            $record->HighlightedLink = $record->Link;
+            if (isset($highlightsArray['Link'])) {
+                $record->HighlightedLink = $highlightsArray['Link'][0];
+                unset($highlightsArray['Link']);
+            }
+
+            // this simply repeats the title most times
+            unset($highlightsArray['MenuTitle']);
+
             $keys = \is_null($highlightsArray)
                 ? []
                 : \array_keys($highlightsArray);
@@ -160,20 +160,26 @@ class SearchPageController extends \PageController
                 }
             }
 
-
-
             $record->Highlights = $highsList;
             $newRecords->push($record);
         }
 
+        $paginatedList = new PaginatedList($records);
+        $paginatedList->setLimitItems(false);
+        $paginatedList->setPageLength($results->getPageSize());
+        $paginatedList->setTotalItems($results->getTotaNumberOfResults());
+        $paginatedList->setCurrentPage($results->getPage());
+
         return $this->customise(new ArrayData([
-            'NumberOfResults' => $results->getNumberOfResults(),
+            'NumberOfResults' => $results->getTotaNumberOfResults(),
             'Query' => $results->getQuery(),
             'Records' => $newRecords,
             'Page' => $results->getPage(),
             'PageSize' => $results->getPageSize(),
+            'Pages' => $results->getTotalPages(),
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
+            'Pagination' => $paginatedList,
         ]));
     }
 
@@ -188,6 +194,7 @@ class SearchPageController extends \PageController
         $searcher->setFilters($selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
 
+        \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
 
         $facets = $searchPage->getFacetFields();
         $hasManyFields = $searchPage->getHasManyFields();
@@ -195,10 +202,6 @@ class SearchPageController extends \PageController
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
-
-        if ($this->PageSize === 0) {
-            $this->PageSize = 15;
-        }
         $searcher->setPageSize($this->PageSize);
         $start = $this->getRequest()->getVar('start');
 

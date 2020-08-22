@@ -59,5 +59,11 @@
         "checkCode": "composer lint && composer checkcs && composer phpstan",
         "lint": "vendor/bin/parallel-lint src/ tests/",
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G --level=6 -c tests/phpstan.neon src/"
+    },
+
+    "extra": {
+        "expose": [
+            "css"
+        ]
     }
 }
