@@ -36,6 +36,8 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         $fields = $this->getFields($indexName);
 
+        \error_log(\print_r($fields, true));
+
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
         $specs = $schema->fieldSpecs($index->getClass(), DataObjectSchema::INCLUDE_CLASS);
@@ -44,6 +46,11 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         $filteredSpecs = [];
 
         foreach ($fields as $field) {
+            \error_log('CHECKING FIELD ' . $field);
+
+            if ($field === 'Link') {
+                continue;
+            }
             $fieldType = $specs[$field];
 
             // fix likes of varchar(255)
@@ -55,18 +62,24 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             $filteredSpecs[$field] = $fieldType;
         }
 
+        // if Link undefined in the original index specs, add it if the method exists on the singleton dataobject
+        if (!isset($filteredSpecs['Link'])) {
+            if (\method_exists($singleton, 'Link')) {
+                $filteredSpecs['Link'] = 'Varchar';
+            }
+        }
+
         return $filteredSpecs;
     }
 
 
-    /**
-     * @param string $indexName
-     * @return array<string,string>
-     */
-    protected function getFields($indexName)
+    /** @return array<string> */
+    protected function getFields(string $indexName): array
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
+
+        $fields = [];
 
         foreach ($index->getFields() as $field) {
             $fields[] = $field;
@@ -74,6 +87,10 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         foreach ($index->getTokens() as $token) {
             $fields[] = $token;
+        }
+
+        if (!\in_array('Link', $fields, true)) {
+            $fields[] = 'Link';
         }
 
         return $fields;

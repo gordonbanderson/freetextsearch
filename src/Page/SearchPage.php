@@ -56,6 +56,8 @@ class SearchPage extends \Page
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
         'ShowInsearch' => false,
+        // same as Laravel
+        'PageSize' => 15,
     ];
 
     /**

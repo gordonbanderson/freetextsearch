@@ -1,33 +1,30 @@
+<% require css("suilven/freetextsearch:css/searchpage.css") %>
+
 <main role="main" class="container">
     <% if $SideBar %>
         <% include SideBar %>
     <% end_if %>
-    <h1 class="mt-5">$Title</h1>
-    <form action="$URL">
-        <div class="col-xs-12">
-            <div class="input-group">
-                <input name="q" type="text" class="form-control" placeholder="Search..." value="$Query">
-                <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-          </span>
-            </div>
-        </div>
+    <h1>$Title</h1>
+    <form id="searchForm" action="$URL">
+                <input name="q" type="text"  placeholder="Search..." value="$Query">
+                <button type="submit">Search</button>
     </form>
 
     <% if $NumberOfResults > 0 %>
-        <p>$NumberOfResults results found in $Time seconds</p>
+        <div class="searchResultsInfo">$NumberOfResults results found in $Time seconds</div>
 
             <% loop $Records %>
-                    <h3><a href="$Link">$ResultTitle</a></h3>
-                    <div>$AbsoluteLink</div>
+                <div class="searchResult">
+                    <p class="url">$HighlightedLink.RAW</p>
+                    <h3><a href="$Link">$ResultTitle.RAW</a></h3>
                     <% loop $Highlights %>
                      $Snippet.RAW
                     <% end_loop %>
-                <hr/>
+                </div>
             <% end_loop %>
 
 
-<% with $Pagination %>
+    <% with $Pagination %>
         <% if $MoreThanOnePage %>
             <div class="pagination-container">
                 <nav aria-label="Search pagination for '$Query'">

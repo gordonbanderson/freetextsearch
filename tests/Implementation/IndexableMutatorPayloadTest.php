@@ -15,12 +15,13 @@ class IndexableMutatorPayloadTest extends SapphireTest
         $page = SiteTree::get()->first();
         \error_log($page->Title);
 
-        $payload = ['Title' => $page->Title];
+        $payload = ['sitetree' => ['Title' => $page->Title]];
         $mutator = new IdentityIndexablePayloadMutator();
         $mutator->mutatePayload($page, $payload);
+
         $this->assertEquals([
             'Title' => 'The Break In San Marino Is Bright',
             'Link' => '/the-break-in-san-marino-is-bright/',
-        ], $payload);
+        ], $payload['sitetree']);
     }
 }

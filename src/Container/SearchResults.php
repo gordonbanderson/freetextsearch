@@ -27,16 +27,19 @@ class SearchResults
     /** @var string */
     private $index;
 
-    /** @var int */
-    private $page;
+    /** @var int the total number of results */
+    private $totalNumberOfResults = 0;
 
     /** @var int */
-    private $pageSize;
+    private $page = 0;
+
+    /** @var int */
+    private $pageSize = 20;
 
     /** @var string */
-    private $query;
+    private $query = '';
 
-    /** @var \SilverStripe\ORM\ArrayList */
+    /** @var \SilverStripe\ORM\ArrayList|null */
     private $records;
 
     /** @var array<string> */
@@ -65,9 +68,23 @@ class SearchResults
     }
 
 
-    public function getNumberOfResults(): int
+    public function getTotaNumberOfResults(): int
     {
-        return \count($this->records);
+        return $this->totalNumberOfResults;
+    }
+
+
+    public function setTotalNumberOfResults(int $newTotalNumberOfResults): void
+    {
+        $this->totalNumberOfResults = $newTotalNumberOfResults;
+    }
+
+
+    public function getTotalPages(): int
+    {
+        $nPages = \ceil($this->totalNumberOfResults / $this->pageSize);
+
+        return \intval($nPages);
     }
 
 
@@ -115,7 +132,9 @@ class SearchResults
 
     public function getRecords(): \SilverStripe\ORM\ArrayList
     {
-        return $this->records;
+        return \is_null($this->records)
+            ? new ArrayList([])
+            : $this->records;
     }
 
 
