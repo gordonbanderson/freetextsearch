@@ -36,7 +36,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         $fields = $this->getFields($indexName);
 
-        error_log(print_r($fields, true));
+        \error_log(\print_r($fields, true));
 
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
@@ -46,7 +46,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         $filteredSpecs = [];
 
         foreach ($fields as $field) {
-            error_log('CHECKING FIELD ' . $field);
+            \error_log('CHECKING FIELD ' . $field);
 
             if ($field === 'Link') {
                 continue;
@@ -70,11 +70,8 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     }
 
 
-    /**
-     * @param string $indexName
-     * @return array<string,string>
-     */
-    protected function getFields($indexName)
+    /** @return array<string,string> */
+    protected function getFields(string $indexName): array
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
@@ -87,10 +84,9 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             $fields[] = $token;
         }
 
-        if (!in_array('Link', $fields)) {
+        if (!\in_array('Link', $fields)) {
             $fields[] = 'Link';
         }
-
 
         return $fields;
     }

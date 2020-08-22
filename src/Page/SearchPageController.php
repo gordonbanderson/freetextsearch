@@ -24,15 +24,7 @@ class SearchPageController extends \PageController
     /** @var array<string> */
     private static $allowed_actions = ['index'];
 
-    /** @var array<string,string> */
-    private static $db = [
-        'PageSize' => 'Int',
-    ];
 
-    /** @var array<string,int|float|string> */
-    private static $defaults = [
-        'PageSize' => 15,
-    ];
 
     public function index(): \SilverStripe\View\ViewableData_Customised
     {
@@ -187,7 +179,7 @@ class SearchPageController extends \PageController
             'Pages' => $results->getTotalPages(),
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
-            'Pagination' => $paginatedList
+            'Pagination' => $paginatedList,
         ]));
     }
 
@@ -202,6 +194,7 @@ class SearchPageController extends \PageController
         $searcher->setFilters($selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
 
+        error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
 
         $facets = $searchPage->getFacetFields();
         $hasManyFields = $searchPage->getHasManyFields();

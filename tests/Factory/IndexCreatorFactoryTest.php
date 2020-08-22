@@ -36,7 +36,7 @@ class IndexCreatorFactoryTest extends SapphireTest
             'Sort' => 'Int',
             'Created' => 'DBDatetime',
             'LastEdited' => 'DBDatetime',
-            'MetaDescription' => 'Text',
+            'Link' => 'Varchar',
         ], $specs);
 
         $specs = $method->invokeArgs($indexCreator, ['members']);
@@ -44,6 +44,7 @@ class IndexCreatorFactoryTest extends SapphireTest
             'FirstName' => 'Varchar',
             'Surname' => 'Varchar',
             'Email' => 'Varchar',
+            'Link' => 'Varchar' // @todo Check if Member has a Link function
         ], $specs);
 
         $specs = $method->invokeArgs($indexCreator, ['flickrphotos']);
@@ -53,6 +54,7 @@ class IndexCreatorFactoryTest extends SapphireTest
             'Aperture' => 'Float',
             'ShutterSpeed' => 'Varchar',
             'ISO' => 'Int',
+            // @todo test fails here with missing link
         ], $specs);
     }
 }

@@ -80,9 +80,10 @@ class SearchResults
     }
 
 
-    public function getTotalPages()
+    public function getTotalPages(): int
     {
-        return ceil($this->totalNumberOfResults / $this->pageSize);
+        $nPages = \ceil($this->totalNumberOfResults / $this->pageSize);
+        return intval($nPages);
     }
 
 
@@ -130,7 +131,9 @@ class SearchResults
 
     public function getRecords(): \SilverStripe\ORM\ArrayList
     {
-        return is_null($this->records) ? new ArrayList([]) : $this->records;
+        return \is_null($this->records)
+            ? new ArrayList([])
+            : $this->records;
     }
 
 
