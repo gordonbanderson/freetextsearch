@@ -44,8 +44,6 @@ class IndexCreatorFactoryTest extends SapphireTest
             'FirstName' => 'Varchar',
             'Surname' => 'Varchar',
             'Email' => 'Varchar',
-            // @todo Check if Member has a Link function
-            'Link' => 'Varchar',
         ], $specs);
 
         $specs = $method->invokeArgs($indexCreator, ['flickrphotos']);
