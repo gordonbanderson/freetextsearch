@@ -54,6 +54,7 @@ class BulkIndexingHelper
 
             // * @phpstan-ignore-next-line
             $bulkSize = $config->BulkSize;
+
             $pages = 1+\round($nDocuments / $bulkSize);
             $progress = !\is_null($climate)
                 ? $climate->progress()->total($nDocuments)
@@ -71,6 +72,11 @@ class BulkIndexingHelper
             for ($i = 0; $i < $pages; $i++) {
                 $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter($filters);
                 foreach ($dataObjects as $do) {
+                    // null content seems to break Manticore
+                    if (is_null($do->Content)) {
+                        $do->Content = '';
+                    }
+
                     // Note this adds data to the payload, doesn't actually indexing against the 3rd party search engine
                     $bulkIndexer->addDataObject($do);
                 }
