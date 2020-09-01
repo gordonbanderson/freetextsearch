@@ -12,8 +12,10 @@ namespace Suilven\FreeTextSearch\Helper;
 use League\CLImate\CLImate;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\Versioned\Versioned;
 use Suilven\FreeTextSearch\Factory\BulkIndexerFactory;
 use Suilven\FreeTextSearch\Indexes;
 
@@ -33,6 +35,8 @@ class BulkIndexingHelper
         /** @var string $clazz */
         $clazz = $index->getClass();
 
+        /** @var DataObject $singleton */
+        $singleton = \singleton($clazz);
 
         $startTime = \microtime(true);
 
@@ -42,7 +46,11 @@ class BulkIndexingHelper
             $climate->border();
         }
 
-        $filters = ['ShowInSearch' => true];
+        // @TODO this needs applied when appropriate, doesn't work with for example random dataobjects outside of
+        // the sitetree paradigm
+        //$filters = ['ShowInSearch' => true];
+
+        $filters = [];
         if ($dirty) {
             $filters['IsDirtyFreeTextSearch'] = true;
         }
@@ -72,11 +80,6 @@ class BulkIndexingHelper
             for ($i = 0; $i < $pages; $i++) {
                 $dataObjects = $clazz::get()->limit($bulkSize, $i*$bulkSize)->filter($filters);
                 foreach ($dataObjects as $do) {
-                    // null content seems to break Manticore
-                    if (is_null($do->Content)) {
-                        $do->Content = '';
-                    }
-
                     // Note this adds data to the payload, doesn't actually indexing against the 3rd party search engine
                     $bulkIndexer->addDataObject($do);
                 }
@@ -116,10 +119,11 @@ class BulkIndexingHelper
         $table = Config::inst()->get($clazz, 'table_name');
 
 
-        DB::query("UPDATE \"{$table}\" SET \"IsDirtyFreeTextSearch\" = 0");
+        if ($singleton->hasExtension(Versioned::class)) {
+            DB::query("UPDATE \"{$table}_Live\" SET \"IsDirtyFreeTextSearch\" = 0");
+        }
 
-        // @todo How to get the table name from versions?
-        DB::query("UPDATE \"{$table}_Live\" SET \"IsDirtyFreeTextSearch\" = 0");
+        DB::query("UPDATE \"{$table}\" SET \"IsDirtyFreeTextSearch\" = 0");
 
         return $nDocuments;
     }
