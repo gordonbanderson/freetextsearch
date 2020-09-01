@@ -1,0 +1,56 @@
+#searchForm {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchResultsInfo {
+  margin-left: auto;
+  margin-right: auto;
+  background: yellow;
+  display: block;
+  padding-bottom: 20px;
+}
+
+#searchForm button {
+  float: none;
+}
+
+.searchResult {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: solid #888 1px;
+}
+
+.searchResult .url {
+  color: #888;
+  padding: 0px;
+  margin: 0px;
+}
+
+.searchResult h3 {
+  padding-bottom: 0px;
+  margin-bottom: 0px ;
+}
+
+
+ul.pagination {
+  list-style-type: none;
+}
+
+ul.pagination li {
+  display:inline-block;
+  zoom:1;
+}
+
+ul.pagination li.active {
+  font-weight: 1000;
+}
+
+.sr-only {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
