@@ -14,13 +14,7 @@
         <div class="searchResultsInfo">$NumberOfResults results found in $Time seconds</div>
 
             <% loop $Records %>
-                <div class="searchResult">
-                    <p class="url">$HighlightedLink.RAW</p>
-                    <h3><a href="$Link">$ResultTitle.RAW</a></h3>
-                    <% loop $Highlights %>
-                     $Snippet.RAW
-                    <% end_loop %>
-                </div>
+            $HTML.RAW
             <% end_loop %>
 
 
