@@ -15,10 +15,16 @@
   float: none;
 }
 
+.searchResult:not(:first-child) {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: solid #888 1px;
+}
+
+
 .searchResult {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: solid #888 1px;
+
+  clear: both;
 }
 
 .searchResult .url {
@@ -33,8 +39,14 @@
 }
 
 
+.pagination-container {
+  clear: both;
+}
+
 ul.pagination {
   list-style-type: none;
+  margin-left: 0px;
+  margin-top: 20px;
 }
 
 ul.pagination li {
@@ -53,4 +65,11 @@ ul.pagination li.active {
   width:1px;
   height:1px;
   overflow:hidden;
+}
+
+img {
+  float: left;
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
