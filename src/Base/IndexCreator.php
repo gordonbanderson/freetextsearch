@@ -72,8 +72,16 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         return $filteredSpecs;
     }
 
-
     /** @return array<string> */
+    protected function getStoredFields(string $indexName): array
+    {
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($indexName);
+
+        return $index->getStoredFields();
+    }
+
+        /** @return array<string> */
     protected function getFields(string $indexName): array
     {
         $indexes = new Indexes();
@@ -87,6 +95,10 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         foreach ($index->getTokens() as $token) {
             $fields[] = $token;
+        }
+
+        foreach ($index->getStoredFields() as $storedField) {
+            $fields[] = $storedField;
         }
 
         if (!\in_array('Link', $fields, true)) {
