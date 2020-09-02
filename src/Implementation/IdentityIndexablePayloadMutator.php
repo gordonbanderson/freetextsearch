@@ -21,9 +21,15 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
     public function mutatePayload(DataObject $dataObject, array &$payload): void
     {
         if (!\method_exists($dataObject, 'Link')) {
+            error_log('T1');
             return;
         }
 
-        $payload['sitetree']['Link'] = $dataObject->Link();
+        $keys = array_keys($payload);
+        foreach($keys as $key) {
+            if ($payload[$key] !== []) {
+                $payload[$key]['Link'] = $dataObject->Link();
+            };
+        }
     }
 }
