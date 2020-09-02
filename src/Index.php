@@ -17,6 +17,9 @@ class Index
     /** @var array<string> names of fields */
     private $fields = [];
 
+    /** @var array<string> names of stored fields */
+    private $storedFields = [];
+
     /** @var array<string> names of tokens */
     private $tokens = [];
 
@@ -25,6 +28,9 @@ class Index
 
     /** @var array<string> names of has many fields */
     private $hasManyFields = [];
+
+    /** @var array<string> names of highlighted fields */
+    private $highlightedFields = [];
 
     /** @var string the name of the index */
     private $name;
@@ -59,6 +65,18 @@ class Index
         return $this->fields;
     }
 
+    /** @return array<string> */
+    public function getStoredFields(): array
+    {
+        return $this->storedFields;
+    }
+
+    /** @return array<string> */
+    public function getHighlightedFields(): array
+    {
+        return $this->highlightedFields;
+    }
+
 
     /** @return array<string> */
     public function getHasOneFields(): array
@@ -89,6 +107,29 @@ class Index
     public function addField(string $fieldName): void
     {
         $this->fields[] = $fieldName;
+    }
+
+
+    /**
+     * Register a field to be used for the purposes of highlighting
+     *
+     * @param string $fieldName the name of the field to index
+     */
+    public function addHighlightedField(string $fieldName): void
+    {
+        $this->highlightedFields[] = $fieldName;
+    }
+
+
+    /**
+     * Add a stored field to the index.  This is not indexed for free text search, but it used for convenience when
+     * rendering search results.  e.g. the thumbnail URL for a third party image service
+     *
+     * @param string $fieldName the name of the field to index
+     */
+    public function addStoredField(string $fieldName): void
+    {
+        $this->storedFields[] = $fieldName;
     }
 
 

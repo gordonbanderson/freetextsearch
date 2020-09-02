@@ -73,6 +73,20 @@ class Indexes
                 }
             }
 
+            // fields that will be used for highlighting
+            if (isset($indexConfig['index']['highlighted_fields'])) {
+                foreach ($indexConfig['index']['highlighted_fields'] as $highlightedField) {
+                    $index->addHighlightedField($highlightedField);
+                }
+            }
+
+            // fields that will be used for storage, but not indexed
+            if (isset($indexConfig['index']['stored_fields'])) {
+                foreach ($indexConfig['index']['stored_fields'] as $storedField) {
+                    $index->addStoredField($storedField);
+                }
+            }
+
             $indexes[] = $index;
 
             $this->indexesByName[$index->getName()] = $index;
