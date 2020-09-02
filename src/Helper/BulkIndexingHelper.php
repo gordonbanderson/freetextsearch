@@ -55,7 +55,7 @@ class BulkIndexingHelper
             $filters['IsDirtyFreeTextSearch'] = true;
         }
 
-        $nDocuments = SiteTree::get()->filter($filters)->count();
+        $nDocuments = $singleton::get()->filter($filters)->count();
 
         if ($nDocuments > 0) {
             $config = SiteConfig::current_site_config();
