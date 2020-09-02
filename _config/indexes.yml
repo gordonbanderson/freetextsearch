@@ -17,5 +17,9 @@ Suilven\FreeTextSearch\Indexes:
           - Created
           - LastEdited
 
+        highlighted_fields:
+          - Title
+          - Content
+
          # @todo this breaks manticore
          # - MetaDescription
