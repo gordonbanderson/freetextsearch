@@ -69,7 +69,11 @@ class Indexes
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                    $index->addHasManyField($hasManyField);
+
+                    $index->addHasManyField($hasManyField['name'],[
+                        'relationship' => $hasManyField['relationship'],
+                        'field' => $hasManyField['field']
+                    ]);
                 }
             }
 

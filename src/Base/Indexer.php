@@ -11,11 +11,12 @@ namespace Suilven\FreeTextSearch\Base;
 
 use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Helper\IndexingHelper;
+use Suilven\FreeTextSearch\Indexes;
 
 abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 {
     /** @var string */
-    protected $index;
+    protected $indexName;
 
     /**
      * Index a single data object
@@ -24,17 +25,36 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
 
     /** @param string $newIndex the new index name */
-    public function setIndex(string $newIndex): void
+    public function setIndexName(string $newIndexName): void
     {
-        $this->index = $newIndex;
+        $this->indexName = $newIndexName;
     }
 
 
     /** @return array<string, array<string,string|int|float|bool>> */
-    protected function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
+    public function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
     {
         $helper = new IndexingHelper();
 
-        return $helper->getFieldsToIndex($dataObject);
+        $payload = $helper->getFieldsToIndex($dataObject);
+
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($this->indexName);
+
+        // populate MVA columns
+        $mvaColumns = $index->getHasManyFields();
+        foreach(array_keys($mvaColumns) as $mvaColumnName) {
+            $relationship = $mvaColumns[$mvaColumnName]['relationship'];
+            $fieldname = $mvaColumns[$mvaColumnName]['field'];
+            $relationshipDOs = $dataObject->$relationship();
+            $values = [];
+            foreach($relationshipDOs as $mvaDO) {
+                $values[] = $mvaDO->ID;
+            }
+
+            $payload[$this->indexName][$mvaColumnName] = $values;
+        }
+
+        return $payload;
     }
 }

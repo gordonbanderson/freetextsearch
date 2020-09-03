@@ -147,11 +147,11 @@ class Index
     /**
      * Add a has many to the index
      *
-     * @param string $fieldName the name of the has many field to index
+     * @param string $name the name of the has many field to index
      */
-    public function addHasManyField(string $fieldName): void
+    public function addHasManyField(string $name, array $relationshipNameAndValueField): void
     {
-        $this->hasManyFields[] = $fieldName;
+        $this->hasManyFields[$name] = $relationshipNameAndValueField ;
     }
 
 
