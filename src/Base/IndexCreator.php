@@ -73,6 +73,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
         return $filteredSpecs;
     }
 
+
     /** @return array<string> */
     protected function getStoredFields(string $indexName): array
     {
@@ -81,6 +82,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         return $index->getStoredFields();
     }
+
 
         /** @return array<string> */
     protected function getFields(string $indexName): array

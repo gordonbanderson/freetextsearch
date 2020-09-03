@@ -21,12 +21,13 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
     public function mutatePayload(DataObject $dataObject, array &$payload): void
     {
         if (!\method_exists($dataObject, 'Link')) {
-            error_log('T1');
+            \error_log('T1');
+
             return;
         }
 
-        $keys = array_keys($payload);
-        foreach($keys as $key) {
+        $keys = \array_keys($payload);
+        foreach ($keys as $key) {
             if ($payload[$key] !== []) {
                 $payload[$key]['Link'] = $dataObject->Link();
             };

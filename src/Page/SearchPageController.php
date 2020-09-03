@@ -132,10 +132,10 @@ class SearchPageController extends \PageController
         $index = $indexes->getIndex($model->IndexToSearch);
         $clazz = $index->getClass();
 
-        $templateName = 'Suilven/FreeTextSearch/' . str_replace('\\', '/', $clazz);
-        $splits = explode('/', $templateName);
-        $last = array_pop($splits);
-        $templateName = implode('/', $splits) . '/Includes/' . $last;
+        $templateName = 'Suilven/FreeTextSearch/' . \str_replace('\\', '/', $clazz);
+        $splits = \explode('/', $templateName);
+        $last = \array_pop($splits);
+        $templateName = \implode('/', $splits) . '/Includes/' . $last;
 
         $records = $results->getRecords();
         $newRecords = new ArrayList();
@@ -149,7 +149,7 @@ class SearchPageController extends \PageController
             }
 
             $record->HighlightedLink = $record->Link;
-            if (isset($highlightsArray['Link']) && count($highlightsArray['Link']) > 0) {
+            if (isset($highlightsArray['Link']) && \count($highlightsArray['Link']) > 0) {
                 $record->HighlightedLink = $highlightsArray['Link'][0];
                 unset($highlightsArray['Link']);
             }
@@ -172,11 +172,13 @@ class SearchPageController extends \PageController
 
             $record->Highlights = $highsList;
 
-            $html = $this->renderWith([
+            $html = $this->renderWith(
+                [
                 $templateName,
-                'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree'
+                'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
                 ],
-                ['Record' => $record]);
+                ['Record' => $record]
+            );
             $record->HTML = $html;
             $newRecords->push($record);
         }

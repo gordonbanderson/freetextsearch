@@ -65,11 +65,13 @@ class Index
         return $this->fields;
     }
 
+
     /** @return array<string> */
     public function getStoredFields(): array
     {
         return $this->storedFields;
     }
+
 
     /** @return array<string> */
     public function getHighlightedFields(): array
@@ -122,8 +124,8 @@ class Index
 
 
     /**
-     * Add a stored field to the index.  This is not indexed for free text search, but it used for convenience when
-     * rendering search results.  e.g. the thumbnail URL for a third party image service
+     * Add a stored field to the index. This is not indexed for free text search, but it used for convenience when
+     * rendering search results. e.g. the thumbnail URL for a third party image service
      *
      * @param string $fieldName the name of the field to index
      */

@@ -10,9 +10,7 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use League\CLImate\CLImate;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
@@ -35,7 +33,7 @@ class BulkIndexingHelper
         /** @var string $clazz */
         $clazz = $index->getClass();
 
-        /** @var DataObject $singleton */
+        /** @var \SilverStripe\ORM\DataObject $singleton */
         $singleton = \singleton($clazz);
 
         $startTime = \microtime(true);
