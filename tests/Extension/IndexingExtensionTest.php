@@ -16,7 +16,7 @@ class IndexingExtensionTest extends SapphireTest
 
     protected static $extra_dataobjects = [
         FlickrPhoto::class,
-        FlickrTag::class
+        FlickrTag::class,
     ];
 
     // this will enable immediate indexing

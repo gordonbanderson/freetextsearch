@@ -68,7 +68,7 @@ class IndexesTest extends SapphireTest
         $this->assertEquals(['tags' =>
         [
             'relationship' => 'FlickrTags',
-            'field' => 'RawValue'
+            'field' => 'RawValue',
         ]], $indices[2]->getHasManyFields());
         $this->assertEquals([
             'Aperture',
@@ -109,7 +109,7 @@ class IndexesTest extends SapphireTest
             [[
                 'name' => 'tags',
                 'relationship' => 'FlickrTags',
-                'field' => 'RawValue'
+                'field' => 'RawValue',
             ]],
             $indexes->getHasManyFields('flickrphotos')
         );

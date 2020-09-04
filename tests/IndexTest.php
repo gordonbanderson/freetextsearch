@@ -51,7 +51,7 @@ class IndexTest extends SapphireTest
         $payload = [
             'name' => 'tags',
             'relationship' => 'FlickrTags',
-            'field' => 'RawValue'
+            'field' => 'RawValue',
         ];
         $index = new Index();
         $this->assertEquals([], $index->getHasManyFields());
@@ -60,9 +60,15 @@ class IndexTest extends SapphireTest
         $index->addHasManyField('second', $payload);
         $this->assertEquals(['first' => $payload, 'second' => $payload], $index->getHasManyFields());
         $index->addHasManyField('third', $payload);
-        $this->assertEquals(['first' => $payload, 'second' => $payload, 'third' => $payload], $index->getHasManyFields());
+        $this->assertEquals(
+            ['first' => $payload, 'second' => $payload, 'third' => $payload],
+            $index->getHasManyFields()
+        );
         $index->addHasManyField('fourth', $payload);
-        $this->assertEquals(['first' => $payload, 'second' => $payload, 'third' => $payload, 'fourth' => $payload], $index->getHasManyFields());
+        $this->assertEquals(
+            ['first' => $payload, 'second' => $payload, 'third' => $payload, 'fourth' => $payload],
+            $index->getHasManyFields()
+        );
     }
 
 

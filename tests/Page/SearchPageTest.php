@@ -42,7 +42,7 @@ class SearchPageTest extends SapphireTest
             [
                 'name' => 'tags',
                 'relationship' => 'FlickrTags',
-                'field' => 'RawValue'
+                'field' => 'RawValue',
             ],
         ], $photoSearchPage->getHasManyFields());
     }
