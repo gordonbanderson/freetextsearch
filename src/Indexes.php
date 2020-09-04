@@ -69,7 +69,24 @@ class Indexes
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                    $index->addHasManyField($hasManyField);
+                    $index->addHasManyField($hasManyField['name'], [
+                        'relationship' => $hasManyField['relationship'],
+                        'field' => $hasManyField['field'],
+                    ]);
+                }
+            }
+
+            // fields that will be used for highlighting
+            if (isset($indexConfig['index']['highlighted_fields'])) {
+                foreach ($indexConfig['index']['highlighted_fields'] as $highlightedField) {
+                    $index->addHighlightedField($highlightedField);
+                }
+            }
+
+            // fields that will be used for storage, but not indexed
+            if (isset($indexConfig['index']['stored_fields'])) {
+                foreach ($indexConfig['index']['stored_fields'] as $storedField) {
+                    $index->addStoredField($storedField);
                 }
             }
 

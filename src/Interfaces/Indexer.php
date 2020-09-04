@@ -20,6 +20,10 @@ interface Indexer
     public function index(DataObject $dataObject): void;
 
 
-    /** @param string $newIndex the name of the index */
-    public function setIndex(string $newIndex): void;
+    /** @param string $newIndexName the name of the index */
+    public function setIndexName(string $newIndexName): void;
+
+    // this is provided by the base indexer
+    /** @return array<string, array<string,string|int|float|bool>> */
+    public function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array;
 }

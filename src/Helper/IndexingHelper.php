@@ -46,7 +46,7 @@ class IndexingHelper
 
 
     /**
-     * Get the indexable fields for a given dataobject as an array
+     * Get the indexable fields for a given dataobject as an array. This also includes the stored fields
      *
      * @param \SilverStripe\ORM\DataObject $dataObject get the indexable fields for the provided data object
      * @return array<string, array<string,string|int|float|bool>>
@@ -70,7 +70,7 @@ class IndexingHelper
                     continue;
                 }
 
-                $fields = $indice->getFields();
+                $fields = \array_merge($indice->getFields(), $indice->getStoredFields());
                 foreach ($fields as $field) {
                     // @phpstan-ignore-next-line
                     $value = $dataObject->$field;

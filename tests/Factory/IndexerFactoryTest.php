@@ -22,7 +22,7 @@ class IndexerFactoryTest extends SapphireTest
         $this->assertInstanceOf('Suilven\FreeTextSearch\Interfaces\Indexer', $indexer);
         $this->assertInstanceOf('Suilven\FreeTextSearch\Tests\Mock\Indexer', $indexer);
 
-        $indexer->setIndex('sitetree');
+        $indexer->setIndexName('sitetree');
         $page = $this->objFromFixture(SiteTree::class, 'sitetree_20');
         $indexer->index($page);
 

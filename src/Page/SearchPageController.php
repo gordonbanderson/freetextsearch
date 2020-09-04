@@ -8,6 +8,7 @@ use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
+use Suilven\FreeTextSearch\Indexes;
 
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 
@@ -127,6 +128,15 @@ class SearchPageController extends \PageController
         // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
         // $results['CleanedLink'] = $this->Link();
 
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($model->IndexToSearch);
+        $clazz = $index->getClass();
+
+        $templateName = 'Suilven/FreeTextSearch/' . \str_replace('\\', '/', $clazz);
+        $splits = \explode('/', $templateName);
+        $last = \array_pop($splits);
+        $templateName = \implode('/', $splits) . '/Includes/' . $last;
+
         $records = $results->getRecords();
         $newRecords = new ArrayList();
         foreach ($records as $record) {
@@ -139,7 +149,7 @@ class SearchPageController extends \PageController
             }
 
             $record->HighlightedLink = $record->Link;
-            if (isset($highlightsArray['Link'])) {
+            if (isset($highlightsArray['Link']) && \count($highlightsArray['Link']) > 0) {
                 $record->HighlightedLink = $highlightsArray['Link'][0];
                 unset($highlightsArray['Link']);
             }
@@ -161,6 +171,15 @@ class SearchPageController extends \PageController
             }
 
             $record->Highlights = $highsList;
+
+            $html = $this->renderWith(
+                [
+                $templateName,
+                'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
+                ],
+                ['Record' => $record]
+            );
+            $record->HTML = $html;
             $newRecords->push($record);
         }
 

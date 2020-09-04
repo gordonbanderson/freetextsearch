@@ -8,6 +8,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfig;
 use Suilven\FreeTextSearch\Tests\Mock\Indexer;
 use Suilven\FreeTextSearch\Tests\Models\FlickrPhoto;
+use Suilven\FreeTextSearch\Tests\Models\FlickrTag;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 
 class IndexingExtensionTest extends SapphireTest
@@ -15,6 +16,7 @@ class IndexingExtensionTest extends SapphireTest
 
     protected static $extra_dataobjects = [
         FlickrPhoto::class,
+        FlickrTag::class,
     ];
 
     // this will enable immediate indexing
