@@ -65,7 +65,11 @@ class IndexesTest extends SapphireTest
             'Description',
         ], $indices[2]->getFields());
         $this->assertEquals(['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'], $indices[2]->getHasOneFields());
-        $this->assertEquals(['Suilven\FreeTextSearch\Tests\Models\FlickrTag'], $indices[2]->getHasManyFields());
+        $this->assertEquals(['tags' =>
+        [
+            'relationship' => 'FlickrTags',
+            'field' => 'RawValue'
+        ]], $indices[2]->getHasManyFields());
         $this->assertEquals([
             'Aperture',
             'ShutterSpeed',
@@ -102,7 +106,11 @@ class IndexesTest extends SapphireTest
         $indexes = new Indexes();
 
         $this->assertEquals(
-            ['Suilven\FreeTextSearch\Tests\Models\FlickrTag'],
+            [[
+                'name' => 'tags',
+                'relationship' => 'FlickrTags',
+                'field' => 'RawValue'
+            ]],
             $indexes->getHasManyFields('flickrphotos')
         );
     }
