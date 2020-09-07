@@ -48,16 +48,27 @@ class IndexTest extends SapphireTest
 
     public function testHasManyields(): void
     {
+        $payload = [
+            'name' => 'tags',
+            'relationship' => 'FlickrTags',
+            'field' => 'RawValue',
+        ];
         $index = new Index();
         $this->assertEquals([], $index->getHasManyFields());
-        $index->addHasManyField('first');
-        $this->assertEquals(['first'], $index->getHasManyFields());
-        $index->addHasManyField('second');
-        $this->assertEquals(['first', 'second'], $index->getHasManyFields());
-        $index->addHasManyField('third');
-        $this->assertEquals(['first', 'second', 'third'], $index->getHasManyFields());
-        $index->addHasManyField('fourth');
-        $this->assertEquals(['first', 'second', 'third', 'fourth'], $index->getHasManyFields());
+        $index->addHasManyField('first', $payload);
+        $this->assertEquals(['first' => $payload], $index->getHasManyFields());
+        $index->addHasManyField('second', $payload);
+        $this->assertEquals(['first' => $payload, 'second' => $payload], $index->getHasManyFields());
+        $index->addHasManyField('third', $payload);
+        $this->assertEquals(
+            ['first' => $payload, 'second' => $payload, 'third' => $payload],
+            $index->getHasManyFields()
+        );
+        $index->addHasManyField('fourth', $payload);
+        $this->assertEquals(
+            ['first' => $payload, 'second' => $payload, 'third' => $payload, 'fourth' => $payload],
+            $index->getHasManyFields()
+        );
     }
 
 

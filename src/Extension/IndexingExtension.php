@@ -59,16 +59,16 @@ class IndexingExtension extends DataExtension
 
         $config = SiteConfig::current_site_config();
 
+        // a dataobject could belong to multiple indexes.  Update them all
+        $helper = new IndexingHelper();
+        $indexNames = $helper->getIndexes($this->getOwner());
+
         // @phpstan-ignore-next-line
         if ($config->FreeTextSearchIndexingModeInBulk === 1) {
             // Add a bulk index job to the queue.
             // Given same parameters, in this case index name, only one queued job is created
             // even if multiple documents saved in between cron jobs
             $job = new BulkIndexDirtyJob();
-
-            // a dataobject could belong to multiple indexes.  Update them all
-            $helper = new IndexingHelper();
-            $indexNames = $helper->getIndexes($this->getOwner());
 
             foreach ($indexNames as $indexName) {
                 $job->hydrate($indexName);
@@ -78,8 +78,10 @@ class IndexingExtension extends DataExtension
             // IsDirtyFreeTextSearch flag is not used sa we are indexing immediately
             $factory = new IndexerFactory();
             $indexer = $factory->getIndexer();
-
-            $indexer->index($this->getOwner());
+            foreach ($indexNames as $indexName) {
+                $indexer->setIndexName($indexName);
+                $indexer->index($this->getOwner());
+            }
         }
     }
 }

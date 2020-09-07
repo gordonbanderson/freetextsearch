@@ -24,7 +24,7 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     abstract public function index(DataObject $dataObject): void;
 
 
-    /** @param string $newIndex the new index name */
+    /** @param string $newIndexName the new index name */
     public function setIndexName(string $newIndexName): void
     {
         $this->indexName = $newIndexName;
@@ -43,12 +43,14 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
         // populate MVA columns
         $mvaColumns = $index->getHasManyFields();
-        foreach(array_keys($mvaColumns) as $mvaColumnName) {
+
+        foreach (\array_keys($mvaColumns) as $mvaColumnName) {
             $relationship = $mvaColumns[$mvaColumnName]['relationship'];
-            $fieldname = $mvaColumns[$mvaColumnName]['field'];
+
+            /** @phpstan-ignore-next-line */
             $relationshipDOs = $dataObject->$relationship();
             $values = [];
-            foreach($relationshipDOs as $mvaDO) {
+            foreach ($relationshipDOs as $mvaDO) {
                 $values[] = $mvaDO->ID;
             }
 

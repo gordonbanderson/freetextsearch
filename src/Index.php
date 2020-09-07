@@ -26,7 +26,7 @@ class Index
     /** @var array<string> names of has one fields */
     private $hasOneFields = [];
 
-    /** @var array<string> names of has many fields */
+    /** @var array<string,array<string,string>> names of has many fields */
     private $hasManyFields = [];
 
     /** @var array<string> names of highlighted fields */
@@ -87,7 +87,7 @@ class Index
     }
 
 
-    /** @return array<string> */
+    /** @return array<string,array<string,string>> */
     public function getHasManyFields(): array
     {
         return $this->hasManyFields;
@@ -150,6 +150,7 @@ class Index
      * Add a has many to the index
      *
      * @param string $name the name of the has many field to index
+     * @param array<string,string> $relationshipNameAndValueField
      */
     public function addHasManyField(string $name, array $relationshipNameAndValueField): void
     {
