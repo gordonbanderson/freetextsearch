@@ -43,6 +43,7 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
 
         // populate MVA columns
         $mvaColumns = $index->getHasManyFields();
+
         foreach (\array_keys($mvaColumns) as $mvaColumnName) {
             $relationship = $mvaColumns[$mvaColumnName]['relationship'];
 

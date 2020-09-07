@@ -69,6 +69,7 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
             }
         }
 
+
         return $filteredSpecs;
     }
 
