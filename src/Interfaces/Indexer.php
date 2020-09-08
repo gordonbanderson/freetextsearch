@@ -24,6 +24,6 @@ interface Indexer
     public function setIndexName(string $newIndexName): void;
 
     // this is provided by the base indexer
-    /** @return array<string, array<string,string|int|float|bool>> */
+    /** @return array<string, array<string,string|int|float|bool|null>> */
     public function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array;
 }
