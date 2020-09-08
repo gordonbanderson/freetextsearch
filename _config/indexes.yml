@@ -21,5 +21,8 @@ Suilven\FreeTextSearch\Indexes:
           - Title
           - Content
 
+        stored_fields:
+          - Link
+
          # @todo this breaks manticore
          # - MetaDescription
