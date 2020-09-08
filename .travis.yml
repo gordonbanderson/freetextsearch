@@ -43,6 +43,8 @@ services:
     - mysql
 
 install:
+    # See https://github.com/composer/composer/issues/9191#issuecomment-689086139
+    - 'composer self-update 1.10.10'
     - 'composer validate'
     - 'composer global require hirak/prestissimo'
     - 'composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION'
