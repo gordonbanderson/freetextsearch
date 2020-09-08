@@ -1,4 +1,4 @@
-# Free Text Search Base
+# Free Text Search
 [![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=CODE_COVERAGE)](https://travis-ci.org/gordonbanderson/freetextsearch)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=CODE_COVERAGE)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=CODE_COVERAGE)
 [![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=CODE_COVERAGE)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=CODE_COVERAGE)
@@ -21,154 +21,121 @@
 ![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/branch.svg?branch=CODE_COVERAGE)
 
 
-# **** WORK IN PROGRESS ****
+This module allows configuration of freetext search indexes, and provides tools to create indexes and reindex them.
+By default only a sitetree index is configured, but one can add indexes for subclasses of SiteTree (e.g. a BlogPost)
+or a DataObject only index, e.g. flickr photos.  The template for rendering the search results can also be overridden.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+Note that one also has to install an implementation, currently only one for Manticore Search (formerly Sphinx) exists,
+package name is `suilven/silverstripe-manticore-search`
 
 # Configuration
+## Indexes
 By default the core fields of SiteTree are indexed.  You can override as follows to allow for third party modules or
-your own.  Each index should map to a model, and the field names match those in the database.  Each index sub YML
-contains the following:
+your own.  Each index should map to a model class, and the field names match those in the database.
 
-* name:  This will be come the index name in the SphinxSQL database
-* class:  The SilverStripe class being indexed
-* fields:  The fields to index
-
-Optionally the following may be added.
-
-* tokens:  Stores the field as it with no stemming.  Used for facetted search
-* has_one: A list of SilverStripe model class names.  The is effectively a filter by id
-* has_many: 
-* has_many_many: (@todo check this)
-
-An example follows:
+An example follows, code can be found at https://github.com/gordonbanderson/flickr-editor/tree/upgradess4
 
 
 ```yml
 ---
-Name: freetextindexes2
+Name: flickrfreetextsearch
 After: freetextindexes
 ---
 
-# Define indexes
 Suilven\FreeTextSearch\Indexes:
   indexes:
+```
+The above is compulsory.  Additional indexes start here.
+```yml
     - index:
-        name: blogposts
-        class: SilverStripe\Blog\Model\BlogPost
-        fields:
-          - Title
-          - MenuTitle
-          - Content
-          - ParentID
-          - Sort
-          - PublishDate
-          - AuthorNames
-          - Summary
-
-    - index:
-        name: comments
-        class: SilverStripe\Comments\Model\Comment
-        fields:
-          - Email
-          - Comment
-          - AuthorID
-          - ParentCommentID
-          - Name
-          - URL
-
-    - index:
-        name: flickr
-        class: Suilven\Flickr\Model\FlickrPhoto
-
-        # Free text searchable
+```
+The name of the index
+```yml
+        name: flickrphotos
+```
+The class of DataObject being indexed
+```yml
+        class: Suilven\Flickr\Model\Flickr\FlickrPhoto
+```
+These fields are indexed as free text.
+```yml       
         fields:
           - Title
           - Description
-
-        # Facets or filterable
+```
+It is not always desirable to show highlights from all of the fields, this is a filter list of fields to render highlights
+from in search results.
+```yml
+        highlighted_fields:
+          - Title
+          - Description
+```
+These fields are stored but not searchable.  Their function is to provide fields to render in the search results, and
+avoid hydrating objects from the database.  Note that Link is a hybrid field, the existence of a `Link()` method is
+checked for at indexing time and the field added if the method exists.
+```yml
+        stored_fields:
+          - ThumbnailURL
+          - Link
+```
+---
+The following indexes correctly with Manticoresearch, but note that the ManticoreSearch PHP client does not currently
+allow for facetted searching.  It is in pipeline though.  Raw queries show facetted groups returned, but it makes sense
+to wait for this to be implemented in the PHP client instead.
+---
+Fields that can be used for facetted searching.  
+```yml
         tokens:
           - Aperture
           - ShutterSpeed
           - ISO
+          - TakenAt
+```
 
-        has_many_many:
-          - Suilven\Flickr\Model\FlickrSet
-
-        # Effectively another token filter, but by ID
+Have one fields are effectively another facet.
+```yml
         has_one:
-          - Suilven\Flickr\Model\FlickrAuthor
+          - Suilven\Flickr\Model\Flickr\FlickrAuthor
 
-        # MVA
+```
+This example shows how to index a has many field, tags, for facetting.  Each entry has 3 fields:
+* `name`: the name of the relationship
+* `relationship`: The SilverStripe name of the relationship
+* `field`: The `FlickrTags` relationship is a data list of `FlickrTag`, the value stored is that of the `RawValue` field.
+```yml
         has_many:
-          - Suilven\Flickr\Model\FlickrTag
+          -
+            name: tags
+            relationship: FlickrTags
+            field: RawValue
 
 ```
 
+## Extensions
+Any class referenced in indexes configuration needs the following extension, 
+`Suilven\FreeTextSearch\Extension\IndexingExtension`, added.  This performs one of two jobs:
+1) Index a DataObject immediately after it's been saved
+2) /or mark a DataObject as dirty and add a job to the queue to process the indexes affected.
 
+```yml
+---
+Name: freetextindexes-flickr
+After: freetextindexes-extensions
+---
 
-
-index testrt {
-    type = rt
-    rt_mem_limit = 128M
-    path = /var/lib/manticore/data/testrt
-    rt_field = title
-    rt_field = content
-    rt_attr_uint = gid
-}
-
-searchd {
-    listen = 9312
-    listen = 9308:http
-    listen = 9306:mysql41
-    log = /var/lib/manticore/log/searchd.log
-    # you can also send query_log to /dev/stdout to be shown in docker logs
-    query_log = /var/lib/manticore/log/query.log
-    read_timeout = 5
-    max_children = 30
-    pid_file = /var/run/searchd.pid
-    seamless_rotate = 1
-    preopen_indexes = 1
-    unlink_old = 1
-    binlog_path = /var/lib/manticore/data
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
------------------------------
-
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
+Suilven\Flickr\Model\Flickr\FlickrPhoto:
+  extensions:
+    - Suilven\FreeTextSearch\Extension\IndexingExtension
 ```
 
+## Indexing Mode
+In the site configuration there is an additional tab called Free Text Search.  It contains two fields:
+
+* `FreeTextSearchIndexingModeInBulk` - tick this to index in bulk via queue, untick to index immediately after writing
+to the database
+* `BulkSize` - the number of DataObjects to index at once
 
 ## Install
-
 Via Composer
 
 ``` bash
@@ -177,10 +144,31 @@ $ composer require suilven/freetextsearch
 
 ## Usage
 
-``` php
-$skeleton = new Suilven\FreeTextSearch();
-echo $skeleton->echoPhrase('Hello, League!');
+## Indexing
+Note that these commands require an implementation of freetextsearch.
+
+### Creating an Index
+Change the name of the index as appropriate.  Note that when this command is run, the contents of the index will be
+dropped, and a reindex will be required.
 ```
+vendor bin/sake dev/tasks/create-index index=sitetree
+```
+
+### Reindexing an Index
+Change the name of the index as appropriate.  This will reindex in bulk.
+```
+vendor bin/sake dev/tasks/reindex index=sitetree
+```
+
+## Adding a Search Page for an Index
+In the CMS add a page of type `Search Page`.  The following fields are editable:
+* `IndexToSearch` - the index to search, e.g. `sitetree` or `flickrphotos`
+* `PageSize` - the number of search results to return per page
+
+The following are related to facets and not yet implemented:
+* `ShowAllIfEmptyQuery` - if this is ticked, search results will be shown for an empty query
+* `ShowTagCloudFor` - show tag cloud for a faceted field when there are no search results to be shown
+        
 
 ## Change log
 
@@ -189,7 +177,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Testing
 
 ``` bash
-$ composer test
+$ vendor/bin/phpunit tests '' flush=1
 ```
 
 ## Contributing
