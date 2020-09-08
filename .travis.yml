@@ -24,8 +24,8 @@ matrix:
             php: 7.4
             env: 'INSTALLER_VERSION=4.5.x-dev PHPUNIT_TEST=1'
         -
-          - php: 7.4
-            - env: 'INSTALLER_VERSION=4.6.x-dev PHPUNIT_TEST=1'
+            php: 7.4
+            env: 'INSTALLER_VERSION=4.6.x-dev PHPUNIT_TEST=1'
         -
             php: 7.4
             env: INSTALLER_VERSION=4.5 DUPLICATE_CODE_CHECK=1
