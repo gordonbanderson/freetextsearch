@@ -37,7 +37,7 @@ class BulkIndexer implements \Suilven\FreeTextSearch\Interfaces\BulkIndexer
 
     public function indexDataObjects(): int
     {
-        return count($payload);
+        return \count(\array_keys(self::$payload));
     }
 
 

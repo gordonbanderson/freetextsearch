@@ -21,8 +21,6 @@ class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
     public function mutatePayload(DataObject $dataObject, array &$payload): void
     {
         if (!\method_exists($dataObject, 'Link')) {
-            \error_log('T1');
-
             return;
         }
 

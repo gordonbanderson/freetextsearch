@@ -14,8 +14,8 @@ use SilverStripe\ORM\DataObject;
 
 /**
  * Class FlickrPhoto
- * @package Suilven\FreeTextSearch\Tests\Models
  *
+ * @package Suilven\FreeTextSearch\Tests\Models
  * @property string Title
  * @property string Description
  */
