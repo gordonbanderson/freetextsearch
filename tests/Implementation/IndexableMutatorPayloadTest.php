@@ -4,7 +4,7 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Dev\SapphireTest;
-use Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator;
+use Suilven\FreeTextSearch\Implementation\AddLinkIndexablePayloadMutator;
 
 class IndexableMutatorPayloadTest extends SapphireTest
 {
@@ -16,7 +16,7 @@ class IndexableMutatorPayloadTest extends SapphireTest
         \error_log($page->Title);
 
         $payload = ['sitetree' => ['Title' => $page->Title]];
-        $mutator = new IdentityIndexablePayloadMutator();
+        $mutator = new AddLinkIndexablePayloadMutator();
         $mutator->mutatePayload($page, $payload);
 
         $this->assertEquals([
