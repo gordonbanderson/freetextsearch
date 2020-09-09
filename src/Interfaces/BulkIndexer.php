@@ -19,8 +19,10 @@ interface BulkIndexer
      */
     public function addDataObject(DataObject $dataObject): void;
 
-
-    public function indexDataObjects(): void;
+    /**
+     * @return int the number of dataobjects indexed, primarily used for testing purposes
+     */
+    public function indexDataObjects(): int;
 
 
     /** @param string $newIndex the name of the index */
