@@ -50,8 +50,6 @@ install:
     - 'composer require --no-update silverstripe/recipe-cms:$INSTALLER_VERSION'
     - 'composer install --prefer-source --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile'
     - 'export UNIT_TESTING_FTS_CONFIG_ENABLED=1'
-    - 'ls -lh'
-    - 'find app'
 before_script:
     - 'phpenv rehash'
     - 'phpenv config-rm xdebug.ini'
