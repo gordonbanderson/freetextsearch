@@ -9,6 +9,9 @@
 
 namespace Suilven\FreeTextSearch;
 
+use Suilven\FreeTextSearch\Types\LanguageTypes;
+use Suilven\FreeTextSearch\Types\TokenizerTypes;
+
 class Index
 {
     /** @var string|null the name of the class to index, with namespace */
@@ -34,6 +37,14 @@ class Index
 
     /** @var string the name of the index */
     private $name;
+
+    /** @var string the tokenizer flag */
+    private $tokenizer = TokenizerTypes::NONE;
+
+    // @TODO allow for multiple languages?
+
+    /** @var string the language code */
+    private $language = LanguageTypes::ENGLISH;
 
     public function getName(): string
     {
@@ -102,6 +113,21 @@ class Index
 
 
     /**
+     * @return string
+     */
+    public function getTokenizer()
+    {
+        return $this->tokenizer;
+    }
+
+
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+
+    /**
      * Add a full text fieldname to the index
      *
      * @param string $fieldName the name of the field to index
@@ -166,5 +192,13 @@ class Index
     public function addToken(string $token): void
     {
         $this->tokens[] = $token;
+    }
+
+    /**
+     * @param string $newTokenizer
+     */
+    public function setTokenizer($newTokenizer)
+    {
+        $this->tokenizer = $newTokenizer;
     }
 }

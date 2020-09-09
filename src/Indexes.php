@@ -90,6 +90,11 @@ class Indexes
                 }
             }
 
+            // tokenizer
+            if (isset($indexConfig['index']['tokenizer'])) {
+                $index->setTokenizer($indexConfig['index']['tokenizer']);
+            }
+
             $indexes[] = $index;
 
             $this->indexesByName[$index->getName()] = $index;
