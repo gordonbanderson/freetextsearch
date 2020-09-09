@@ -12,6 +12,13 @@ namespace Suilven\FreeTextSearch\Tests\Models;
 use SilverStripe\Dev\TestOnly;
 use SilverStripe\ORM\DataObject;
 
+/**
+ * Class FlickrPhoto
+ * @package Suilven\FreeTextSearch\Tests\Models
+ *
+ * @property string Title
+ * @property string Description
+ */
 class FlickrPhoto extends DataObject implements TestOnly
 {
     private static $table_name = 'TestFTSFlickrPhoto';

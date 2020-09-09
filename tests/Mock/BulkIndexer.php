@@ -35,9 +35,9 @@ class BulkIndexer implements \Suilven\FreeTextSearch\Interfaces\BulkIndexer
     }
 
 
-    public function indexDataObjects(): void
+    public function indexDataObjects(): int
     {
-        // noop - this is a mock, so no implementation required
+        return count($payload);
     }
 
 
