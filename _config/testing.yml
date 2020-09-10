@@ -65,7 +65,7 @@ SilverStripe\Core\Injector\Injector:
   FreeTextIndexCreatorImplementation:
     class: Suilven\FreeTextSearch\Tests\Mock\IndexCreator
   FreeTextIndexablePayloadMutatorImplementation:
-    class: Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator
+    class: Suilven\FreeTextSearch\Implementation\AddLinkIndexablePayloadMutator
 
 
 Suilven\FreeTextSearch\Tests\Models\FlickrPhoto:
