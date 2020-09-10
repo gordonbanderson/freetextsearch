@@ -107,7 +107,7 @@ class Indexes
 
             $this->indexesByName[$index->getName()] = $index;
         }
-
+        
         return $this->indexesByName;
     }
 
