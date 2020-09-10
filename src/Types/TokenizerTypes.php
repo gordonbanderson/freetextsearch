@@ -16,5 +16,4 @@ class TokenizerTypes
     // ---- phonetic tokenizers ----
     public const METAPHONE = 'metaphone';
     public const SOUNDEX = 'soundex';
-
 }

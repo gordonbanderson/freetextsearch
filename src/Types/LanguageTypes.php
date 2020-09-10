@@ -9,5 +9,4 @@ class LanguageTypes
     public const ENGLISH = 'en';
     public const GERMAN = 'de';
     public const RUSSIAN = 'ru';
-
 }

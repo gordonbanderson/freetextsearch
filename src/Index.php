@@ -112,16 +112,13 @@ class Index
     }
 
 
-    /**
-     * @return string
-     */
-    public function getTokenizer()
+    public function getTokenizer(): string
     {
         return $this->tokenizer;
     }
 
 
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -194,10 +191,8 @@ class Index
         $this->tokens[] = $token;
     }
 
-    /**
-     * @param string $newTokenizer
-     */
-    public function setTokenizer($newTokenizer)
+
+    public function setTokenizer(string $newTokenizer): void
     {
         $this->tokenizer = $newTokenizer;
     }
