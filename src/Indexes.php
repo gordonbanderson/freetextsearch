@@ -38,7 +38,6 @@ class Indexes
     public function getIndexes(): array
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') ;
-        error_log(print_r($indexesConfig, true));
 
         // reset
         $this->indexesByName = [];
@@ -48,7 +47,9 @@ class Indexes
             $indexAlreadyExists = isset($this->indexesByName[$name]);
 
             // get the existing index, to tweak, or create a new one
-            $index = $indexAlreadyExists ? $this->indexesByName[$name] : new Index();
+            $index = $indexAlreadyExists
+                ? $this->indexesByName[$name]
+                : new Index();
             $index->setName($name);
 
             if (isset($indexConfig['index']['class'])) {
