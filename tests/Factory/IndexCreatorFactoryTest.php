@@ -23,6 +23,8 @@ class IndexCreatorFactoryTest extends SapphireTest
 
         $this->assertEquals('sitetree', IndexCreator::getIndexName());
 
+        $this->assertEquals(['Link'], $indexCreator->getIndexStoredFields());
+
         $reflection = new \ReflectionClass(\get_class($indexCreator));
         $method = $reflection->getMethod('getFieldSpecs');
         $method->setAccessible(true);

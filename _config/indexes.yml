@@ -8,6 +8,8 @@ Suilven\FreeTextSearch\Indexes:
     - index:
         name: sitetree
         class: SilverStripe\CMS\Model\SiteTree
+        tokenizer: lemmatizer
+        # language: en
         fields:
           - Title
           - Content

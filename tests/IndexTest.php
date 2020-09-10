@@ -4,6 +4,7 @@ namespace Suilven\FreeTextSearch\Tests;
 
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Index;
+use Suilven\FreeTextSearch\Types\TokenizerTypes;
 
 class IndexTest extends SapphireTest
 {
@@ -99,5 +100,20 @@ class IndexTest extends SapphireTest
         $this->assertEquals(['first', 'second', 'third'], $index->getFields());
         $index->addField('fourth');
         $this->assertEquals(['first', 'second', 'third', 'fourth'], $index->getFields());
+    }
+
+
+    public function testGetTokenizer(): void
+    {
+        $index = new Index();
+        $index->setTokenizer(TokenizerTypes::PORTER);
+        $this->assertEquals(TokenizerTypes::PORTER, $index->getTokenizer());
+    }
+
+
+    public function testGetLanguage(): void
+    {
+        $index = new Index();
+        $this->assertEquals('en', $index->getLanguage());
     }
 }

@@ -13,7 +13,7 @@ class IndexablePayloadMutatorFactoryTest extends SapphireTest
         $indexCreator = $factory->getIndexablePayloadMutator();
         $this->assertInstanceOf('Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator', $indexCreator);
         $this->assertInstanceOf(
-            'Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator',
+            'Suilven\FreeTextSearch\Implementation\AddLinkIndexablePayloadMutator',
             $indexCreator
         );
     }

@@ -12,7 +12,7 @@ namespace Suilven\FreeTextSearch\Implementation;
 use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Interfaces\IndexablePayloadMutator;
 
-class IdentityIndexablePayloadMutator implements IndexablePayloadMutator
+class AddLinkIndexablePayloadMutator implements IndexablePayloadMutator
 {
     /**
      * @param \SilverStripe\ORM\DataObject $dataObject the data object to index

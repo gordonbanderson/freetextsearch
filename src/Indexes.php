@@ -33,23 +33,33 @@ class Indexes
     /**
      * Get indexes from config
      *
-     * @return array<\Suilven\FreeTextSearch\Index> ClassName -> Index
+     * @return array<string, \Suilven\FreeTextSearch\Index> ClassName -> Index
      */
     public function getIndexes(): array
     {
-        $indexes = [];
-
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes') ;
 
         // reset
         $this->indexesByName = [];
 
         foreach ($indexesConfig as $indexConfig) {
-            $index = new Index();
-            $index->setClass($indexConfig['index']['class']);
-            $index->setName($indexConfig['index']['name']);
-            foreach ($indexConfig['index']['fields'] as $fieldname) {
-                $index->addField($fieldname);
+            $name = $indexConfig['index']['name'];
+            $indexAlreadyExists = isset($this->indexesByName[$name]);
+
+            // get the existing index, to tweak, or create a new one
+            $index = $indexAlreadyExists
+                ? $this->indexesByName[$name]
+                : new Index();
+            $index->setName($name);
+
+            if (isset($indexConfig['index']['class'])) {
+                $index->setClass($indexConfig['index']['class']);
+            }
+
+            if (isset($indexConfig['index']['fields'])) {
+                foreach ($indexConfig['index']['fields'] as $fieldname) {
+                    $index->addField($fieldname);
+                }
             }
 
             if (isset($indexConfig['index']['tokens'])) {
@@ -90,12 +100,15 @@ class Indexes
                 }
             }
 
-            $indexes[] = $index;
+            // tokenizer
+            if (isset($indexConfig['index']['tokenizer'])) {
+                $index->setTokenizer($indexConfig['index']['tokenizer']);
+            }
 
             $this->indexesByName[$index->getName()] = $index;
         }
 
-        return $indexes;
+        return $this->indexesByName;
     }
 
 

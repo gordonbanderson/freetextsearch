@@ -4,4 +4,4 @@ Name: implementation-freetext
 
 SilverStripe\Core\Injector\Injector:
   FreeTextIndexablePayloadMutatorImplementation:
-    class: Suilven\FreeTextSearch\Implementation\IdentityIndexablePayloadMutator
+    class: Suilven\FreeTextSearch\Implementation\AddLinkIndexablePayloadMutator

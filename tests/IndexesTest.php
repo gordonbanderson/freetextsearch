@@ -35,7 +35,7 @@ class IndexesTest extends SapphireTest
         $indexes = new Indexes();
         $indices = $indexes->getIndexes();
 
-        $this->assertEquals('sitetree', $indices[0]->getName());
+        $this->assertEquals('sitetree', $indices['sitetree']->getName());
         $this->assertEquals([
             'Title',
             'Content',
@@ -44,37 +44,43 @@ class IndexesTest extends SapphireTest
             'Sort',
             'Created',
             'LastEdited',
-        ], $indices[0]->getFields());
-        $this->assertEquals([], $indices[0]->getHasOneFields());
-        $this->assertEquals([], $indices[0]->getHasManyFields());
-        $this->assertEquals([], $indices[0]->getTokens());
+        ], $indices['sitetree']->getFields());
+        $this->assertEquals([], $indices['sitetree']->getHasOneFields());
+        $this->assertEquals([], $indices['sitetree']->getHasManyFields());
+        $this->assertEquals([], $indices['sitetree']->getTokens());
 
-        $this->assertEquals('members', $indices[1]->getName());
+        $this->assertEquals(['Title', 'Content'], $indices['sitetree']->getHighlightedFields());
+        $this->assertEquals(['Link'], $indices['sitetree']->getStoredFields());
+
+        $this->assertEquals('members', $indices['members']->getName());
         $this->assertEquals([
             'FirstName',
             'Surname',
             'Email',
-        ], $indices[1]->getFields());
-        $this->assertEquals([], $indices[1]->getHasOneFields());
-        $this->assertEquals([], $indices[1]->getHasManyFields());
-        $this->assertEquals([], $indices[1]->getTokens());
+        ], $indices['members']->getFields());
+        $this->assertEquals([], $indices['members']->getHasOneFields());
+        $this->assertEquals([], $indices['members']->getHasManyFields());
+        $this->assertEquals([], $indices['members']->getTokens());
 
-        $this->assertEquals('flickrphotos', $indices[2]->getName());
+        $this->assertEquals('flickrphotos', $indices['flickrphotos']->getName());
         $this->assertEquals([
             'Title',
             'Description',
-        ], $indices[2]->getFields());
-        $this->assertEquals(['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'], $indices[2]->getHasOneFields());
+        ], $indices['flickrphotos']->getFields());
+        $this->assertEquals(
+            ['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'],
+            $indices['flickrphotos']->getHasOneFields()
+        );
         $this->assertEquals(['tags' =>
         [
             'relationship' => 'FlickrTags',
             'field' => 'RawValue',
-        ]], $indices[2]->getHasManyFields());
+        ]], $indices['flickrphotos']->getHasManyFields());
         $this->assertEquals([
             'Aperture',
             'ShutterSpeed',
             'ISO',
-        ], $indices[2]->getTokens());
+        ], $indices['flickrphotos']->getTokens());
     }
 
 
