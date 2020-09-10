@@ -49,6 +49,9 @@ class IndexesTest extends SapphireTest
         $this->assertEquals([], $indices[0]->getHasManyFields());
         $this->assertEquals([], $indices[0]->getTokens());
 
+        $this->assertEquals(['Title', 'Content'], $indices[0]->getHighlightedFields());
+        $this->assertEquals(['Link'], $indices[0]->getStoredFields());
+
         $this->assertEquals('members', $indices[1]->getName());
         $this->assertEquals([
             'FirstName',
