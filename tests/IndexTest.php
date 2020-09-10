@@ -103,14 +103,15 @@ class IndexTest extends SapphireTest
     }
 
 
-    public function testGetTokenizer()
+    public function testGetTokenizer(): void
     {
         $index = new Index();
         $index->setTokenizer(TokenizerTypes::PORTER);
         $this->assertEquals(TokenizerTypes::PORTER, $index->getTokenizer());
     }
 
-    public function testGetLanguage()
+
+    public function testGetLanguage(): void
     {
         $index = new Index();
         $this->assertEquals('en', $index->getLanguage());

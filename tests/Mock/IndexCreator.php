@@ -16,14 +16,15 @@ class IndexCreator extends \Suilven\FreeTextSearch\Base\IndexCreator implements
     }
 
 
-    public static function getIndexName(): string
+    /** @return array<string> */
+    public function getIndexStoredFields(): array
     {
-        return self::$indexName;
+        return $this->getStoredFields('sitetree');
     }
 
 
-    public  function getIndexStoredFields()
+    public static function getIndexName(): string
     {
-        return $this->getStoredFields('sitetree');
+        return self::$indexName;
     }
 }
