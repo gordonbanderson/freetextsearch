@@ -9,12 +9,13 @@
 
 namespace Suilven\FreeTextSearch\Interfaces;
 
+use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Container\SearchResults;
 
 //@phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 interface Searcher
 {
-    /** @param array<string,string|int|float> $filters */
+    /** @param array<string,string|int|float|bool> $filters */
     public function setFilters(array $filters): void;
 
 
@@ -40,4 +41,8 @@ interface Searcher
 
     /** @param string $q the search query */
     public function search(?string $q): SearchResults;
+
+
+    /** @param \SilverStripe\ORM\DataObject $dataObject a dataObject relevant to the index */
+    public function searchForSimilar(DataObject $dataObject): SearchResults;
 }

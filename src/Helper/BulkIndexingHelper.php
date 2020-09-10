@@ -113,6 +113,8 @@ class BulkIndexingHelper
             $climate->blue(' per second ');
         }
 
+        // assert this as a string, as it can initially be null
+        /** @var string $clazz */
         $clazz = $index->getClass();
         $table = Config::inst()->get($clazz, 'table_name');
 

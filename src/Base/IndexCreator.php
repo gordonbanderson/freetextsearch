@@ -32,13 +32,13 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
-        $singleton = \singleton($index->getClass());
+        $singleton = \singleton((string)($index->getClass()));
 
         $fields = $this->getFields($indexName);
 
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
-        $specs = $schema->fieldSpecs($index->getClass(), DataObjectSchema::INCLUDE_CLASS);
+        $specs = $schema->fieldSpecs((string) $index->getClass(), DataObjectSchema::INCLUDE_CLASS);
 
         /** @var array<string,string> $filteredSpecs the DB specs for fields related to the index */
         $filteredSpecs = [];

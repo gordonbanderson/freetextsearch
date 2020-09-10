@@ -130,6 +130,8 @@ class SearchPageController extends \PageController
 
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
+
+        /** @var string $clazz */
         $clazz = $index->getClass();
 
         $templateName = 'Suilven/FreeTextSearch/' . \str_replace('\\', '/', $clazz);

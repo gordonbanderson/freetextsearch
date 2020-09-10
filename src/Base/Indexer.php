@@ -31,7 +31,7 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
     }
 
 
-    /** @return array<string, array<string,string|int|float|bool>> */
+    /** @return array<string, array<string, array<string,string|int|float|bool>>> */
     public function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array
     {
         $helper = new IndexingHelper();
@@ -44,10 +44,11 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
         // populate MVA columns
         $mvaColumns = $index->getHasManyFields();
 
+
         foreach (\array_keys($mvaColumns) as $mvaColumnName) {
             $relationship = $mvaColumns[$mvaColumnName]['relationship'];
 
-            /** @phpstan-ignore-next-line */
+            // @phpstan-ignore-next-line
             $relationshipDOs = $dataObject->$relationship();
             $values = [];
             foreach ($relationshipDOs as $mvaDO) {

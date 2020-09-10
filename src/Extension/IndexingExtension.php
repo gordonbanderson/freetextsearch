@@ -44,6 +44,7 @@ class IndexingExtension extends DataExtension
             return;
         }
 
+        // @phpstan-ignore-next-line
         $this->getOwner()->IsDirtyFreeTextSearch = true;
     }
 
@@ -61,6 +62,8 @@ class IndexingExtension extends DataExtension
 
         // a dataobject could belong to multiple indexes.  Update them all
         $helper = new IndexingHelper();
+
+        // @phpstan-ignore-next-line
         $indexNames = $helper->getIndexes($this->getOwner());
 
         // @phpstan-ignore-next-line
@@ -80,6 +83,8 @@ class IndexingExtension extends DataExtension
             $indexer = $factory->getIndexer();
             foreach ($indexNames as $indexName) {
                 $indexer->setIndexName($indexName);
+
+                // @phpstan-ignore-next-line
                 $indexer->index($this->getOwner());
             }
         }

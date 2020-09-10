@@ -13,8 +13,8 @@ use SilverStripe\Core\Config\Config;
  */
 class Indexes
 {
-    /** @var array<string, \Suilven\FreeTextSearch\Index>|null */
-    private $indexesByName;
+    /** @var array<string, \Suilven\FreeTextSearch\Index> */
+    private $indexesByName = [];
 
 
     /**
@@ -22,7 +22,7 @@ class Indexes
      */
     public function getIndex(string $name): Index
     {
-        if (\is_null($this->indexesByName)) {
+        if ($this->indexesByName === []) {
             $this->getIndexes();
         }
 

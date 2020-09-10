@@ -9,7 +9,10 @@
 
 namespace Suilven\FreeTextSearch\Tests\Mock;
 
+// @phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
+
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Container\SearchResults;
 
 class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
@@ -47,5 +50,12 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
         }
 
         return $result;
+    }
+
+
+    /** @param \SilverStripe\ORM\DataObject $dataObject a dataObject relevant to the index */
+    public function searchForSimilar(DataObject $dataObject): SearchResults
+    {
+        return $this->search('Fish');
     }
 }
