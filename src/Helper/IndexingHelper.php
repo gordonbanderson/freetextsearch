@@ -86,4 +86,32 @@ class IndexingHelper
 
         return $payload;
     }
+
+
+    /** @return array<string> */
+    public function getFields(string $indexName): array
+    {
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($indexName);
+
+        $fields = [];
+
+        foreach ($index->getFields() as $field) {
+            $fields[] = $field;
+        }
+
+        foreach ($index->getTokens() as $token) {
+            $fields[] = $token;
+        }
+
+        foreach ($index->getStoredFields() as $storedField) {
+            $fields[] = $storedField;
+        }
+
+        if (!\in_array('Link', $fields, true)) {
+            $fields[] = 'Link';
+        }
+
+        return $fields;
+    }
 }

@@ -11,6 +11,7 @@ namespace Suilven\FreeTextSearch\Interfaces;
 
 use SilverStripe\ORM\DataObject;
 
+// @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
 interface Indexer
 {
 
@@ -24,6 +25,6 @@ interface Indexer
     public function setIndexName(string $newIndexName): void;
 
     // this is provided by the base indexer
-    /** @return array<string, array<string,string|int|float|bool|null>> */
+    /* @return array<string, array<string, array|bool|float|int|string>> */
     public function getIndexablePayload(\SilverStripe\ORM\DataObject $dataObject): array;
 }

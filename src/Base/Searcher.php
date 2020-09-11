@@ -13,7 +13,7 @@ use Suilven\FreeTextSearch\Container\SearchResults;
 
 abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
 {
-    /** @var array<string,string|int|float> $filters */
+    /** @var array<string,string|int|float|bool> $filters */
     protected $filters;
 
     /** @var int */
@@ -35,7 +35,7 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     abstract public function search(?string $q): SearchResults;
 
 
-    /** @param array<string,string|int|float> $filters */
+    /** @param array<string,string|int|float|bool> $filters */
     public function setFilters(array $filters): void
     {
         $this->filters = $filters;

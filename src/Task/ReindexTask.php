@@ -45,6 +45,7 @@ class ReindexTask extends BuildTask
         $climate = new CLImate();
 
         // check this script is being run by admin
+        // @phpstan-ignore-next-line
         $canAccess = (Director::isDev() || Director::is_cli() || Permission::check("ADMIN"));
 
         // for testing purposes
