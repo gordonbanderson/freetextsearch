@@ -10,46 +10,45 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\ORM\DataObject;
-use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
-use Suilven\FreeTextSearch\Indexes;
-
 
 class SearchHelper
 {
     /**
-     * @param DataObject $dataObject
+     * @param \SilverStripe\ORM\DataObject $dataObject the dataobject to extra text from
+     * @return array<string,array<string,string>>
      */
-    public function getTextFieldPayload($dataObject)
+    public function getTextFieldPayload(DataObject $dataObject): array
     {
         $helper = new IndexingHelper();
         $fullPayload = $helper->getFieldsToIndex($dataObject);
 
         $textPayload = [];
 
-        $indices = new Indexes();
-        $keys = array_keys($fullPayload);
-
+        $keys = \array_keys($fullPayload);
         $specsHelper = new SpecsHelper();
 
-        foreach($keys as $key) {
-            if ($fullPayload[$key] !== []) {
-                $index = $indices->getIndex($key);
-                $textPayload[$key] = [];
-                $specs = $specsHelper->getFieldSpecs($key);
+        foreach ($keys as $key) {
+            if ($fullPayload[$key] === []) {
+                continue;
+            }
 
-                error_log('---- specs ----');
-                error_log(print_r($specs, true));
-                foreach (array_keys($specs) as $field) {
-                    $type = $specs[$field];
-                    if (in_array($type, ['Varchar', 'HTMLText'])) {
-                        error_log('FIELD: ' . $field);
-                        $textPayload[$key][$field] = $fullPayload[$key][$field];
-                    }
+            $textPayload[$key] = [];
+            $specs = $specsHelper->getFieldSpecs($key);
+
+            foreach (\array_keys($specs) as $field) {
+                // skip link field
+                if ($field === 'Link') {
+                    continue;
                 }
+                $type = $specs[$field];
+                if (!\in_array($type, ['Varchar', 'HTMLText'], true)) {
+                    continue;
+                }
+
+                $textPayload[$key][$field] = (string) $fullPayload[$key][$field];
             }
         }
 
-        unset($textPayload['Link']);
         return $textPayload;
     }
 }

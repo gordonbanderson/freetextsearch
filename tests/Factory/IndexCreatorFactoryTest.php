@@ -4,6 +4,7 @@ namespace Suilven\FreeTextSearch\Tests\Factory;
 
 use SilverStripe\Dev\SapphireTest;
 use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
+use Suilven\FreeTextSearch\Helper\SpecsHelper;
 use Suilven\FreeTextSearch\Tests\Mock\IndexCreator;
 
 class IndexCreatorFactoryTest extends SapphireTest
@@ -25,11 +26,7 @@ class IndexCreatorFactoryTest extends SapphireTest
 
         $this->assertEquals(['Link'], $indexCreator->getIndexStoredFields());
 
-        $reflection = new \ReflectionClass(\get_class($indexCreator));
-        $method = $reflection->getMethod('getFieldSpecs');
-        $method->setAccessible(true);
-
-        $specs = $method->invokeArgs($indexCreator, ['sitetree']);
+        $helper = new SpecsHelper();
         $this->assertEquals([
             'Title' => 'Varchar',
             'Content' => 'HTMLText',
@@ -39,16 +36,14 @@ class IndexCreatorFactoryTest extends SapphireTest
             'Created' => 'DBDatetime',
             'LastEdited' => 'DBDatetime',
             'Link' => 'Varchar',
-        ], $specs);
+        ], $helper->getFieldSpecs('sitetree'));
 
-        $specs = $method->invokeArgs($indexCreator, ['members']);
         $this->assertEquals([
             'FirstName' => 'Varchar',
             'Surname' => 'Varchar',
             'Email' => 'Varchar',
-        ], $specs);
+        ], $helper->getFieldSpecs('members'));
 
-        $specs = $method->invokeArgs($indexCreator, ['flickrphotos']);
         $this->assertEquals([
             'Title' => 'Varchar',
             'Description' => 'HTMLText',
@@ -56,6 +51,6 @@ class IndexCreatorFactoryTest extends SapphireTest
             'ShutterSpeed' => 'Varchar',
             'ISO' => 'Int',
             // @todo test fails here with missing link
-        ], $specs);
+        ], $helper->getFieldSpecs('flickrphotos'));
     }
 }

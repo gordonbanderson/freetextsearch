@@ -9,11 +9,8 @@
 
 namespace Suilven\FreeTextSearch\Helper;
 
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectSchema;
-use Suilven\FreeTextSearch\Factory\IndexCreatorFactory;
 use Suilven\FreeTextSearch\Indexes;
-
 
 class SpecsHelper
 {

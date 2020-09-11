@@ -9,7 +9,6 @@
 
 namespace Suilven\FreeTextSearch\Base;
 
-use SilverStripe\ORM\DataObjectSchema;
 use Suilven\FreeTextSearch\Indexes;
 
 abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexCreator
@@ -22,9 +21,6 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
     abstract public function createIndex(string $indexName): void;
 
 
-
-
-
     /** @return array<string> */
     protected function getStoredFields(string $indexName): array
     {
@@ -33,7 +29,4 @@ abstract class IndexCreator implements \Suilven\FreeTextSearch\Interfaces\IndexC
 
         return $index->getStoredFields();
     }
-
-
-
 }
