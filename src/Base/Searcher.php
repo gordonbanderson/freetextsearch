@@ -10,6 +10,7 @@
 namespace Suilven\FreeTextSearch\Base;
 
 use Suilven\FreeTextSearch\Container\SearchResults;
+use Suilven\FreeTextSearch\Types\SearchParamTypes;
 
 abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
 {
@@ -30,6 +31,9 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
 
     /** @var array<string> */
     protected $hasManyTokens;
+
+    /** @var string */
+    protected $searchType = SearchParamTypes::AND;
 
 
     abstract public function search(?string $q): SearchResults;
@@ -73,5 +77,11 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     public function setPage(int $pageNumber): void
     {
         $this->page = $pageNumber;
+    }
+
+
+    public function setSearchType(string $newSearchType)
+    {
+        $this->searchType = $newSearchType;
     }
 }
