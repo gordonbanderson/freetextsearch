@@ -80,7 +80,7 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     }
 
 
-    public function setSearchType(string $newSearchType)
+    public function setSearchType(string $newSearchType): void
     {
         $this->searchType = $newSearchType;
     }
