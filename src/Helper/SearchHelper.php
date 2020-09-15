@@ -45,7 +45,14 @@ class SearchHelper
                     continue;
                 }
 
-                $textPayload[$key][$field] = (string) $fullPayload[$key][$field];
+                $fieldValue = (string) $fullPayload[$key][$field];
+                $barchars = ['!', ',', '.'];
+                $fieldValue = strip_tags($fieldValue);
+
+                foreach($barchars as $badChar) {
+                    $fieldValue = str_replace($badChar, '', $fieldValue);
+                }
+                $textPayload[$key][$field] = $fieldValue;
             }
         }
 
