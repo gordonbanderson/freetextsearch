@@ -23,9 +23,34 @@ use Suilven\FreeTextSearch\Indexes;
 class SearchPageController extends \PageController
 {
     /** @var array<string> */
-    private static $allowed_actions = ['index'];
+    private static $allowed_actions = ['index', 'similar'];
 
 
+    public function similar(): \SilverStripe\View\ViewableData_Customised
+    {
+        /** @var array $selected */
+        $selected = $this->getRequest()->params();
+
+        /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
+        $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
+
+        print_r($selected);
+
+        $results = new SearchResults();
+
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($model->IndexToSearch);
+        $clazz = $index->getClass();
+        $objectInContent = DataObject::get_by_id($clazz, $this->getRequest()->param('ID'));
+
+        $factory = new SearcherFactory();
+        $searcher = $factory->getSearcher();
+        $searcher->setIndexName($index->getName());
+        $results = $searcher->searchForSimilar($objectInContent);
+
+
+        return $this->renderSearchResults($model, $results);
+    }
 
     public function index(): \SilverStripe\View\ViewableData_Customised
     {
@@ -128,6 +153,12 @@ class SearchPageController extends \PageController
         // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
         // $results['CleanedLink'] = $this->Link();
 
+        return $this->renderSearchResults($model, $results);
+    }
+
+
+    private function renderSearchResults($model, $results)
+    {
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
 
@@ -139,7 +170,9 @@ class SearchPageController extends \PageController
         $last = \array_pop($splits);
         $templateName = \implode('/', $splits) . '/Includes/' . $last;
 
+
         $records = $results->getRecords();
+
         $newRecords = new ArrayList();
         foreach ($records as $record) {
             $highsList = new ArrayList();
@@ -176,10 +209,13 @@ class SearchPageController extends \PageController
 
             $html = $this->renderWith(
                 [
-                $templateName,
-                'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
+                    $templateName,
+                    'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
                 ],
-                ['Record' => $record]
+                [
+                    'Record' => $record,
+                    'SimilarLink' => $this->Link('similar') . '/' . $record->ID
+                ]
             );
             $record->HTML = $html;
             $newRecords->push($record);
