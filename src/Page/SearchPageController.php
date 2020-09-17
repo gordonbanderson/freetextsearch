@@ -34,20 +34,21 @@ class SearchPageController extends \PageController
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-        print_r($selected);
-
-        $results = new SearchResults();
-
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
         $clazz = $index->getClass();
-        $objectInContent = DataObject::get_by_id($clazz, $this->getRequest()->param('ID'));
+        $objectInContext = DataObject::get_by_id($clazz, $this->getRequest()->param('ID'));
 
         $factory = new SearcherFactory();
         $searcher = $factory->getSearcher();
         $searcher->setIndexName($index->getName());
-        $results = $searcher->searchForSimilar($objectInContent);
+        $this->paginateSearcher($searcher);
 
+        $results = $searcher->searchForSimilar($objectInContext);
+
+        // tweak results set for rendering purposes, we do not want all the OR constructs
+        $results->setQuery('');
+        $results->setSimilarTo($objectInContext);
 
         return $this->renderSearchResults($model, $results);
     }
@@ -237,6 +238,7 @@ class SearchPageController extends \PageController
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
             'Pagination' => $paginatedList,
+            'SimilarTo' => $results->getSimilarTo()
         ]));
     }
 
@@ -259,6 +261,14 @@ class SearchPageController extends \PageController
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
+        $this->paginateSearcher($searcher);
+
+        return $searcher->search($q);
+    }
+
+
+    private function paginateSearcher(&$searcher)
+    {
         $searcher->setPageSize($this->PageSize);
         $start = $this->getRequest()->getVar('start');
 
@@ -269,9 +279,6 @@ class SearchPageController extends \PageController
             : 1;
 
         $page = \intval($page);
-        \error_log('PAGE: ' . $page);
         $searcher->setPage($page);
-
-        return $searcher->search($q);
     }
 }
