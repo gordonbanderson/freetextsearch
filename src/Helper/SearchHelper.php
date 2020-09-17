@@ -43,7 +43,7 @@ class SearchHelper
 
             foreach (\array_keys($specs) as $field) {
                 // skip non textual fields
-                if (!in_array($field, $textualFields, true)) {
+                if (!\in_array($field, $textualFields, true)) {
                     continue;
                 }
 
@@ -55,13 +55,13 @@ class SearchHelper
 
                 $fieldValue = (string) $fullPayload[$indexKey][$field];
                 $barchars = ['!', ',', '.', '-'];
-                $fieldValue = strip_tags($fieldValue);
+                $fieldValue = \strip_tags($fieldValue);
 
-                foreach($barchars as $badChar) {
-                    $fieldValue = str_replace($badChar, '', $fieldValue);
+                foreach ($barchars as $badChar) {
+                    $fieldValue = \str_replace($badChar, '', $fieldValue);
                 }
 
-                $fieldValue = str_replace('/', ' ', $fieldValue);
+                $fieldValue = \str_replace('/', ' ', $fieldValue);
                 $textPayload[$indexKey][$field] = $fieldValue;
             }
         }

@@ -10,7 +10,6 @@
 namespace Suilven\FreeTextSearch\Container;
 
 use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\DataObject;
 
 /**
  * Class SearchResults
@@ -49,7 +48,7 @@ class SearchResults
     /** @var float the time in seconds */
     private $time;
 
-    /** @var null|DataObject */
+    /** @var \SilverStripe\ORM\DataObject|null */
     private $searchSimilarTo = null;
 
     public function __construct()
@@ -170,13 +169,14 @@ class SearchResults
         $this->time = $newTime;
     }
 
-    public function getSimilarTo()
+
+    public function getSimilarTo(): ?\SilverStripe\ORM\DataObject
     {
         return $this->searchSimilarTo;
-
-
     }
-    public function setSimilarTo($dataObject)
+
+
+    public function setSimilarTo(?\SilverStripe\ORM\DataObject $dataObject): void
     {
         $this->searchSimilarTo = $dataObject;
     }
