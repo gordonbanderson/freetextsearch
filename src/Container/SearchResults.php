@@ -48,6 +48,9 @@ class SearchResults
     /** @var float the time in seconds */
     private $time;
 
+    /** @var \SilverStripe\ORM\DataObject|null */
+    private $searchSimilarTo = null;
+
     public function __construct()
     {
         $this->time = 0;
@@ -164,5 +167,17 @@ class SearchResults
     public function setTime(float $newTime): void
     {
         $this->time = $newTime;
+    }
+
+
+    public function getSimilarTo(): ?\SilverStripe\ORM\DataObject
+    {
+        return $this->searchSimilarTo;
+    }
+
+
+    public function setSimilarTo(?\SilverStripe\ORM\DataObject $dataObject): void
+    {
+        $this->searchSimilarTo = $dataObject;
     }
 }

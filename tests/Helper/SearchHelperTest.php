@@ -19,7 +19,7 @@ class SearchHelperTest extends SapphireTest
         $payload = $helper->getTextFieldPayload($page);
         $this->assertEquals(['sitetree' => [
             'Title' => 'The Break In San Marino Is Bright',
-             'Content' => 'The wind in Kenya is waste.',
+             'Content' => 'The wind in Kenya is waste',
              'MenuTitle' => 'The Break In San Marino Is Bright',
         ]], $payload);
     }

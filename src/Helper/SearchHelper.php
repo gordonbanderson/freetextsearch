@@ -10,6 +10,7 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\ORM\DataObject;
+use Suilven\FreeTextSearch\Indexes;
 
 class SearchHelper
 {
@@ -21,31 +22,47 @@ class SearchHelper
     {
         $helper = new IndexingHelper();
         $fullPayload = $helper->getFieldsToIndex($dataObject);
-
         $textPayload = [];
 
         $keys = \array_keys($fullPayload);
         $specsHelper = new SpecsHelper();
 
-        foreach ($keys as $key) {
-            if ($fullPayload[$key] === []) {
+
+        foreach ($keys as $indexKey) {
+            $indexes = new Indexes();
+            $index = $indexes->getIndex($indexKey);
+            $textualFields = $index->getFields();
+
+            // if the index details are empty, skip
+            if ($fullPayload[$indexKey] === []) {
                 continue;
             }
 
-            $textPayload[$key] = [];
-            $specs = $specsHelper->getFieldSpecs($key);
+            $textPayload[$indexKey] = [];
+            $specs = $specsHelper->getFieldSpecs($indexKey);
 
             foreach (\array_keys($specs) as $field) {
-                // skip link field
-                if ($field === 'Link') {
+                // skip non textual fields
+                if (!\in_array($field, $textualFields, true)) {
                     continue;
                 }
+
+
                 $type = $specs[$field];
                 if (!\in_array($type, ['Varchar', 'HTMLText'], true)) {
                     continue;
                 }
 
-                $textPayload[$key][$field] = (string) $fullPayload[$key][$field];
+                $fieldValue = (string) $fullPayload[$indexKey][$field];
+                $barchars = ['!', ',', '.', '-'];
+                $fieldValue = \strip_tags($fieldValue);
+
+                foreach ($barchars as $badChar) {
+                    $fieldValue = \str_replace($badChar, '', $fieldValue);
+                }
+
+                $fieldValue = \str_replace('/', ' ', $fieldValue);
+                $textPayload[$indexKey][$field] = $fieldValue;
             }
         }
 

@@ -5,10 +5,14 @@
         <% include SideBar %>
     <% end_if %>
     <h1>$Title</h1>
-    <form id="searchForm" action="$URL">
+    <form id="searchForm" action="$Link">
                 <input name="q" type="text"  placeholder="Search..." value="$Query">
                 <button type="submit">Search</button>
     </form>
+
+    <% if $SimilarTo %>
+    Similar to <a href="$SimilarTo.Link">$SimilarTo.Title</a>
+    <% end_if %>
 
     <% if $NumberOfResults > 0 %>
         <div class="searchResultsInfo">$NumberOfResults results found in $Time seconds</div>

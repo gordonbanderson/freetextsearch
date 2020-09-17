@@ -4,4 +4,5 @@
     <% loop $Record.Highlights %>
      $Snippet.RAW
     <% end_loop %>
+    <p class="links"><a href="$SimilarLink">Similar</a></p>
 </div>

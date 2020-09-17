@@ -23,8 +23,39 @@ use Suilven\FreeTextSearch\Indexes;
 class SearchPageController extends \PageController
 {
     /** @var array<string> */
-    private static $allowed_actions = ['index'];
+    private static $allowed_actions = ['index', 'similar'];
 
+
+    public function similar(): \SilverStripe\View\ViewableData_Customised
+    {
+         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
+        $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
+
+        $indexes = new Indexes();
+        $index = $indexes->getIndex($model->IndexToSearch);
+
+        /** @var string $clazz */
+        $clazz = $index->getClass();
+
+        $dataObjectID = $this->getRequest()->param('ID');
+        $dataObjectID = \intval($dataObjectID);
+
+
+        $objectInContext = DataObject::get_by_id($clazz, $dataObjectID);
+
+        $factory = new SearcherFactory();
+        $searcher = $factory->getSearcher();
+        $searcher->setIndexName($index->getName());
+        $this->paginateSearcher($searcher);
+
+        $results = $searcher->searchForSimilar($objectInContext);
+
+        // tweak results set for rendering purposes, we do not want all the OR constructs
+        $results->setQuery('');
+        $results->setSimilarTo($objectInContext);
+
+        return $this->renderSearchResults($model, $results);
+    }
 
 
     public function index(): \SilverStripe\View\ViewableData_Customised
@@ -128,6 +159,39 @@ class SearchPageController extends \PageController
         // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
         // $results['CleanedLink'] = $this->Link();
 
+        return $this->renderSearchResults($model, $results);
+    }
+
+
+    /** @param array<string,int|string|float|bool> $selected */
+    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
+    {
+        $factory = new SearcherFactory();
+
+        /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
+        $searcher = $factory->getSearcher();
+        $searcher->setFilters($selected);
+        $searcher->setIndexName($searchPage->IndexToSearch);
+
+        \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
+
+        $facets = $searchPage->getFacetFields();
+        $hasManyFields = $searchPage->getHasManyFields();
+
+        $searcher->setFacettedTokens($facets);
+        $searcher->setHasManyTokens($hasManyFields);
+
+        $this->paginateSearcher($searcher);
+
+        return $searcher->search($q);
+    }
+
+
+    /** @throws \Exception */
+    private function renderSearchResults(
+        SearchPage $model,
+        SearchResults $results
+    ): \SilverStripe\View\ViewableData_Customised {
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
 
@@ -139,7 +203,9 @@ class SearchPageController extends \PageController
         $last = \array_pop($splits);
         $templateName = \implode('/', $splits) . '/Includes/' . $last;
 
+
         $records = $results->getRecords();
+
         $newRecords = new ArrayList();
         foreach ($records as $record) {
             $highsList = new ArrayList();
@@ -176,10 +242,13 @@ class SearchPageController extends \PageController
 
             $html = $this->renderWith(
                 [
-                $templateName,
-                'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
+                    $templateName,
+                    'Suilven/FreeTextSearch/SilverStripe/CMS/Model/Includes/SiteTree',
                 ],
-                ['Record' => $record]
+                [
+                    'Record' => $record,
+                    'SimilarLink' => $this->Link('similar') . '/' . $record->ID,
+                ]
             );
             $record->HTML = $html;
             $newRecords->push($record);
@@ -201,28 +270,13 @@ class SearchPageController extends \PageController
             'Suggestions' => new ArrayList($results->getSuggestions()),
             'Time' => $results->getTime(),
             'Pagination' => $paginatedList,
+            'SimilarTo' => $results->getSimilarTo(),
         ]));
     }
 
 
-    /** @param array<string,int|string|float|bool> $selected */
-    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
+    private function paginateSearcher(\Suilven\FreeTextSearch\Interfaces\Searcher &$searcher): void
     {
-        $factory = new SearcherFactory();
-
-        /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
-        $searcher = $factory->getSearcher();
-        $searcher->setFilters($selected);
-        $searcher->setIndexName($searchPage->IndexToSearch);
-
-        \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
-
-        $facets = $searchPage->getFacetFields();
-        $hasManyFields = $searchPage->getHasManyFields();
-
-        $searcher->setFacettedTokens($facets);
-        $searcher->setHasManyTokens($hasManyFields);
-
         $searcher->setPageSize($this->PageSize);
         $start = $this->getRequest()->getVar('start');
 
@@ -233,9 +287,6 @@ class SearchPageController extends \PageController
             : 1;
 
         $page = \intval($page);
-        \error_log('PAGE: ' . $page);
         $searcher->setPage($page);
-
-        return $searcher->search($q);
     }
 }
