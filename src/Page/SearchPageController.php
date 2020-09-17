@@ -33,8 +33,15 @@ class SearchPageController extends \PageController
 
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
+
+        /** @var string $clazz */
         $clazz = $index->getClass();
-        $objectInContext = DataObject::get_by_id($clazz, $this->getRequest()->param('ID'));
+
+        $dataObjectID = $this->getRequest()->param('ID');
+        $dataObjectID = \intval($dataObjectID);
+
+
+        $objectInContext = DataObject::get_by_id($clazz, $dataObjectID);
 
         $factory = new SearcherFactory();
         $searcher = $factory->getSearcher();
@@ -268,7 +275,7 @@ class SearchPageController extends \PageController
     }
 
 
-    private function paginateSearcher(Searcher &$searcher): void
+    private function paginateSearcher(\Suilven\FreeTextSearch\Interfaces\Searcher &$searcher): void
     {
         $searcher->setPageSize($this->PageSize);
         $start = $this->getRequest()->getVar('start');
