@@ -2,6 +2,32 @@
 
 ## [Unreleased](https://github.com/gordonbanderson/freetextsearch/tree/HEAD)
 
+[Full Changelog](https://github.com/gordonbanderson/freetextsearch/compare/1.0.4...HEAD)
+
+**Merged pull requests:**
+
+- Add Similar Search [\#38](https://github.com/gordonbanderson/freetextsearch/pull/38) ([gordonbanderson](https://github.com/gordonbanderson))
+- Similarity [\#35](https://github.com/gordonbanderson/freetextsearch/pull/35) ([gordonbanderson](https://github.com/gordonbanderson))
+- Stemming [\#34](https://github.com/gordonbanderson/freetextsearch/pull/34) ([gordonbanderson](https://github.com/gordonbanderson))
+- Fix tests again [\#33](https://github.com/gordonbanderson/freetextsearch/pull/33) ([gordonbanderson](https://github.com/gordonbanderson))
+
+## [1.0.4](https://github.com/gordonbanderson/freetextsearch/tree/1.0.4) (2020-09-09)
+[Full Changelog](https://github.com/gordonbanderson/freetextsearch/compare/1.0.3...1.0.4)
+
+**Merged pull requests:**
+
+- Enhance Coverage [\#32](https://github.com/gordonbanderson/freetextsearch/pull/32) ([gordonbanderson](https://github.com/gordonbanderson))
+
+## [1.0.3](https://github.com/gordonbanderson/freetextsearch/tree/1.0.3) (2020-09-09)
+[Full Changelog](https://github.com/gordonbanderson/freetextsearch/compare/1.0.2...1.0.3)
+
+## [1.0.2](https://github.com/gordonbanderson/freetextsearch/tree/1.0.2) (2020-09-08)
+[Full Changelog](https://github.com/gordonbanderson/freetextsearch/compare/1.0.1...1.0.2)
+
+## [1.0.1](https://github.com/gordonbanderson/freetextsearch/tree/1.0.1) (2020-09-08)
+[Full Changelog](https://github.com/gordonbanderson/freetextsearch/compare/1.0.0...1.0.1)
+
+## [1.0.0](https://github.com/gordonbanderson/freetextsearch/tree/1.0.0) (2020-09-08)
 **Closed issues:**
 
 - Allow Indexing To Be Configurable to Individual or Bulk Indexing [\#12](https://github.com/gordonbanderson/freetextsearch/issues/12)
@@ -9,6 +35,7 @@
 
 **Merged pull requests:**
 
+- Documentation [\#31](https://github.com/gordonbanderson/freetextsearch/pull/31) ([gordonbanderson](https://github.com/gordonbanderson))
 - FIX PHPStan [\#30](https://github.com/gordonbanderson/freetextsearch/pull/30) ([gordonbanderson](https://github.com/gordonbanderson))
 - Fix Tests [\#29](https://github.com/gordonbanderson/freetextsearch/pull/29) ([gordonbanderson](https://github.com/gordonbanderson))
 - Integration [\#28](https://github.com/gordonbanderson/freetextsearch/pull/28) ([gordonbanderson](https://github.com/gordonbanderson))
