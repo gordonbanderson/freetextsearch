@@ -12,12 +12,12 @@ class FacetCount
 {
     private $key;
 
-    private $value;
+    private $count;
 
-    public function __construct($key, $value)
+    public function __construct($key, $count)
     {
         $this->key = $key;
-        $this->value = $value;
+        $this->count = $count;
     }
 
     /**
@@ -31,8 +31,8 @@ class FacetCount
     /**
      * @return mixed
      */
-    public function getValue()
+    public function getCount()
     {
-        return $this->value;
+        return $this->count;
     }
 }

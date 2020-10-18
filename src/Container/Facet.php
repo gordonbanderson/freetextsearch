@@ -55,7 +55,7 @@ class Facet
         /** @var FacetCount $fc */
         foreach($this->facetCounts as $fc)
         {
-            $result[$fc->getKey()] = $fc->getValue();
+            $result[$fc->getKey()] = $fc->getCount();
         }
         return $result;
     }
