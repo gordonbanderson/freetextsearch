@@ -21,7 +21,7 @@ use SilverStripe\ORM\ArrayList;
 class SearchResults
 {
 
-    /** @var array<string,int|bool|float|string> */
+    /** @var array<Facet> */
     private $facets;
 
     /** @var string */
@@ -58,10 +58,12 @@ class SearchResults
     }
 
 
-    /** @param array<string,int|bool|float|string> $newFacets */
-    public function setFacets(array $newFacets): void
+    /**
+     * @param Facet $facet
+     */
+    public function addFacet($facet)
     {
-        $this->facets = $newFacets;
+        $this->facets[] = $facet;
     }
 
 
@@ -118,6 +120,14 @@ class SearchResults
     public function getQuery(): string
     {
         return $this->query;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFacets(): array
+    {
+        return $this->facets;
     }
 
 

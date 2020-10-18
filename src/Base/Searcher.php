@@ -27,7 +27,7 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     protected $indexName;
 
     /** @var array<string,string> */
-    protected $facettedTokens;
+    protected $facettedTokens = [];
 
     /** @var array<string> */
     protected $hasManyTokens;
