@@ -21,7 +21,7 @@ use SilverStripe\ORM\ArrayList;
 class SearchResults
 {
 
-    /** @var array<Facet> */
+    /** @var array<\Suilven\FreeTextSearch\Container\Facet> */
     private $facets;
 
     /** @var string */
@@ -58,10 +58,7 @@ class SearchResults
     }
 
 
-    /**
-     * @param Facet $facet
-     */
-    public function addFacet($facet)
+    public function addFacet(Facet $facet): void
     {
         $this->facets[] = $facet;
     }
@@ -122,9 +119,8 @@ class SearchResults
         return $this->query;
     }
 
-    /**
-     * @return array
-     */
+
+    /** @return array<\Suilven\FreeTextSearch\Container\Facet> */
     public function getFacets(): array
     {
         return $this->facets;

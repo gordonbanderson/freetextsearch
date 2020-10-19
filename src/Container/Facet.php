@@ -2,10 +2,9 @@
 
 namespace Suilven\FreeTextSearch\Container;
 
-use SilverStripe\ORM\ArrayList;
-
 /**
  * Class Facet
+ *
  * @package Suilven\FreeTextSearch\Container
  */
 class Facet
@@ -13,50 +12,48 @@ class Facet
     /** @var string */
     private $name;
 
-    /** @var array<FacetCount> */
+    /** @var array<\Suilven\FreeTextSearch\Container\FacetCount> */
     private $facetCounts = [];
 
     /**
      * Facet constructor.
-     * @param string $name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
 
 
-    public function addFacetCount($key, $value)
+    /** @param string|float|int|bool $key $key */
+    public function addFacetCount($key, int $count): void
     {
-        $fc = new FacetCount($key, $value);
+        $fc = new FacetCount($key, $count);
         $this->facetCounts[] = $fc;
     }
 
-    /**
-     * @return string
-     */
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return array
-     */
+
+    /** @return array<\Suilven\FreeTextSearch\Container\FacetCount> */
     public function getFacetCounts(): array
     {
         return $this->facetCounts;
     }
 
 
-    public function asKeyValueArray()
+    /** @return array<string|float|int|bool, int> */
+    public function asKeyValueArray(): array
     {
         $result = [];
-        /** @var FacetCount $fc */
-        foreach($this->facetCounts as $fc)
-        {
+        /** @var \Suilven\FreeTextSearch\Container\FacetCount $fc */
+        foreach ($this->facetCounts as $fc) {
             $result[$fc->getKey()] = $fc->getCount();
         }
+
         return $result;
     }
 }

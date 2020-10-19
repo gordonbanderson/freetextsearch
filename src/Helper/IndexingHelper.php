@@ -70,7 +70,7 @@ class IndexingHelper
                     continue;
                 }
 
-                $fields = \array_merge($indice->getFields(), $indice->getStoredFields(),$indice->getTokens());
+                $fields = \array_merge($indice->getFields(), $indice->getStoredFields(), $indice->getTokens());
                 foreach ($fields as $field) {
                     // @phpstan-ignore-next-line
                     $value = $dataObject->$field;

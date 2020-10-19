@@ -2,36 +2,40 @@
 
 namespace Suilven\FreeTextSearch\Container;
 
-use SilverStripe\ORM\ArrayList;
-
 /**
  * Class Facet
+ *
  * @package Suilven\FreeTextSearch\Container
  */
 class FacetCount
 {
+    /** @var string|float|int|bool */
     private $key;
 
+    /** @var int */
     private $count;
 
-    public function __construct($key, $count)
+
+    /**
+     * FacetCount constructor.
+     *
+     * @param string|float|int|bool $key
+     */
+    public function __construct($key, int $count)
     {
         $this->key = $key;
         $this->count = $count;
     }
 
-    /**
-     * @return mixed
-     */
+
+    /** @return string|float|int|bool */
     public function getKey()
     {
         return $this->key;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCount()
+
+    public function getCount(): int
     {
         return $this->count;
     }
