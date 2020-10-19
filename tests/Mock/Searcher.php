@@ -32,7 +32,6 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
                 $result->setRecords($recordsList);
 
                 $result->setTime(0.017);
-                $result->setFacets([]);
 
                 $result->setPageSize(10);
                 $result->setPage(1);
