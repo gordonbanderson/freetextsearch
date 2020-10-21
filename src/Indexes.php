@@ -5,6 +5,8 @@
 namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataObjectSchema;
+use SilverStripe\ORM\ManyManyList;
 
 /**
  * Class Indexes
@@ -75,13 +77,18 @@ class Indexes
                 }
             }
 
+            $singleton = \singleton((string)($index->getClass()));
+
             // has many fields
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
+                    $relationship = $hasManyField['relationship'];
+                    $mmList = call_user_func(array($singleton, $relationship));
                     $index->addHasManyField($hasManyField['name'], [
-                        'relationship' => $hasManyField['relationship'],
+                        'relationship' => $relationship,
                         'field' => $hasManyField['field'],
+                        'class' => $mmList->dataClass()
                     ]);
                 }
             }
@@ -107,7 +114,7 @@ class Indexes
 
             $this->indexesByName[$index->getName()] = $index;
         }
-        
+
         return $this->indexesByName;
     }
 
