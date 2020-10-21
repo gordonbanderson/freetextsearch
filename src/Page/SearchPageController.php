@@ -6,6 +6,8 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
+use Suilven\FreeTextSearch\Container\Facet;
+use Suilven\FreeTextSearch\Container\FacetCount;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Indexes;
@@ -80,6 +82,7 @@ class SearchPageController extends \PageController
         if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
             $results = $this->performSearchIncludingFacets($selected, $model, $q);
         }
+
 
 
         /*
@@ -178,7 +181,10 @@ class SearchPageController extends \PageController
         $facets = $searchPage->getFacetFields();
         $hasManyFields = $searchPage->getHasManyFields();
 
-        $searcher->setFacettedTokens($facets);
+        // @todo ShutterSpeed breaks, no idea why
+        $searcher->setFacettedTokens(['ISO', 'Aperture',]); // 'ShutterSpeed']);
+
+        //$searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
         $this->paginateSearcher($searcher);
@@ -260,6 +266,30 @@ class SearchPageController extends \PageController
         $paginatedList->setTotalItems($results->getTotaNumberOfResults());
         $paginatedList->setCurrentPage($results->getPage());
 
+
+        $facets = $results->getFacets();
+        $displayFacets = new ArrayList();
+
+        /** @var Facet $facet */
+        foreach($facets as $facet) {
+            $displayFacet = new DataObject();
+            $displayFacet->Name = $facet->getName();
+
+            $counts = new ArrayList();
+            /** @var FacetCount $facetCount */
+            foreach($facet->getFacetCounts() as $facetCount)
+            {
+                $count = new DataObject();
+                $count->Key = $facetCount->getKey();
+                $count->Count = $facetCount->getCount();
+                $counts->push($count);
+            }
+
+            $displayFacet->FacetCounts = $counts;
+            $displayFacets->push($displayFacet);
+        }
+
+
         return $this->customise(new ArrayData([
             'NumberOfResults' => $results->getTotaNumberOfResults(),
             'Query' => $results->getQuery(),
@@ -271,6 +301,7 @@ class SearchPageController extends \PageController
             'Time' => $results->getTime(),
             'Pagination' => $paginatedList,
             'SimilarTo' => $results->getSimilarTo(),
+            'Facets' => $displayFacets,
         ]));
     }
 
