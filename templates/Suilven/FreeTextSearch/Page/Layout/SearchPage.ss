@@ -10,6 +10,20 @@
                 <button type="submit">Search</button>
     </form>
 
+    <hr/>
+    <h6>Facets
+    <% loop $Facets %>
+    <h6>$Name</h6>
+    <ul>
+        <% loop $FacetCounts %>
+        <li>$Key ($Count)</li>
+        <% end_loop %>
+    </ul>
+    <% end_loop %>
+    <hr/>
+
+
+
     <% if $SimilarTo %>
     Similar to <a href="$SimilarTo.Link">$SimilarTo.Title</a>
     <% end_if %>
