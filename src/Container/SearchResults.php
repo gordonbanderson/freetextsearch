@@ -22,7 +22,7 @@ class SearchResults
 {
 
     /** @var array<\Suilven\FreeTextSearch\Container\Facet> */
-    private $facets;
+    private $facets = [];
 
     /** @var string */
     private $index;
@@ -123,7 +123,7 @@ class SearchResults
     /** @return array<\Suilven\FreeTextSearch\Container\Facet> */
     public function getFacets(): array
     {
-        return $this->facets;
+        return is_null($this->facets) ? [] : $this->facets ;
     }
 
 
