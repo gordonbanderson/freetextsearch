@@ -10,51 +10,43 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\ORM\DataObjectSchema;
+use Suilven\FreeTextSearch\Index;
 use Suilven\FreeTextSearch\Indexes;
 
 class FieldHelper
 {
 
+    /**
+     * @param Index $index
+     * @param $fieldName
+     * @param $fieldValue
+     * @return int
+     */
     public function getFieldValueCorrectlyTyped($index, $fieldName, $fieldValue)
     {
-        /*
-        $indexes = new Indexes();
-        $index = $indexes->getIndex($indexName);
         $singleton = \singleton((string)($index->getClass()));
 
         $helper = new IndexingHelper();
-        $fields = $helper->getFields($indexName);
+        $fields = $helper->getFields($index->getName());
 
         $schema = $singleton->getSchema();
         $specs = $schema->fieldSpecs((string) $index->getClass(), DataObjectSchema::INCLUDE_CLASS);
 
-        $filteredSpecs = [];
+        $type = $specs[$fieldName];
+        $type = explode('.', $type)[1];
 
-        foreach ($fields as $field) {
-            if ($field === 'Link') {
-                continue;
-            }
-            $fieldType = $specs[$field];
 
-            // fix likes of varchar(255)
-            $fieldType = \explode('(', $fieldType)[0];
-
-            // remove the class name
-            $fieldType = \explode('.', $fieldType)[1];
-
-            $filteredSpecs[$field] = $fieldType;
+        $value = (string) $fieldValue;
+        switch($type) {
+            case 'Int':
+                $value = intval($fieldValue);
+                break;
+            case 'Float':
+                $value = floatval($fieldValue);
+                break;
         }
 
-        // if Link undefined in the original index specs, add it if the method exists on the singleton dataobject
-        if (!isset($filteredSpecs['Link'])) {
-            if (\method_exists($singleton, 'Link')) {
-                $filteredSpecs['Link'] = 'Varchar';
-            }
-        }
+        return $value;
 
-        return $filteredSpecs;
-        */
-
-        return 400;
     }
 }
