@@ -2,6 +2,7 @@
 
 namespace Suilven\FreeTextSearch\Page;
 
+use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\PaginatedList;
@@ -10,6 +11,8 @@ use Suilven\FreeTextSearch\Container\Facet;
 use Suilven\FreeTextSearch\Container\FacetCount;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
+use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\FreeTextSearch\Helper\FacetLinkHelper;
 use Suilven\FreeTextSearch\Indexes;
 
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
@@ -85,9 +88,6 @@ class SearchPageController extends \PageController
 
 
 
-        /*
-         *
-         *         // get suggestions
 
         $factory = new SuggesterFactory();
 
@@ -95,10 +95,11 @@ class SearchPageController extends \PageController
 
         // @todo this is returning blank
         $suggester->setIndex($model->IndexToSearch);
-        $suggestions = $suggester->suggest($q);
+        $suggestions = is_null($q) ? [] : $suggester->suggest($q);
 
+        print_r($suggestions);
 
-
+/*
 
         $facetted = isset($results['AllFacets']);
 
@@ -182,9 +183,8 @@ class SearchPageController extends \PageController
         $hasManyFields = $searchPage->getHasManyFields();
 
         // @todo ShutterSpeed breaks, no idea why
-        $searcher->setFacettedTokens(['ISO', 'Aperture',]); // 'ShutterSpeed']);
 
-        //$searcher->setFacettedTokens($facets);
+        $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
         $this->paginateSearcher($searcher);
@@ -270,22 +270,34 @@ class SearchPageController extends \PageController
         $facets = $results->getFacets();
         $displayFacets = new ArrayList();
 
+        $helper = new FacetLinkHelper();
+
         /** @var Facet $facet */
         foreach($facets as $facet) {
             $displayFacet = new DataObject();
             $displayFacet->Name = $facet->getName();
+
+            $helper->setFacetInContext($facet->getName());
 
             $counts = new ArrayList();
             /** @var FacetCount $facetCount */
             foreach($facet->getFacetCounts() as $facetCount)
             {
                 $count = new DataObject();
-                $count->Key = $facetCount->getKey();
+                $key = $facetCount->getKey();
+                $count->Key = $key;
                 $count->Count = $facetCount->getCount();
+                $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink($model->Link(), $count->Key);
+                $clearFacetLink = $helper->isSelectedFacet($key) ?  $helper->getClearFacetLink($model->Link(), $facet->getName()) : null;
+
+                $count->Link = $link;
+                $count->ClearFacetLink = $clearFacetLink;
                 $counts->push($count);
             }
 
             $displayFacet->FacetCounts = $counts;
+
+
             $displayFacets->push($displayFacet);
         }
 
