@@ -42,14 +42,15 @@ class FacetLinkHelper
 
     public function isSelectedFacet($key)
     {
-        return $this->params[$this->facetInContext] == $key;
+        return isset($this->params[$this->facetInContext] ) && $this->params[$this->facetInContext] == $key;
     }
 
 
     public function getDrillDownFacetLink($link, $facetKey)
     {
         $result = $link . '?';
-        foreach($this->params as $key => $value)
+        $facetParams = array_merge($this->params, [$this->facetInContext => $facetKey]);
+        foreach($facetParams as $key => $value)
         {
             $result .= $key .'=' . ($value) .'&';
         }
@@ -67,6 +68,7 @@ class FacetLinkHelper
      */
     public function getClearFacetLink($link, $facetKey)
     {
+        echo 'FK=' . $facetKey . '<br/>';
         $result = $link . '?';
         foreach($this->params as $key => $value)
         {

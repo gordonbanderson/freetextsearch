@@ -187,6 +187,8 @@ class SearchPageController extends \PageController
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
 
+        $searcher->setFilters(['ISO' => '400']);
+
         $this->paginateSearcher($searcher);
 
         return $searcher->search($q);
