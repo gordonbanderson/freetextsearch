@@ -30,6 +30,8 @@ class SearchPageController extends \PageController
     /** @var array<string> */
     private static $allowed_actions = ['index', 'similar'];
 
+    protected static $selected = [];
+
 
     public function similar(): \SilverStripe\View\ViewableData_Customised
     {
@@ -69,25 +71,26 @@ class SearchPageController extends \PageController
         $q = $this->getRequest()->getVar('q');
 
         /** @var array $selected */
-        $selected = $this->getRequest()->getVars();
+        $this->selected = $this->getRequest()->getVars();
 
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-        // @todo why?
-       // unset($selected['start']);
 
         $results = new SearchResults();
 
 
         //unset($selected['q']);
 
-        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
-            $results = $this->performSearchIncludingFacets($selected, $model, $q);
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($this->selected['q'])) {
+            $results = $this->performSearchIncludingFacets($model, $q);
         }
 
+        unset($this->selected['q']);
+        unset($this->selected['start']);
 
-
+        echo 'SELECTED:';
+        print_r($this->selected);
 
         $factory = new SuggesterFactory();
 
@@ -167,14 +170,13 @@ class SearchPageController extends \PageController
     }
 
 
-    /** @param array<string,int|string|float|bool> $selected */
-    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
+    public function performSearchIncludingFacets(SearchPage $searchPage, ?string $q): SearchResults
     {
         $factory = new SearcherFactory();
 
         /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
         $searcher = $factory->getSearcher();
-        $searcher->setFilters($selected);
+        $searcher->setFilters($this->selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
 
         \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
@@ -202,6 +204,9 @@ class SearchPageController extends \PageController
     ): \SilverStripe\View\ViewableData_Customised {
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
+
+        $hasManyFieldsDetails = $index->getHasManyFields();
+        $hasManyFieldsNames = array_keys($hasManyFieldsDetails);
 
         /** @var string $clazz */
         $clazz = $index->getClass();
@@ -270,6 +275,9 @@ class SearchPageController extends \PageController
 
 
         $facets = $results->getFacets();
+        $selectedFacetNames = array_keys($this->selected);
+
+
         $displayFacets = new ArrayList();
 
         $helper = new FacetLinkHelper();
@@ -277,9 +285,12 @@ class SearchPageController extends \PageController
         /** @var Facet $facet */
         foreach($facets as $facet) {
             $displayFacet = new DataObject();
-            $displayFacet->Name = $facet->getName();
+            $facetName= $facet->getName();
+            $displayFacet->Name = $facetName;
 
-            $helper->setFacetInContext($facet->getName());
+            $helper->setFacetInContext($facetName);
+            $isHasManyFacet = in_array($facetName, $hasManyFieldsNames);
+            $isSelectedFacet = in_array($facetName, $selectedFacetNames);
 
             $counts = new ArrayList();
             /** @var FacetCount $facetCount */
@@ -294,7 +305,13 @@ class SearchPageController extends \PageController
 
                 $count->Link = $link;
                 $count->ClearFacetLink = $clearFacetLink;
-                $counts->push($count);
+
+                if ($isHasManyFacet && !$isSelectedFacet) {
+                    $counts->push($count);
+                } else if ($isSelectedFacet && $helper->isSelectedFacet($key)) {
+                    $counts->push($count);
+                }
+
             }
 
             $displayFacet->FacetCounts = $counts;
