@@ -15,7 +15,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use Suilven\FreeTextSearch\Container\SearchResults;
 
-class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
+class Searcher extends \Suilven\FreeTextSearch\Base\Searcherexit
 {
     /** @return array<string,array<string,string>> */
     public function search(?string $q): SearchResults

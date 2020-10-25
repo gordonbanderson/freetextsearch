@@ -10,9 +10,6 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\Control\Controller;
-use SilverStripe\ORM\DataObject;
-use Suilven\FreeTextSearch\Factory\IndexablePayloadMutatorFactory;
-use Suilven\FreeTextSearch\Indexes;
 
 class FacetLinkHelper
 {
@@ -23,61 +20,56 @@ class FacetLinkHelper
 
     private $facetInContext = '';
 
-    /**
-     * @param string $facetInContext
-     */
+    public function __construct()
+    {
+        $controller = Controller::curr();
+        $params = $controller->getRequest()->getVars();
+        $this->query = isset($params['q'])
+            ? $params['q']
+            : '';
+        $this->params = $params;
+    }
+
+
     public function setFacetInContext(string $facetInContext): void
     {
         $this->facetInContext = $facetInContext;
     }
 
-    public function __construct()
-    {
-        $controller = Controller::curr();
-        $params = $controller->getRequest()->getVars();
-        $this->query = isset($params['q']) ? $params['q'] : '';
-        $this->params = $params;
-    }
-
 
     public function isSelectedFacet($key)
     {
-        return isset($this->params[$this->facetInContext] ) && $this->params[$this->facetInContext] == $key;
+        return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] === $key;
     }
 
 
     public function getDrillDownFacetLink($link, $facetKey)
     {
         $result = $link . '?';
-        $facetParams = array_merge($this->params, [$this->facetInContext => $facetKey]);
-        foreach($facetParams as $key => $value)
-        {
+        $facetParams = \array_merge($this->params, [$this->facetInContext => $facetKey]);
+        foreach ($facetParams as $key => $value) {
             $result .= $key .'=' . ($value) .'&';
         }
 
-        $result = rtrim($result, '&');
+        $result = \rtrim($result, '&');
 
         return $result;
     }
 
 
-    /**
-     * @param string $link
-     * @param $facetKey
-     * @return string
-     */
-    public function getClearFacetLink($link, $facetKey)
+    public function getClearFacetLink(string $link, $facetKey): string
     {
         echo 'FK=' . $facetKey . '<br/>';
         $result = $link . '?';
-        foreach($this->params as $key => $value)
-        {
-            if ($key != $facetKey) {
-                $result .= $key .'=' . ($value) .'&';
+        foreach ($this->params as $key => $value) {
+            if ($key === $facetKey) {
+                continue;
             }
+
+            $result .= $key .'=' . ($value) .'&';
         }
 
-        $result = rtrim($result, '&');
+        $result = \rtrim($result, '&');
 
         return $result;
     }

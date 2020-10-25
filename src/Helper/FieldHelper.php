@@ -9,32 +9,28 @@
 
 namespace Suilven\FreeTextSearch\Helper;
 
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataObjectSchema;
-use Suilven\FreeTextSearch\Index;
-use Suilven\FreeTextSearch\Indexes;
 
 class FieldHelper
 {
 
     /**
-     * @param Index $index
+     * @param \Suilven\FreeTextSearch\Index $index
      * @param $fieldName
      * @param $fieldValue
-     * @return int
      */
-    public function getFieldValueCorrectlyTyped($index, $fieldName, $fieldValue)
+    public function getFieldValueCorrectlyTyped(Index $index, $fieldName, $fieldValue): int
     {
         $tokens = $index->getTokens();
         $hasManyFields = $index->getHasManyFields();
-        $hasManyKeys = array_keys($hasManyFields);
+        $hasManyKeys = \array_keys($hasManyFields);
 
         $result = null;
-        if (in_array($fieldName, $tokens)) {
+        if (\in_array($fieldName, $tokens)) {
             $result = $this->getSingleValueAttributeCorrectlyTyped($index, $fieldName, $fieldValue);
         }
         // @todo Has one
-        if (in_array($fieldName, $hasManyKeys)) {
+        if (\in_array($fieldName, $hasManyKeys)) {
             $details = $hasManyFields[$fieldName];
             $result = $this->getFieldValueCorrectlyTypedFor(
                 $details['class'],
@@ -71,41 +67,40 @@ Array
     }
 
 
-
     /**
-     * @param Index $index
+     * @param \Suilven\FreeTextSearch\Index $index
      * @param $fieldName
      * @param $fieldValue
-     * @return int
      */
-    public function getSingleValueAttributeCorrectlyTyped($index, $fieldName, $fieldValue)
+    public function getSingleValueAttributeCorrectlyTyped(Index $index, $fieldName, $fieldValue): int
     {
         return $this->getFieldValueCorrectlyTypedFor($index->getClass(), $fieldName, $fieldValue);
     }
 
 
     /**
-     * @param string $clazz
-     * @param string $fieldName
      * @param $fieldValue
      * @return float|int|string
      */
-    private function getFieldValueCorrectlyTypedFor($clazz, $fieldName, $fieldValue) {
+    private function getFieldValueCorrectlyTypedFor(string $clazz, string $fieldName, $fieldValue)
+    {
         $singleton = \singleton($clazz);
         $schema = $singleton->getSchema();
         $specs = $schema->fieldSpecs($clazz, DataObjectSchema::INCLUDE_CLASS);
 
         $type = $specs[$fieldName];
-        $type = explode('.', $type)[1];
+        $type = \explode('.', $type)[1];
 
 
         $value = (string) $fieldValue;
-        switch($type) {
+        switch ($type) {
             case 'Int':
-                $value = intval($fieldValue);
+                $value = \intval($fieldValue);
+
                 break;
             case 'Float':
-                $value = floatval($fieldValue);
+                $value = \floatval($fieldValue);
+
                 break;
         }
 

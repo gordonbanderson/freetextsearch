@@ -2,13 +2,10 @@
 
 namespace Suilven\FreeTextSearch\Page;
 
-use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
-use Suilven\FreeTextSearch\Container\Facet;
-use Suilven\FreeTextSearch\Container\FacetCount;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
 use Suilven\FreeTextSearch\Factory\SuggesterFactory;
@@ -27,10 +24,10 @@ use Suilven\FreeTextSearch\Indexes;
 
 class SearchPageController extends \PageController
 {
+    protected static $selected = [];
+
     /** @var array<string> */
     private static $allowed_actions = ['index', 'similar'];
-
-    protected static $selected = [];
 
 
     public function similar(): \SilverStripe\View\ViewableData_Customised
@@ -90,7 +87,7 @@ class SearchPageController extends \PageController
         unset($this->selected['start']);
 
         echo 'SELECTED:';
-        print_r($this->selected);
+        \print_r($this->selected);
 
         $factory = new SuggesterFactory();
 
@@ -98,9 +95,11 @@ class SearchPageController extends \PageController
 
         // @todo this is returning blank
         $suggester->setIndex($model->IndexToSearch);
-        $suggestions = is_null($q) ? [] : $suggester->suggest($q);
+        $suggestions = \is_null($q)
+            ? []
+            : $suggester->suggest($q);
 
-        print_r($suggestions);
+        \print_r($suggestions);
 
 /*
 
@@ -206,7 +205,7 @@ class SearchPageController extends \PageController
         $index = $indexes->getIndex($model->IndexToSearch);
 
         $hasManyFieldsDetails = $index->getHasManyFields();
-        $hasManyFieldsNames = array_keys($hasManyFieldsDetails);
+        $hasManyFieldsNames = \array_keys($hasManyFieldsDetails);
 
         /** @var string $clazz */
         $clazz = $index->getClass();
@@ -275,43 +274,43 @@ class SearchPageController extends \PageController
 
 
         $facets = $results->getFacets();
-        $selectedFacetNames = array_keys($this->selected);
+        $selectedFacetNames = \array_keys($this->selected);
 
 
         $displayFacets = new ArrayList();
 
         $helper = new FacetLinkHelper();
 
-        /** @var Facet $facet */
-        foreach($facets as $facet) {
+        /** @var \Suilven\FreeTextSearch\Container\Facet $facet */
+        foreach ($facets as $facet) {
             $displayFacet = new DataObject();
             $facetName= $facet->getName();
             $displayFacet->Name = $facetName;
 
             $helper->setFacetInContext($facetName);
-            $isHasManyFacet = in_array($facetName, $hasManyFieldsNames);
-            $isSelectedFacet = in_array($facetName, $selectedFacetNames);
+            $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames);
+            $isSelectedFacet = \in_array($facetName, $selectedFacetNames);
 
             $counts = new ArrayList();
-            /** @var FacetCount $facetCount */
-            foreach($facet->getFacetCounts() as $facetCount)
-            {
+            /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
+            foreach ($facet->getFacetCounts() as $facetCount) {
                 $count = new DataObject();
                 $key = $facetCount->getKey();
                 $count->Key = $key;
                 $count->Count = $facetCount->getCount();
                 $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink($model->Link(), $count->Key);
-                $clearFacetLink = $helper->isSelectedFacet($key) ?  $helper->getClearFacetLink($model->Link(), $facet->getName()) : null;
+                $clearFacetLink = $helper->isSelectedFacet($key)
+                    ? $helper->getClearFacetLink($model->Link(), $facet->getName())
+                    : null;
 
                 $count->Link = $link;
                 $count->ClearFacetLink = $clearFacetLink;
 
                 if ($isHasManyFacet && !$isSelectedFacet) {
                     $counts->push($count);
-                } else if ($isSelectedFacet && $helper->isSelectedFacet($key)) {
+                } elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
                     $counts->push($count);
                 }
-
             }
 
             $displayFacet->FacetCounts = $counts;
@@ -319,7 +318,6 @@ class SearchPageController extends \PageController
 
             $displayFacets->push($displayFacet);
         }
-
 
         return $this->customise(new ArrayData([
             'NumberOfResults' => $results->getTotaNumberOfResults(),

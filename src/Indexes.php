@@ -5,8 +5,6 @@
 namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObjectSchema;
-use SilverStripe\ORM\ManyManyList;
 
 /**
  * Class Indexes
@@ -84,11 +82,11 @@ class Indexes
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                     $relationship = $hasManyField['relationship'];
-                    $mmList = call_user_func(array($singleton, $relationship));
+                    $mmList = \call_user_func(array($singleton, $relationship));
                     $index->addHasManyField($hasManyField['name'], [
                         'relationship' => $relationship,
                         'field' => $hasManyField['field'],
-                        'class' => $mmList->dataClass()
+                        'class' => $mmList->dataClass(),
                     ]);
                 }
             }
