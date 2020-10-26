@@ -15,7 +15,7 @@ use Suilven\FreeTextSearch\Types\SearchParamTypes;
 abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
 {
     /** @var array<string,string|int|float|bool> $filters */
-    protected $filters;
+    protected $filters = [];
 
     /** @var int */
     protected $pageSize = 15;
@@ -30,7 +30,7 @@ abstract class Searcher implements \Suilven\FreeTextSearch\Interfaces\Searcher
     protected $facettedTokens = [];
 
     /** @var array<string> */
-    protected $hasManyTokens;
+    protected $hasManyTokens = [];
 
     /** @var string */
     protected $searchType = SearchParamTypes::AND;
