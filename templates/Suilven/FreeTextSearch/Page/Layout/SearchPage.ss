@@ -1,20 +1,33 @@
 <% require css("suilven/freetextsearch:css/searchpage.css") %>
 
 <main role="main" class="container">
-    <% if $SideBar %>
-        <% include SideBar %>
-    <% end_if %>
     <h1>$Title</h1>
+
+
     <form id="searchForm" action="$Link">
                 <input name="q" type="text"  placeholder="Search..." value="$Query">
                 <button type="submit">Search</button>
     </form>
 
-    <% if $SimilarTo %>
-    Similar to <a href="$SimilarTo.Link">$SimilarTo.Title</a>
-    <% end_if %>
+    <aside class="facets">
+       <h6>Facets - CT=$Facets.Count
+           <% loop $Facets %>
+           <h6>$Name $FacetCounts.Count</h6>
+           <ul>
+               <% loop $FacetCounts %>
+               <li>
+               <% if $ClearFacetLink %>$Key ($Count) <a href="$ClearFacetLink">[x]</a>
+               <% else %>
+               <a href="$Link">$Key ($Count)</a></li>
+               <% end_if %>
 
-    <% if $NumberOfResults > 0 %>
+               <% end_loop %>
+           </ul>
+           <% end_loop %>
+    </aside>
+
+    <div class="content-container unit size3of4 lastUnit facetsExist">
+<% if $NumberOfResults > 0 %>
         <div class="searchResultsInfo">$NumberOfResults results found in $Time seconds</div>
 
             <% loop $Records %>
@@ -73,6 +86,11 @@
     <% else %>
         <p>Sorry, your search query did not return any results</p>
     <% end_if %>
+    </div>
+
+
+
+
 </main>
 
 

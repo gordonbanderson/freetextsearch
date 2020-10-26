@@ -14,8 +14,8 @@ use Suilven\FreeTextSearch\Types\TokenizerTypes;
 
 class Index
 {
-    /** @var string|null the name of the class to index, with namespace */
-    private $clazz = null;
+    /** @var string the name of the class to index, with namespace */
+    private $clazz = '';
 
     /** @var array<string> names of fields */
     private $fields = [];
@@ -58,13 +58,13 @@ class Index
     }
 
 
-    public function setClass(?string $clazz): void
+    public function setClass(string $clazz): void
     {
         $this->clazz = $clazz;
     }
 
 
-    public function getClass(): ?string
+    public function getClass(): string
     {
         return $this->clazz;
     }

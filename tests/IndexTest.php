@@ -24,14 +24,6 @@ class IndexTest extends SapphireTest
     }
 
 
-    public function testSetClassNull(): void
-    {
-        $index = new Index();
-        $index->setClass(null);
-        $this->assertNull($index->getClass());
-    }
-
-
     public function testHasOneFields(): void
     {
         $index = new Index();

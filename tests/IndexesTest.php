@@ -75,6 +75,7 @@ class IndexesTest extends SapphireTest
         [
             'relationship' => 'FlickrTags',
             'field' => 'RawValue',
+            'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrTag',
         ]], $indices['flickrphotos']->getHasManyFields());
         $this->assertEquals([
             'Aperture',
@@ -112,11 +113,13 @@ class IndexesTest extends SapphireTest
         $indexes = new Indexes();
 
         $this->assertEquals(
-            [[
+            [
+                [
                 'name' => 'tags',
                 'relationship' => 'FlickrTags',
                 'field' => 'RawValue',
-            ]],
+                ],
+            ],
             $indexes->getHasManyFields('flickrphotos')
         );
     }

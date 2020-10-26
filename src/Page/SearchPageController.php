@@ -8,6 +8,8 @@ use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
+use Suilven\FreeTextSearch\Factory\SuggesterFactory;
+use Suilven\FreeTextSearch\Helper\FacetLinkHelper;
 use Suilven\FreeTextSearch\Indexes;
 
 // @phpcs:disable SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification
@@ -22,6 +24,9 @@ use Suilven\FreeTextSearch\Indexes;
 
 class SearchPageController extends \PageController
 {
+    /** @var array<string,string|float|int|bool> */
+    protected static $selected = [];
+
     /** @var array<string> */
     private static $allowed_actions = ['index', 'similar'];
 
@@ -63,28 +68,26 @@ class SearchPageController extends \PageController
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
 
-        /** @var array $selected */
-        $selected = $this->getRequest()->getVars();
+        $this->selected = $this->getRequest()->getVars();
 
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-        // @todo why?
-       // unset($selected['start']);
 
         $results = new SearchResults();
 
 
         //unset($selected['q']);
 
-        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($selected['q'])) {
-            $results = $this->performSearchIncludingFacets($selected, $model, $q);
+        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($this->selected['q'])) {
+            $results = $this->performSearchIncludingFacets($model, $q);
         }
 
+        unset($this->selected['q']);
+        unset($this->selected['start']);
 
-        /*
-         *
-         *         // get suggestions
+        echo 'SELECTED:';
+        \print_r($this->selected);
 
         $factory = new SuggesterFactory();
 
@@ -92,10 +95,13 @@ class SearchPageController extends \PageController
 
         // @todo this is returning blank
         $suggester->setIndex($model->IndexToSearch);
-        $suggestions = $suggester->suggest($q);
+        $suggestions = \is_null($q)
+            ? []
+            : $suggester->suggest($q);
 
+        \print_r($suggestions);
 
-
+/*
 
         $facetted = isset($results['AllFacets']);
 
@@ -163,14 +169,13 @@ class SearchPageController extends \PageController
     }
 
 
-    /** @param array<string,int|string|float|bool> $selected */
-    public function performSearchIncludingFacets(array $selected, SearchPage $searchPage, ?string $q): SearchResults
+    public function performSearchIncludingFacets(SearchPage $searchPage, ?string $q): SearchResults
     {
         $factory = new SearcherFactory();
 
         /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
         $searcher = $factory->getSearcher();
-        $searcher->setFilters($selected);
+        $searcher->setFilters($this->selected);
         $searcher->setIndexName($searchPage->IndexToSearch);
 
         \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
@@ -178,8 +183,12 @@ class SearchPageController extends \PageController
         $facets = $searchPage->getFacetFields();
         $hasManyFields = $searchPage->getHasManyFields();
 
+        // @todo ShutterSpeed breaks, no idea why
+
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
+
+       // $searcher->setFilters(['ISO' => '400']);
 
         $this->paginateSearcher($searcher);
 
@@ -194,6 +203,9 @@ class SearchPageController extends \PageController
     ): \SilverStripe\View\ViewableData_Customised {
         $indexes = new Indexes();
         $index = $indexes->getIndex($model->IndexToSearch);
+
+        $hasManyFieldsDetails = $index->getHasManyFields();
+        $hasManyFieldsNames = \array_keys($hasManyFieldsDetails);
 
         /** @var string $clazz */
         $clazz = $index->getClass();
@@ -260,6 +272,64 @@ class SearchPageController extends \PageController
         $paginatedList->setTotalItems($results->getTotaNumberOfResults());
         $paginatedList->setCurrentPage($results->getPage());
 
+
+        $facets = $results->getFacets();
+        $selectedFacetNames = \array_keys($this->selected);
+
+
+        $displayFacets = new ArrayList();
+
+        $helper = new FacetLinkHelper();
+
+        /** @var \Suilven\FreeTextSearch\Container\Facet $facet */
+        foreach ($facets as $facet) {
+            $displayFacet = new DataObject();
+            $facetName= $facet->getName();
+            /** @phpstan-ignore-next-line */
+            $displayFacet->Name = $facetName;
+
+            $helper->setFacetInContext($facetName);
+            $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
+            $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
+
+            $counts = new ArrayList();
+            /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
+            foreach ($facet->getFacetCounts() as $facetCount) {
+                // @todo Make this an object
+                $count = new DataObject();
+                $key = $facetCount->getKey();
+                /** @phpstan-ignore-next-line */
+                $count->Key = $key;
+                /** @phpstan-ignore-next-line */
+                $count->Count = $facetCount->getCount();
+                $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink(
+                    $model->Link(),
+                    $count->Key
+                );
+                $clearFacetLink = $helper->isSelectedFacet($key)
+                    ? $helper->getClearFacetLink($model->Link(), $facet->getName())
+                    : null;
+
+                // @phpstan-ignore-next-line
+                $count->Link = $link;
+
+                // @phpstan-ignore-next-line
+                $count->ClearFacetLink = $clearFacetLink;
+
+                if ($isHasManyFacet && !$isSelectedFacet) {
+                    $counts->push($count);
+                } elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
+                    $counts->push($count);
+                }
+            }
+
+            // @phpstan-ignore-next-line
+            $displayFacet->FacetCounts = $counts;
+
+
+            $displayFacets->push($displayFacet);
+        }
+
         return $this->customise(new ArrayData([
             'NumberOfResults' => $results->getTotaNumberOfResults(),
             'Query' => $results->getQuery(),
@@ -271,6 +341,7 @@ class SearchPageController extends \PageController
             'Time' => $results->getTime(),
             'Pagination' => $paginatedList,
             'SimilarTo' => $results->getSimilarTo(),
+            'Facets' => $displayFacets,
         ]));
     }
 

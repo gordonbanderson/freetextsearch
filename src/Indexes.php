@@ -75,13 +75,19 @@ class Indexes
                 }
             }
 
+            $singleton = \singleton($index->getClass());
+
             // has many fields
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
+                    $relationship = $hasManyField['relationship'];
+                    // @phpstan-ignore-next-line
+                    $mmList = \call_user_func(array($singleton, $relationship));
                     $index->addHasManyField($hasManyField['name'], [
-                        'relationship' => $hasManyField['relationship'],
+                        'relationship' => $relationship,
                         'field' => $hasManyField['field'],
+                        'class' => $mmList->dataClass(),
                     ]);
                 }
             }
@@ -107,7 +113,7 @@ class Indexes
 
             $this->indexesByName[$index->getName()] = $index;
         }
-        
+
         return $this->indexesByName;
     }
 
@@ -159,7 +165,7 @@ class Indexes
     }
 
 
-    /** @return array<string> */
+    /** @return array<int,array<string,string>> */
     public function getHasManyFields(string $indexName): array
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
@@ -173,6 +179,7 @@ class Indexes
             }
 
             if (isset($indexConfig['index']['has_many'])) {
+                /** @var array<string,string> $hasManyField */
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                     $result[] = $hasManyField;
                 }

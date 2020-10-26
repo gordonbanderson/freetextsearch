@@ -97,7 +97,13 @@ class SearchPage extends \Page
     {
         $indexesService = new Indexes();
 
-        return $indexesService->getHasManyFields($this->IndexToSearch);
+        $fieldDetails = $indexesService->getHasManyFields($this->IndexToSearch);
+        $result = [];
+        foreach ($fieldDetails as $detail) {
+            $result[] = $detail['name'];
+        }
+
+        return $result;
     }
 
 

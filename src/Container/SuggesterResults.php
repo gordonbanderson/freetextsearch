@@ -18,7 +18,7 @@ class SuggesterResults
     private $query;
 
     /** @var array<string> */
-    private $results;
+    private $results = [];
 
     /** @var float the time in seconds */
     private $time;
