@@ -165,7 +165,7 @@ class Indexes
     }
 
 
-    /** @return array<string> */
+    /** @return array<int,array<string,string>> */
     public function getHasManyFields(string $indexName): array
     {
         $indexesConfig = Config::inst()->get('Suilven\FreeTextSearch\Indexes', 'indexes');
@@ -179,6 +179,7 @@ class Indexes
             }
 
             if (isset($indexConfig['index']['has_many'])) {
+                /** @var array<string,string> $hasManyField */
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                     $result[] = $hasManyField;
                 }

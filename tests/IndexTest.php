@@ -23,6 +23,7 @@ class IndexTest extends SapphireTest
         $this->assertEquals('\Page', $index->getClass());
     }
 
+
     public function testHasOneFields(): void
     {
         $index = new Index();
