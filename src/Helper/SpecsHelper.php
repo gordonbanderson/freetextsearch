@@ -24,14 +24,14 @@ class SpecsHelper
     {
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
-        $singleton = \singleton((string)($index->getClass()));
+        $singleton = \singleton($index->getClass());
 
         $helper = new IndexingHelper();
         $fields = $helper->getFields($indexName);
 
         /** @var \SilverStripe\ORM\DataObjectSchema $schema */
         $schema = $singleton->getSchema();
-        $specs = $schema->fieldSpecs((string) $index->getClass(), DataObjectSchema::INCLUDE_CLASS);
+        $specs = $schema->fieldSpecs($index->getClass(), DataObjectSchema::INCLUDE_CLASS);
 
         /** @var array<string,string> $filteredSpecs the DB specs for fields related to the index */
         $filteredSpecs = [];

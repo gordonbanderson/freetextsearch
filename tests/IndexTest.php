@@ -23,15 +23,6 @@ class IndexTest extends SapphireTest
         $this->assertEquals('\Page', $index->getClass());
     }
 
-
-    public function testSetClassNull(): void
-    {
-        $index = new Index();
-        $index->setClass(null);
-        $this->assertNull($index->getClass());
-    }
-
-
     public function testHasOneFields(): void
     {
         $index = new Index();

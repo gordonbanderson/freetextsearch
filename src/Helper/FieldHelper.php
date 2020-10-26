@@ -10,27 +10,27 @@
 namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\ORM\DataObjectSchema;
+use Suilven\FreeTextSearch\Index;
 
 class FieldHelper
 {
 
     /**
-     * @param \Suilven\FreeTextSearch\Index $index
-     * @param $fieldName
-     * @param $fieldValue
-     */
-    public function getFieldValueCorrectlyTyped(Index $index, $fieldName, $fieldValue): int
+     * @param string|int|float|bool $fieldValue
+     * @return float|int|string|bool
+    */
+    public function getFieldValueCorrectlyTyped(Index $index, string $fieldName, $fieldValue)
     {
         $tokens = $index->getTokens();
         $hasManyFields = $index->getHasManyFields();
         $hasManyKeys = \array_keys($hasManyFields);
 
-        $result = null;
-        if (\in_array($fieldName, $tokens)) {
+        $result = '';
+        if (\in_array($fieldName, $tokens, true)) {
             $result = $this->getSingleValueAttributeCorrectlyTyped($index, $fieldName, $fieldValue);
         }
         // @todo Has one
-        if (\in_array($fieldName, $hasManyKeys)) {
+        if (\in_array($fieldName, $hasManyKeys, true)) {
             $details = $hasManyFields[$fieldName];
             $result = $this->getFieldValueCorrectlyTypedFor(
                 $details['class'],
@@ -41,46 +41,26 @@ class FieldHelper
             $singleton = \singleton($details['class']);
             $objInContext = $singleton->get()->filter($details['field'], $fieldValue)->first();
 
-            $result = [$objInContext->ID];
+            $result = $objInContext->ID;
         }
-
-        /*
-         * ===============================Array
-(
-    [q] => fish
-    [Tags] => Salton
-)
-Array
-(
-    [Tags] => Array
-        (
-            [relationship] => FlickrTags
-            [field] => RawValue
-            [class] => Suilven\Flickr\Model\Flickr\FlickrTag
-        )
-
-)
-
-         */
 
         return $result;
     }
 
 
     /**
-     * @param \Suilven\FreeTextSearch\Index $index
-     * @param $fieldName
-     * @param $fieldValue
+     * @param string|int|float|bool $fieldValue
+     * @return float|int|string|bool
      */
-    public function getSingleValueAttributeCorrectlyTyped(Index $index, $fieldName, $fieldValue): int
+    public function getSingleValueAttributeCorrectlyTyped(Index $index, string $fieldName, $fieldValue)
     {
         return $this->getFieldValueCorrectlyTypedFor($index->getClass(), $fieldName, $fieldValue);
     }
 
 
     /**
-     * @param $fieldValue
-     * @return float|int|string
+     * @param string|int|float|bool $fieldValue
+     * @return float|int|string|bool
      */
     private function getFieldValueCorrectlyTypedFor(string $clazz, string $fieldName, $fieldValue)
     {
@@ -100,6 +80,10 @@ Array
                 break;
             case 'Float':
                 $value = \floatval($fieldValue);
+
+                break;
+            case 'Boolean':
+                $value = \boolval($fieldValue);
 
                 break;
         }

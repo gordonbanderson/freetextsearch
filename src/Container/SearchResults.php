@@ -123,9 +123,7 @@ class SearchResults
     /** @return array<\Suilven\FreeTextSearch\Container\Facet> */
     public function getFacets(): array
     {
-        return \is_null($this->facets)
-            ? []
-            : $this->facets ;
+        return $this->facets ;
     }
 
 

@@ -24,6 +24,7 @@ use Suilven\FreeTextSearch\Indexes;
 
 class SearchPageController extends \PageController
 {
+    /** @var array<string,string|float|int|bool> */
     protected static $selected = [];
 
     /** @var array<string> */
@@ -67,7 +68,6 @@ class SearchPageController extends \PageController
         // @todo search indexes addition
         $q = $this->getRequest()->getVar('q');
 
-        /** @var array $selected */
         $this->selected = $this->getRequest()->getVars();
 
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
@@ -285,25 +285,35 @@ class SearchPageController extends \PageController
         foreach ($facets as $facet) {
             $displayFacet = new DataObject();
             $facetName= $facet->getName();
+            /** @phpstan-ignore-next-line */
             $displayFacet->Name = $facetName;
 
             $helper->setFacetInContext($facetName);
-            $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames);
-            $isSelectedFacet = \in_array($facetName, $selectedFacetNames);
+            $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
+            $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
 
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
             foreach ($facet->getFacetCounts() as $facetCount) {
+                // @todo Make this an object
                 $count = new DataObject();
                 $key = $facetCount->getKey();
+                /** @phpstan-ignore-next-line */
                 $count->Key = $key;
+                /** @phpstan-ignore-next-line */
                 $count->Count = $facetCount->getCount();
-                $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink($model->Link(), $count->Key);
+                $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink(
+                    $model->Link(),
+                    $count->Key
+                );
                 $clearFacetLink = $helper->isSelectedFacet($key)
                     ? $helper->getClearFacetLink($model->Link(), $facet->getName())
                     : null;
 
+                // @phpstan-ignore-next-line
                 $count->Link = $link;
+
+                // @phpstan-ignore-next-line
                 $count->ClearFacetLink = $clearFacetLink;
 
                 if ($isHasManyFacet && !$isSelectedFacet) {
@@ -313,6 +323,7 @@ class SearchPageController extends \PageController
                 }
             }
 
+            // @phpstan-ignore-next-line
             $displayFacet->FacetCounts = $counts;
 
 

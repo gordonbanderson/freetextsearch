@@ -75,13 +75,14 @@ class Indexes
                 }
             }
 
-            $singleton = \singleton((string)($index->getClass()));
+            $singleton = \singleton($index->getClass());
 
             // has many fields
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
                 foreach ($indexConfig['index']['has_many'] as $hasManyField) {
                     $relationship = $hasManyField['relationship'];
+                    // @phpstan-ignore-next-line
                     $mmList = \call_user_func(array($singleton, $relationship));
                     $index->addHasManyField($hasManyField['name'], [
                         'relationship' => $relationship,

@@ -16,8 +16,10 @@ class FacetLinkHelper
     /** @var string */
     private $query;
 
+    /** @var array<string,string|int|float|bool> */
     private $params = [];
 
+    /** @var string */
     private $facetInContext = '';
 
     public function __construct()
@@ -37,15 +39,17 @@ class FacetLinkHelper
     }
 
 
-    public function isSelectedFacet($key)
+    /** @param bool|float|int|string $key */
+    public function isSelectedFacet($key): bool
     {
         return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] === $key;
     }
 
 
-    public function getDrillDownFacetLink($link, $facetKey)
+    /** @param bool|float|int|string $facetKey */
+    public function getDrillDownFacetLink(string $searchPageLink, $facetKey): string
     {
-        $result = $link . '?';
+        $result = $searchPageLink . '?';
         $facetParams = \array_merge($this->params, [$this->facetInContext => $facetKey]);
         foreach ($facetParams as $key => $value) {
             $result .= $key .'=' . ($value) .'&';
@@ -57,10 +61,11 @@ class FacetLinkHelper
     }
 
 
-    public function getClearFacetLink(string $link, $facetKey): string
+    /** @param bool|float|int|string $facetKey */
+    public function getClearFacetLink(string $searchPageLink, $facetKey): string
     {
         echo 'FK=' . $facetKey . '<br/>';
-        $result = $link . '?';
+        $result = $searchPageLink . '?';
         foreach ($this->params as $key => $value) {
             if ($key === $facetKey) {
                 continue;

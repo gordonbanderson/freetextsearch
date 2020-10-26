@@ -38,13 +38,7 @@ class SearchPageTest extends SapphireTest
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $photoSearchPage */
         $photoSearchPage = $this->objFromFixture(SearchPage::class, 'photo-search');
 
-        $this->assertEquals([
-            [
-                'name' => 'tags',
-                'relationship' => 'FlickrTags',
-                'field' => 'RawValue',
-            ],
-        ], $photoSearchPage->getHasManyFields());
+        $this->assertEquals(['tags'], $photoSearchPage->getHasManyFields());
     }
 
 
