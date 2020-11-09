@@ -5,6 +5,7 @@
 namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
+use Suilven\FreeTextSearch\Helper\SpecsHelper;
 
 /**
  * Class Indexes
@@ -69,25 +70,33 @@ class Indexes
             }
 
             // has one fields
+            $singleton = \singleton($index->getClass());
+
             if (isset($indexConfig['index']['has_one'])) {
                 foreach ($indexConfig['index']['has_one'] as $hasOneField) {
-                    $index->addHasOneField($hasOneField);
+                    $relationship = $hasOneField['relationship'];
+                    // @phpstan-ignore-next-line
+                    $singletonOfRel = \call_user_func(array($singleton, $relationship));
+
+                    $index->addHasOneField($hasOneField['name'], [
+                        'relationship' => $relationship,
+                        'field' => $hasOneField['field'],
+                        'class' => $singletonOfRel->ClassName,
+                    ]);
                 }
             }
-
-            $singleton = \singleton($index->getClass());
 
             // has many fields
             // NB many many may need to be treated as bipartisan has many
             if (isset($indexConfig['index']['has_many'])) {
-                foreach ($indexConfig['index']['has_many'] as $hasManyField) {
-                    $relationship = $hasManyField['relationship'];
+                foreach ($indexConfig['index']['has_many'] as $hasOneField) {
+                    $relationship = $hasOneField['relationship'];
                     // @phpstan-ignore-next-line
-                    $mmList = \call_user_func(array($singleton, $relationship));
-                    $index->addHasManyField($hasManyField['name'], [
+                    $singletonOfRel = \call_user_func(array($singleton, $relationship));
+                    $index->addHasManyField($hasOneField['name'], [
                         'relationship' => $relationship,
-                        'field' => $hasManyField['field'],
-                        'class' => $mmList->dataClass(),
+                        'field' => $hasOneField['field'],
+                        'class' => $singletonOfRel->dataClass(),
                     ]);
                 }
             }
@@ -133,6 +142,13 @@ class Indexes
             if (isset($indexConfig['index']['tokens'])) {
                 foreach ($indexConfig['index']['tokens'] as $token) {
                     $result[] = $token;
+                }
+            }
+
+            if (isset($indexConfig['index']['has_one'])) {
+                foreach ($indexConfig['index']['has_one'] as $hasOneField) {
+                    print_r($hasOneField);
+                    $result[] = $hasOneField['name'];
                 }
             }
         }

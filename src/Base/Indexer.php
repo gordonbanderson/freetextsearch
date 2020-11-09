@@ -48,7 +48,6 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
         // populate MVA columns
         $mvaColumns = $index->getHasManyFields();
 
-
         /** @var string $mvaColumnName */
         foreach (\array_keys($mvaColumns) as $mvaColumnName) {
             $relationship = $mvaColumns[$mvaColumnName]['relationship'];
@@ -63,6 +62,19 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
             }
 
             $payload[$this->indexName][$mvaColumnName] = $values;
+        }
+
+        // populate has one columns
+        $hasOneColumns = $index->getHasOneFields();
+
+        /** @var string $hasOneColumn */
+        foreach(array_keys($hasOneColumns) as $hasOneColumn)
+        {
+            $relationship = $hasOneColumns[$hasOneColumn]['relationship'];
+
+            /** @var DataObject $hasOneObj */
+            $hasOneObj = $dataObject->$relationship();
+            $payload[$this->indexName][$hasOneColumn] = $hasOneObj->ID;
         }
 
         return $payload;

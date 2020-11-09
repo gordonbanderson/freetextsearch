@@ -30,6 +30,8 @@ class SearchPageController extends \PageController
     /** @var array<string> */
     private static $allowed_actions = ['index', 'similar'];
 
+    private $tagCloud = [];
+
 
     public function similar(): \SilverStripe\View\ViewableData_Customised
     {
@@ -73,18 +75,19 @@ class SearchPageController extends \PageController
         /** @var \Suilven\FreeTextSearch\Page\SearchPage $model */
         $model = SearchPage::get_by_id(SearchPage::class, $this->ID);
 
-
         $results = new SearchResults();
 
-
-        //unset($selected['q']);
-
-        if (isset($q) || $model->ShowAllIfEmptyQuery || isset($this->selected['q'])) {
+        if (isset($q) || $model->PageLandingMode !== 'DoNothing' || isset($this->selected['q'])) {
             $results = $this->performSearchIncludingFacets($model, $q);
+
+            if ($model->PageLandingMode === 'TagCloud') {
+                $this->buildTagCloud();
+            }
         }
 
         unset($this->selected['q']);
         unset($this->selected['start']);
+        unset($this->selected['flush']);
 
         echo 'SELECTED:';
         \print_r($this->selected);
@@ -99,9 +102,45 @@ class SearchPageController extends \PageController
             ? []
             : $suggester->suggest($q);
 
-        \print_r($suggestions);
 
-/*
+
+
+        // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
+        // $results['CleanedLink'] = $this->Link();
+
+        return $this->renderSearchResults($model, $results);
+    }
+
+
+    public function performSearchIncludingFacets(SearchPage $searchPage, ?string $q): SearchResults
+    {
+        $factory = new SearcherFactory();
+
+        /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
+        $searcher = $factory->getSearcher();
+        $searcher->setFilters($this->selected);
+        $searcher->setIndexName($searchPage->IndexToSearch);
+
+        $facets = $searchPage->getFacetFields();
+        $hasManyFields = $searchPage->getHasManyFields();
+
+        // @todo ShutterSpeed breaks, no idea why
+
+        $searcher->setFacettedTokens($facets);
+        $searcher->setHasManyTokens($hasManyFields);
+
+        $this->paginateSearcher($searcher);
+
+        $result = $searcher->search($q);
+
+        //print_r($result->getFacets());
+        return $result;
+    }
+
+
+    private function buildTagCloud()
+    {
+        /*
 
         $facetted = isset($results['AllFacets']);
 
@@ -160,39 +199,6 @@ class SearchPageController extends \PageController
 
         */
 
-
-        // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
-        // $results['ShowAllIfEmptyQuery'] = $model->ShowAllIfEmptyQuery;
-        // $results['CleanedLink'] = $this->Link();
-
-        return $this->renderSearchResults($model, $results);
-    }
-
-
-    public function performSearchIncludingFacets(SearchPage $searchPage, ?string $q): SearchResults
-    {
-        $factory = new SearcherFactory();
-
-        /** @var \Suilven\FreeTextSearch\Interfaces\Searcher $searcher */
-        $searcher = $factory->getSearcher();
-        $searcher->setFilters($this->selected);
-        $searcher->setIndexName($searchPage->IndexToSearch);
-
-        \error_log('SEARCH PAGE PAGE SIZE: ' . $searchPage->PageSize);
-
-        $facets = $searchPage->getFacetFields();
-        $hasManyFields = $searchPage->getHasManyFields();
-
-        // @todo ShutterSpeed breaks, no idea why
-
-        $searcher->setFacettedTokens($facets);
-        $searcher->setHasManyTokens($hasManyFields);
-
-       // $searcher->setFilters(['ISO' => '400']);
-
-        $this->paginateSearcher($searcher);
-
-        return $searcher->search($q);
     }
 
 
@@ -276,7 +282,6 @@ class SearchPageController extends \PageController
         $facets = $results->getFacets();
         $selectedFacetNames = \array_keys($this->selected);
 
-
         $displayFacets = new ArrayList();
 
         $helper = new FacetLinkHelper();
@@ -285,8 +290,12 @@ class SearchPageController extends \PageController
         foreach ($facets as $facet) {
             $displayFacet = new DataObject();
             $facetName= $facet->getName();
+
             /** @phpstan-ignore-next-line */
             $displayFacet->Name = $facetName;
+
+           // echo '---- facet ----<br/>';
+           echo '<br/><br/>' . $facet->getName() . '<br/>';
 
             $helper->setFacetInContext($facetName);
             $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
@@ -295,17 +304,22 @@ class SearchPageController extends \PageController
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
             foreach ($facet->getFacetCounts() as $facetCount) {
+                echo "    " . $facetCount->getKey() . ' --> ' . $facetCount->getCount();
                 // @todo Make this an object
                 $count = new DataObject();
                 $key = $facetCount->getKey();
+
                 /** @phpstan-ignore-next-line */
                 $count->Key = $key;
+
                 /** @phpstan-ignore-next-line */
                 $count->Count = $facetCount->getCount();
                 $link = $helper->isSelectedFacet($key) ? null: $helper->getDrillDownFacetLink(
                     $model->Link(),
                     $count->Key
                 );
+
+                echo '<br/>SELECTED[' . $key . '] = ' . $helper->isSelectedFacet($key) . "<br/>";
                 $clearFacetLink = $helper->isSelectedFacet($key)
                     ? $helper->getClearFacetLink($model->Link(), $facet->getName())
                     : null;
@@ -316,16 +330,37 @@ class SearchPageController extends \PageController
                 // @phpstan-ignore-next-line
                 $count->ClearFacetLink = $clearFacetLink;
 
+                /*
+                echo 'FACET: ' . $facetCount->getKey();
+                echo ', HMF=' . $isHasManyFacet;
+                echo ', SEL=' . $isSelectedFacet;
+                echo "\n<br/>\n";
+
+
+
+
                 if ($isHasManyFacet && !$isSelectedFacet) {
                     $counts->push($count);
                 } elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
+                    $counts->push($count);
+                } else {
+                    echo 'Not pushed';
+                }
+
+                */
+
+                $count->IsSelected = $isSelectedFacet;
+                $count->KeySelected = $helper->isSelectedFacet($key);
+
+                if ($isHasManyFacet && !$isSelectedFacet) {
+                    $counts->push($count);
+                }elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
                     $counts->push($count);
                 }
             }
 
             // @phpstan-ignore-next-line
             $displayFacet->FacetCounts = $counts;
-
 
             $displayFacets->push($displayFacet);
         }

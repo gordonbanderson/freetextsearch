@@ -26,10 +26,10 @@ class Index
     /** @var array<string> names of tokens */
     private $tokens = [];
 
-    /** @var array<string> names of has one fields */
+    /** @var array<string,array<string,string>> names of has one fields, with other info */
     private $hasOneFields = [];
 
-    /** @var array<string,array<string,string>> names of has many fields */
+    /** @var array<string,array<string,string>> names of has many fields, with other info */
     private $hasManyFields = [];
 
     /** @var array<string> names of highlighted fields */
@@ -161,11 +161,11 @@ class Index
     /**
      * Add a has one field to the index
      *
-     * @param string $fieldName the name of the has one field to index
-     */
-    public function addHasOneField(string $fieldName): void
+     * @param string $name the name of the has many field to index
+     * @param array<string,string> $relationshipNameAndValueField     */
+    public function addHasOneField(string $name, array $relationshipNameAndValueField): void
     {
-        $this->hasOneFields[] = $fieldName;
+        $this->hasOneFields[$name] = $relationshipNameAndValueField ;
     }
 
 
