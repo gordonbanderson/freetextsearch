@@ -10,14 +10,12 @@
     </form>
 
     <aside class="facets">
-       <h6>Facets - CT=$Facets.Count
+       <h6>Facets
            <% loop $Facets %>
            <h6>$Name $FacetCounts.Count</h6>
            <ul>
                <% loop $FacetCounts %>
                <li>
-               L=$Link <br/>
-               CL=*$ClearFacetLink* <br/>
                <% if $ClearFacetLink %>$Key ($Count) <a href="$ClearFacetLink">[x]</a>
                <% else %>
                <a href="$Link">$Key ($Count)</a></li>

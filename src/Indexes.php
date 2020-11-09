@@ -147,7 +147,6 @@ class Indexes
 
             if (isset($indexConfig['index']['has_one'])) {
                 foreach ($indexConfig['index']['has_one'] as $hasOneField) {
-                    print_r($hasOneField);
                     $result[] = $hasOneField['name'];
                 }
             }

@@ -89,9 +89,6 @@ class SearchPageController extends \PageController
         unset($this->selected['start']);
         unset($this->selected['flush']);
 
-        echo 'SELECTED:';
-        \print_r($this->selected);
-
         $factory = new SuggesterFactory();
 
         $suggester = $factory->getSuggester();
@@ -128,12 +125,10 @@ class SearchPageController extends \PageController
 
         $searcher->setFacettedTokens($facets);
         $searcher->setHasManyTokens($hasManyFields);
-
         $this->paginateSearcher($searcher);
 
         $result = $searcher->search($q);
 
-        //print_r($result->getFacets());
         return $result;
     }
 
@@ -212,6 +207,9 @@ class SearchPageController extends \PageController
 
         $hasManyFieldsDetails = $index->getHasManyFields();
         $hasManyFieldsNames = \array_keys($hasManyFieldsDetails);
+
+        $hasOneFieldsDetails = $index->getHasOneFields();
+        $hasOneFieldsNames = \array_keys($hasOneFieldsDetails);
 
         /** @var string $clazz */
         $clazz = $index->getClass();
@@ -293,18 +291,14 @@ class SearchPageController extends \PageController
 
             /** @phpstan-ignore-next-line */
             $displayFacet->Name = $facetName;
-
-           // echo '---- facet ----<br/>';
-           echo '<br/><br/>' . $facet->getName() . '<br/>';
-
             $helper->setFacetInContext($facetName);
+            $isHasOneFacet = \in_array($facetName, $hasOneFieldsNames, true);
             $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
             $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
 
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
             foreach ($facet->getFacetCounts() as $facetCount) {
-                echo "    " . $facetCount->getKey() . ' --> ' . $facetCount->getCount();
                 // @todo Make this an object
                 $count = new DataObject();
                 $key = $facetCount->getKey();
@@ -319,7 +313,6 @@ class SearchPageController extends \PageController
                     $count->Key
                 );
 
-                echo '<br/>SELECTED[' . $key . '] = ' . $helper->isSelectedFacet($key) . "<br/>";
                 $clearFacetLink = $helper->isSelectedFacet($key)
                     ? $helper->getClearFacetLink($model->Link(), $facet->getName())
                     : null;
@@ -330,25 +323,6 @@ class SearchPageController extends \PageController
                 // @phpstan-ignore-next-line
                 $count->ClearFacetLink = $clearFacetLink;
 
-                /*
-                echo 'FACET: ' . $facetCount->getKey();
-                echo ', HMF=' . $isHasManyFacet;
-                echo ', SEL=' . $isSelectedFacet;
-                echo "\n<br/>\n";
-
-
-
-
-                if ($isHasManyFacet && !$isSelectedFacet) {
-                    $counts->push($count);
-                } elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
-                    $counts->push($count);
-                } else {
-                    echo 'Not pushed';
-                }
-
-                */
-
                 $count->IsSelected = $isSelectedFacet;
                 $count->KeySelected = $helper->isSelectedFacet($key);
 
@@ -356,7 +330,11 @@ class SearchPageController extends \PageController
                     $counts->push($count);
                 }elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
                     $counts->push($count);
+                }elseif($isHasOneFacet) {
+                    $counts->push($count);
                 }
+
+
             }
 
             // @phpstan-ignore-next-line
