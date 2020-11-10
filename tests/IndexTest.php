@@ -26,10 +26,10 @@ class IndexTest extends SapphireTest
 
     public function testHasOneFields(): void
     {
-        $relationshipArray =  [
+        $relationshipArray = [
             'relationship' => 'Photographer',
             'field' => 'PathAlias',
-            'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'
+            'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrAuthor',
         ];
 
         $index = new Index();
@@ -39,9 +39,13 @@ class IndexTest extends SapphireTest
         $index->addHasOneField('second', $relationshipArray);
         $this->assertEquals(['first' => $relationshipArray, 'second' => $relationshipArray], $index->getHasOneFields());
         $index->addHasOneField('third', $relationshipArray);
-        $this->assertEquals(['first' => $relationshipArray, 'second' => $relationshipArray, 'third' => $relationshipArray], $index->getHasOneFields());
+        $this->assertEquals(
+            ['first' => $relationshipArray, 'second' => $relationshipArray, 'third' => $relationshipArray],
+            $index->getHasOneFields()
+        );
         $index->addHasOneField('fourth', $relationshipArray);
-        $this->assertEquals(['first' => $relationshipArray, 'second' => $relationshipArray, 'third' => $relationshipArray, 'fourth' => $relationshipArray], $index->getHasOneFields());
+        $this->assertEquals(['first' => $relationshipArray, 'second' => $relationshipArray,
+            'third' => $relationshipArray, 'fourth' => $relationshipArray], $index->getHasOneFields());
     }
 
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Suilven\FreeTextSearch\Tests;
 
@@ -72,8 +72,8 @@ class IndexesTest extends SapphireTest
                 'Photographer' => [
                     'relationship' => 'Photographer',
                     'field' => 'PathAlias',
-                    'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'
-                ]
+                    'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrAuthor',
+                ],
             ],
             $indices['flickrphotos']->getHasOneFields()
         );
@@ -99,7 +99,7 @@ class IndexesTest extends SapphireTest
             'Aperture',
             'ShutterSpeed',
             'ISO',
-            'Photographer'
+            'Photographer',
         ], $indexes->getFacetFields('flickrphotos'));
     }
 
@@ -108,14 +108,14 @@ class IndexesTest extends SapphireTest
     {
         $indexes = new Indexes();
 
-        var_export($indexes->getHasOneFields('flickrphotos'));
+        \var_export($indexes->getHasOneFields('flickrphotos'));
         $this->assertEquals(
             [
                 [
                     'name' => 'Photographer',
                     'relationship' => 'Photographer',
                     'field' => 'PathAlias',
-                ]
+                ],
             ],
             $indexes->getHasOneFields('flickrphotos')
         );
