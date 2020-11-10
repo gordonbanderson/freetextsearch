@@ -22,7 +22,6 @@ class SpecsHelper
      */
     public function getFieldSpecs(string $indexName): array
     {
-        echo '---- getting field specs ----';
         $indexes = new Indexes();
         $index = $indexes->getIndex($indexName);
         $singleton = \singleton($index->getClass());

@@ -29,6 +29,7 @@ class SearchPageTest extends SapphireTest
             'Aperture',
             'ShutterSpeed',
             'ISO',
+            'Photographer'
         ], $photoSearchPage->getFacetFields());
     }
 
@@ -67,8 +68,9 @@ class SearchPageTest extends SapphireTest
         $this->assertEquals([
             'IndexToSearch',
             'PageSize',
-            'ShowTagCloudFor',
-            'ShowAllIfEmptyQuery',
+            'MaximumNumberOfFacets',
+            'PageLandingMode',
+            'ShowTagCloudFor'
         ], $names);
     }
 

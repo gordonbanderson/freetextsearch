@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Suilven\FreeTextSearch\Tests;
 
@@ -68,15 +68,21 @@ class IndexesTest extends SapphireTest
             'Description',
         ], $indices['flickrphotos']->getFields());
         $this->assertEquals(
-            ['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'],
+            [
+                'Photographer' => [
+                    'relationship' => 'Photographer',
+                    'field' => 'PathAlias',
+                    'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'
+                ]
+            ],
             $indices['flickrphotos']->getHasOneFields()
         );
         $this->assertEquals(['tags' =>
-        [
-            'relationship' => 'FlickrTags',
-            'field' => 'RawValue',
-            'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrTag',
-        ]], $indices['flickrphotos']->getHasManyFields());
+            [
+                'relationship' => 'FlickrTags',
+                'field' => 'RawValue',
+                'class' => 'Suilven\FreeTextSearch\Tests\Models\FlickrTag',
+            ]], $indices['flickrphotos']->getHasManyFields());
         $this->assertEquals([
             'Aperture',
             'ShutterSpeed',
@@ -93,6 +99,7 @@ class IndexesTest extends SapphireTest
             'Aperture',
             'ShutterSpeed',
             'ISO',
+            'Photographer'
         ], $indexes->getFacetFields('flickrphotos'));
     }
 
@@ -101,8 +108,15 @@ class IndexesTest extends SapphireTest
     {
         $indexes = new Indexes();
 
+        var_export($indexes->getHasOneFields('flickrphotos'));
         $this->assertEquals(
-            ['Suilven\FreeTextSearch\Tests\Models\FlickrAuthor'],
+            [
+                [
+                    'name' => 'Photographer',
+                    'relationship' => 'Photographer',
+                    'field' => 'PathAlias',
+                ]
+            ],
             $indexes->getHasOneFields('flickrphotos')
         );
     }
@@ -115,9 +129,9 @@ class IndexesTest extends SapphireTest
         $this->assertEquals(
             [
                 [
-                'name' => 'tags',
-                'relationship' => 'FlickrTags',
-                'field' => 'RawValue',
+                    'name' => 'tags',
+                    'relationship' => 'FlickrTags',
+                    'field' => 'RawValue',
                 ],
             ],
             $indexes->getHasManyFields('flickrphotos')

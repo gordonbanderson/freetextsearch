@@ -43,7 +43,9 @@ Suilven\FreeTextSearch\Indexes:
           - Suilven\FreeTextSearch\Tests\Models\FlickrSet
 
         has_one:
-          - Suilven\FreeTextSearch\Tests\Models\FlickrAuthor
+          - name: Photographer
+            relationship: Photographer
+            field: PathAlias
 
         # Multi valued attribute
         has_many:
