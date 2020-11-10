@@ -279,10 +279,10 @@ class SearchPageController extends \PageController
 
         $facets = $results->getFacets();
         $selectedFacetNames = \array_keys($this->selected);
-
         $displayFacets = new ArrayList();
 
         $helper = new FacetLinkHelper();
+
 
         /** @var \Suilven\FreeTextSearch\Container\Facet $facet */
         foreach ($facets as $facet) {
@@ -295,6 +295,9 @@ class SearchPageController extends \PageController
             $isHasOneFacet = \in_array($facetName, $hasOneFieldsNames, true);
             $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
             $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
+
+
+            print_r($selectedFacetNames);
 
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
@@ -322,19 +325,21 @@ class SearchPageController extends \PageController
 
                 // @phpstan-ignore-next-line
                 $count->ClearFacetLink = $clearFacetLink;
-
+                
                 $count->IsSelected = $isSelectedFacet;
                 $count->KeySelected = $helper->isSelectedFacet($key);
 
-                if ($isHasManyFacet && !$isSelectedFacet) {
+
+                // decide whether or not to show this facet count
+                if  ($isHasManyFacet && $isSelectedFacet && !is_null($count->ClearFacetLink)) {
                     $counts->push($count);
-                }elseif ($isSelectedFacet && $helper->isSelectedFacet($key)) {
+                } elseif  ($isHasManyFacet && !$isSelectedFacet && is_null($count->ClearFacetLink)) {
                     $counts->push($count);
-                }elseif($isHasOneFacet) {
+                } elseif ($isSelectedFacet && !is_null($count->ClearFacetLink)) {
+                    $counts->push($count);
+                } elseif (!$isSelectedFacet) {
                     $counts->push($count);
                 }
-
-
             }
 
             // @phpstan-ignore-next-line
