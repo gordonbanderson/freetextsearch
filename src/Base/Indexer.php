@@ -68,11 +68,10 @@ abstract class Indexer implements \Suilven\FreeTextSearch\Interfaces\Indexer
         $hasOneColumns = $index->getHasOneFields();
 
         /** @var string $hasOneColumn */
-        foreach(array_keys($hasOneColumns) as $hasOneColumn)
-        {
+        foreach (\array_keys($hasOneColumns) as $hasOneColumn) {
             $relationship = $hasOneColumns[$hasOneColumn]['relationship'];
 
-            /** @var DataObject $hasOneObj */
+            // @phpstan-ignore-next-line
             $hasOneObj = $dataObject->$relationship();
             $payload[$this->indexName][$hasOneColumn] = $hasOneObj->ID;
         }

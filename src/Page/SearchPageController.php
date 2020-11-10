@@ -8,7 +8,6 @@ use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\ArrayData;
 use Suilven\FreeTextSearch\Container\SearchResults;
 use Suilven\FreeTextSearch\Factory\SearcherFactory;
-use Suilven\FreeTextSearch\Factory\SuggesterFactory;
 use Suilven\FreeTextSearch\Helper\FacetLinkHelper;
 use Suilven\FreeTextSearch\Indexes;
 
@@ -27,10 +26,11 @@ class SearchPageController extends \PageController
     /** @var array<string,string|float|int|bool> */
     protected static $selected = [];
 
+    /** @var array<string,int> */
+    private $tagCloud = [];
+
     /** @var array<string> */
     private static $allowed_actions = ['index', 'similar'];
-
-    private $tagCloud = [];
 
 
     public function similar(): \SilverStripe\View\ViewableData_Customised
@@ -89,22 +89,6 @@ class SearchPageController extends \PageController
         unset($this->selected['start']);
         unset($this->selected['flush']);
 
-        $factory = new SuggesterFactory();
-
-        $suggester = $factory->getSuggester();
-
-        // @todo this is returning blank
-        $suggester->setIndex($model->IndexToSearch);
-        $suggestions = \is_null($q)
-            ? []
-            : $suggester->suggest($q);
-
-
-
-
-        // defer showing to the template level, still get facets, as this allows optionally for likes of a tag cloud
-        // $results['CleanedLink'] = $this->Link();
-
         return $this->renderSearchResults($model, $results);
     }
 
@@ -127,13 +111,11 @@ class SearchPageController extends \PageController
         $searcher->setHasManyTokens($hasManyFields);
         $this->paginateSearcher($searcher);
 
-        $result = $searcher->search($q);
-
-        return $result;
+        return $searcher->search($q);
     }
 
 
-    private function buildTagCloud()
+    private function buildTagCloud(): void
     {
         /*
 
@@ -193,7 +175,6 @@ class SearchPageController extends \PageController
         //}
 
         */
-
     }
 
 
@@ -207,9 +188,6 @@ class SearchPageController extends \PageController
 
         $hasManyFieldsDetails = $index->getHasManyFields();
         $hasManyFieldsNames = \array_keys($hasManyFieldsDetails);
-
-        $hasOneFieldsDetails = $index->getHasOneFields();
-        $hasOneFieldsNames = \array_keys($hasOneFieldsDetails);
 
         /** @var string $clazz */
         $clazz = $index->getClass();
@@ -292,12 +270,11 @@ class SearchPageController extends \PageController
             /** @phpstan-ignore-next-line */
             $displayFacet->Name = $facetName;
             $helper->setFacetInContext($facetName);
-            $isHasOneFacet = \in_array($facetName, $hasOneFieldsNames, true);
             $isHasManyFacet = \in_array($facetName, $hasManyFieldsNames, true);
             $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
 
 
-            print_r($selectedFacetNames);
+            \print_r($selectedFacetNames);
 
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
@@ -325,17 +302,20 @@ class SearchPageController extends \PageController
 
                 // @phpstan-ignore-next-line
                 $count->ClearFacetLink = $clearFacetLink;
-                
+
+                // @phpstan-ignore-next-line
                 $count->IsSelected = $isSelectedFacet;
+
+                // @phpstan-ignore-next-line
                 $count->KeySelected = $helper->isSelectedFacet($key);
 
 
                 // decide whether or not to show this facet count
-                if  ($isHasManyFacet && $isSelectedFacet && !is_null($count->ClearFacetLink)) {
+                if ($isHasManyFacet && $isSelectedFacet && !\is_null($count->ClearFacetLink)) {
                     $counts->push($count);
-                } elseif  ($isHasManyFacet && !$isSelectedFacet && is_null($count->ClearFacetLink)) {
+                } elseif ($isHasManyFacet && !$isSelectedFacet && \is_null($count->ClearFacetLink)) {
                     $counts->push($count);
-                } elseif ($isSelectedFacet && !is_null($count->ClearFacetLink)) {
+                } elseif ($isSelectedFacet && !\is_null($count->ClearFacetLink)) {
                     $counts->push($count);
                 } elseif (!$isSelectedFacet) {
                     $counts->push($count);

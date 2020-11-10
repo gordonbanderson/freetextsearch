@@ -43,7 +43,7 @@ class FacetLinkHelper
     public function isSelectedFacet($key): bool
     {
         // @TODO === $key on the RHS
-        return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] == $key;
+        return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] === $key;
     }
 
 
@@ -53,7 +53,9 @@ class FacetLinkHelper
         $result = $searchPageLink . '?';
         $facetParams = \array_merge($this->params, [$this->facetInContext => $facetKey]);
         foreach ($facetParams as $key => $value) {
-            $encodedValue = is_string($value) ? urlencode($value): $value;
+            $encodedValue = \is_string($value)
+                ? \urlencode($value)
+                : $value;
             $result .= $key .'=' . ($encodedValue) .'&';
         }
 
@@ -72,7 +74,9 @@ class FacetLinkHelper
             if ($key === $facetKey) {
                 continue;
             }
-            $encodedValue = is_string($value) ? urlencode($value): $value;
+            $encodedValue = \is_string($value)
+                ? \urlencode($value)
+                : $value;
             $result .= $key .'=' . ($encodedValue) .'&';
         }
 

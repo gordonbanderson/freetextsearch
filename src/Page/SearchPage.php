@@ -9,7 +9,6 @@
 
 namespace Suilven\FreeTextSearch\Page;
 
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
@@ -22,7 +21,7 @@ use Suilven\FreeTextSearch\Indexes;
  * @package Suilven\FreeTextSearch\Page
  * @property string $IndexToSearch - the name of the index to search, defaults to SiteTree
  * @property int $PageSize the number of results to show on each page
- * @property bool $PageLandingMode - the mode to render when landing on the search page
+ * @property string $PageLandingMode - the mode to render when landing on the search page
  * @property string $ShowTagCloudFor - show a tag cloud
  */
 class SearchPage extends \Page
@@ -59,7 +58,7 @@ class SearchPage extends \Page
         // same as Laravel
         'PageSize' => 15,
 
-        'MaximumNumberOfFacets' => 100
+        'MaximumNumberOfFacets' => 100,
     ];
 
     /**
@@ -128,8 +127,9 @@ class SearchPage extends \Page
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
         $fields->addFieldToTab('Root.Index', NumericField::create('MaximumNumberOfFacets', 'Number of Facets To Show'));
 
-        $ddf = DropdownField::create( 'PageLandingMode', 'PageLandingMode', singleton($this->getClassName())->dbObject('PageLandingMode')->enumValues() );
-        $fields->addFieldToTab('Root.Index',$ddf);
+        $ddf = DropdownField::create('PageLandingMode', 'PageLandingMode', \singleton($this->getClassName())->
+            dbObject('PageLandingMode')->enumValues());
+        $fields->addFieldToTab('Root.Index', $ddf);
 
         $fields->addFieldToTab('Root.Index', TextField::create(
             'ShowTagCloudFor',

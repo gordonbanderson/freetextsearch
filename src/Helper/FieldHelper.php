@@ -25,12 +25,12 @@ class FieldHelper
         $hasManyFields = $index->getHasManyFields();
         $hasManyKeys = \array_keys($hasManyFields);
         $hasOneFields = $index->getHasOneFields();
-        $hasOneKeys = array_keys($hasOneFields);
+        $hasOneKeys = \array_keys($hasOneFields);
 
         $result = '';
         if (\in_array($fieldName, $tokens, true)) {
             $result = $this->getSingleValueAttributeCorrectlyTyped($index, $fieldName, $fieldValue);
-        } else if (\in_array($fieldName, $hasManyKeys, true)) {
+        } elseif (\in_array($fieldName, $hasManyKeys, true)) {
             $details = $hasManyFields[$fieldName];
             $result = $this->getFieldValueCorrectlyTypedFor(
                 $details['class'],
@@ -42,8 +42,8 @@ class FieldHelper
             $objInContext = $singleton->get()->filter($details['field'], $fieldValue)->first();
 
             $result = $objInContext->ID;
-        } else if (\in_array($fieldName, $hasOneKeys, true)) {
-            $result = intval($fieldValue);
+        } elseif (\in_array($fieldName, $hasOneKeys, true)) {
+            $result = \intval($fieldValue);
         }
 
         return $result;

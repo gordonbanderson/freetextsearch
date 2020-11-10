@@ -5,7 +5,6 @@
 namespace Suilven\FreeTextSearch;
 
 use SilverStripe\Core\Config\Config;
-use Suilven\FreeTextSearch\Helper\SpecsHelper;
 
 /**
  * Class Indexes

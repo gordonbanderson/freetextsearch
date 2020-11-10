@@ -91,7 +91,7 @@ class Index
     }
 
 
-    /** @return array<string> */
+    /** @return array<string,array<string,string>> */
     public function getHasOneFields(): array
     {
         return $this->hasOneFields;
@@ -162,7 +162,7 @@ class Index
      * Add a has one field to the index
      *
      * @param string $name the name of the has many field to index
-     * @param array<string,string> $relationshipNameAndValueField     */
+     * @param array<string,string> $relationshipNameAndValueField */
     public function addHasOneField(string $name, array $relationshipNameAndValueField): void
     {
         $this->hasOneFields[$name] = $relationshipNameAndValueField ;
