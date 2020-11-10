@@ -10,7 +10,7 @@
     </form>
 
     <aside class="facets">
-       <h6>Facets - CT=$Facets.Count
+       <h6>Facets
            <% loop $Facets %>
            <h6>$Name $FacetCounts.Count</h6>
            <ul>

@@ -9,7 +9,6 @@
 
 namespace Suilven\FreeTextSearch\Page;
 
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
@@ -22,7 +21,7 @@ use Suilven\FreeTextSearch\Indexes;
  * @package Suilven\FreeTextSearch\Page
  * @property string $IndexToSearch - the name of the index to search, defaults to SiteTree
  * @property int $PageSize the number of results to show on each page
- * @property bool $ShowAllIfEmptyQuery - show all or no results for an empty query
+ * @property string $PageLandingMode - the mode to render when landing on the search page
  * @property string $ShowTagCloudFor - show a tag cloud
  */
 class SearchPage extends \Page
@@ -35,29 +34,31 @@ class SearchPage extends \Page
 
     /** @var array database fields */
     private static $db = [
-        // fields to return facets for, stored as JSON array
-        // 'FacetFields' => 'Varchar(255)',
-
-        // a permanent filter for this page, not user selectable.  Use case here is to restrict to likes of searching
+           // an index filter for this page, not user selectable.  Use case here is to restrict to likes of searching
         // within a specific blog only
         'IndexToSearch' => 'Varchar(255)',
 
         // page size
         'PageSize' => 'Int',
 
-        // show all results if the search page has facets (optionally)
-        'ShowAllIfEmptyQuery' => 'Boolean',
-
-        // show all results if the search page has facets (optionally)
+       // show all results if the search page has facets (optionally)
         'ShowTagCloudFor' => 'Varchar',
+
+        'MaximumNumberOfFacets' => 'Int',
+
+        'PageLandingMode' => "Enum('DoNothing, ShowResultsForStar,ShowTagCloud', 'DoNothing')",
+
     ];
 
     /** @var array<string,int|bool|string|float> */
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
         'ShowInsearch' => false,
+
         // same as Laravel
         'PageSize' => 15,
+
+        'MaximumNumberOfFacets' => 100,
     ];
 
     /**
@@ -124,16 +125,15 @@ class SearchPage extends \Page
         ));
 
         $fields->addFieldToTab('Root.Index', NumericField::create('PageSize', 'Number of Results Per Page'));
+        $fields->addFieldToTab('Root.Index', NumericField::create('MaximumNumberOfFacets', 'Number of Facets To Show'));
+
+        $ddf = DropdownField::create('PageLandingMode', 'PageLandingMode', \singleton($this->getClassName())->
+            dbObject('PageLandingMode')->enumValues());
+        $fields->addFieldToTab('Root.Index', $ddf);
 
         $fields->addFieldToTab('Root.Index', TextField::create(
             'ShowTagCloudFor',
             'Show a tag cloud for the named facet'
-        ));
-
-        $fields->addFieldToTab('Root.Index', CheckboxField::create(
-            'ShowAllIfEmptyQuery',
-            'By default no results are shown for an empty query.  However for facets an empty query should still ' .
-            'provide for a drill down scenario'
         ));
 
         return $fields;
