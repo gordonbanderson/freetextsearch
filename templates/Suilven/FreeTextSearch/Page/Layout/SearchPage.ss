@@ -12,7 +12,6 @@
     <aside class="facets">
        <h6>Facets
            <% loop $Facets %>
-           <h6>$Name $FacetCounts.Count</h6>
            <ul>
                <% loop $FacetCounts %>
                <li>

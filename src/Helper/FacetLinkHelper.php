@@ -43,7 +43,7 @@ class FacetLinkHelper
     public function isSelectedFacet($key): bool
     {
         // @TODO === $key on the RHS
-        return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] === $key;
+        return isset($this->params[$this->facetInContext]) && $this->params[$this->facetInContext] == $key;
     }
 
 
@@ -68,7 +68,6 @@ class FacetLinkHelper
     /** @param bool|float|int|string $facetKey */
     public function getClearFacetLink(string $searchPageLink, $facetKey): string
     {
-        echo 'FK=' . $facetKey . '<br/>';
         $result = $searchPageLink . '?';
         foreach ($this->params as $key => $value) {
             if ($key === $facetKey) {

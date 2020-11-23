@@ -274,8 +274,6 @@ class SearchPageController extends \PageController
             $isSelectedFacet = \in_array($facetName, $selectedFacetNames, true);
 
 
-            \print_r($selectedFacetNames);
-
             $counts = new ArrayList();
             /** @var \Suilven\FreeTextSearch\Container\FacetCount $facetCount */
             foreach ($facet->getFacetCounts() as $facetCount) {
@@ -311,15 +309,20 @@ class SearchPageController extends \PageController
 
 
                 // decide whether or not to show this facet count
-                if ($isHasManyFacet && $isSelectedFacet && !\is_null($count->ClearFacetLink)) {
+                if ($isHasManyFacet) {
+                    if ($isSelectedFacet && !\is_null($count->ClearFacetLink)) {
+                        $counts->push($count);
+                    } elseif ( !$isSelectedFacet && \is_null($count->ClearFacetLink)) {
+                        $counts->push($count);
+                    }
+                } else {
+                    // token facets
                     $counts->push($count);
-                } elseif ($isHasManyFacet && !$isSelectedFacet && \is_null($count->ClearFacetLink)) {
-                    $counts->push($count);
-                } elseif ($isSelectedFacet && !\is_null($count->ClearFacetLink)) {
-                    $counts->push($count);
-                } elseif (!$isSelectedFacet) {
-                    $counts->push($count);
+
                 }
+
+
+
             }
 
             // @phpstan-ignore-next-line
