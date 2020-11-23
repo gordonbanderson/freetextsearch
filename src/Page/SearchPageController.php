@@ -312,17 +312,13 @@ class SearchPageController extends \PageController
                 if ($isHasManyFacet) {
                     if ($isSelectedFacet && !\is_null($count->ClearFacetLink)) {
                         $counts->push($count);
-                    } elseif ( !$isSelectedFacet && \is_null($count->ClearFacetLink)) {
+                    } elseif (!$isSelectedFacet && \is_null($count->ClearFacetLink)) {
                         $counts->push($count);
                     }
                 } else {
                     // token facets
                     $counts->push($count);
-
                 }
-
-
-
             }
 
             // @phpstan-ignore-next-line

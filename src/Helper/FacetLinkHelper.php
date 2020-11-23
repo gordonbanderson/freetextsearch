@@ -11,6 +11,8 @@ namespace Suilven\FreeTextSearch\Helper;
 
 use SilverStripe\Control\Controller;
 
+// @todo Fix the root cause of this
+// @phpcs:disable SlevomatCodingStandard.Operators.DisallowEqualOperators.DisallowedEqualOperator
 class FacetLinkHelper
 {
     /** @var string */
