@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "~7.1",
+        "php": "~7",
         "league/climate": "^3.5",
         "silverstripe/cms": "^4",
         "symbiote/silverstripe-queuedjobs": "^4.5"
