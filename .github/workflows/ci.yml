@@ -28,5 +28,5 @@ jobs:
       run-phpstan: true
       run-todo: true
       run-php-unit: false
-      run-duplicade-code-check: true
+      run-duplicate-code-check: true
 
