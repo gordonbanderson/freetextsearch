@@ -11,6 +11,11 @@ jobs:
   CI-UNIT-TESTS-74:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
 
+  CI-UNIT-TESTS-COVERAGE-74:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      run-php-unit-coverage: true
+
   CI-UNIT-TESTS-73:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
@@ -23,4 +28,5 @@ jobs:
       run-phpstan: true
       run-todo: true
       run-php-unit: false
+      run-duplicade-code-check: true
 
