@@ -6,5 +6,12 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  ci:
+  ci1:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+  ci2:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      run-php-lint: true
+      run-phpstan: true
+      run-todo: true
+    
