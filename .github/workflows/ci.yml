@@ -1,0 +1,10 @@
+name: Module CI
+
+on:
+  push:
+    branches: [ main, CI3 ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  ci:
+    uses: gordonbanderson/actions/blob/main/.github/workflows/silverstripemodule.yml
