@@ -8,6 +8,7 @@ on:
 
 env:
   UNIT_TESTING_FTS_CONFIG_ENABLED: 1
+  BUILD_CONFIGURATION: Release
 
 jobs:
   # 7.4 is the default
