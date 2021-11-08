@@ -7,4 +7,4 @@ on:
     branches: [ main ]
 jobs:
   ci:
-    uses: gordonbanderson/actions/blob/main/.github/workflows/silverstripemodule.yml@main
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
