@@ -3,7 +3,7 @@ Name: freetextsearch-test-models
 After: freetextindexes
 Only:
   envvarset:
-    - UNIT_TESTING_FTS_CONFIG_ENABLED
+    - UNIT_TESTING_CONFIG_ENABLED
 ---
 
 Suilven\SphinxSearch\Service\Client:
