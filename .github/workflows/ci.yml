@@ -12,6 +12,7 @@ env:
 
 jobs:
   testenv:
+    runs-on: ubuntu-latest
     steps:
       - name: Check env within freetextsearch CI
         run: |
