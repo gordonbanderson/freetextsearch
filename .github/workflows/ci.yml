@@ -6,12 +6,21 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  ci1:
+
+  # 7.4 is the default
+  CI-UNIT-TESTS-7.4:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
-  ci2:
+
+  CI-UNIT-TESTS-7.3:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      php-version: 7.3
+
+  CI-LINTING:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
       run-php-lint: true
       run-phpstan: true
       run-todo: true
-    
+      run-php-unit: false
+
