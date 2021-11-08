@@ -8,21 +8,31 @@ on:
 jobs:
 
   # 7.4 is the default
-  CI-UNIT-TESTS-74:
+  UNIT-TESTS-74:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
 
-  CI-UNIT-TESTS-COVERAGE-74:
+  UNIT-TESTS-COVERAGE-74:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
       run-php-unit-coverage: true
       run-php-unit: false
 
-  CI-UNIT-TESTS-73:
+  UNIT-TESTS-73:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
       php-version: 7.3
 
-  CI-LINTING:
+  UNIT-TESTS-SS47:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      silverstripe-version: 4.7
+
+  UNIT-TESTS-SS48:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      silverstripe-version: 4.8
+
+  LINTING:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
       run-php-lint: true
