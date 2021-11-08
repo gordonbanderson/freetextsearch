@@ -7,6 +7,10 @@ on:
     branches: [ main ]
 jobs:
 
+  steps:
+    name: Enable Test Config Flag
+    run: export UNIT_TESTING_FTS_CONFIG_ENABLED=1
+
   # 7.4 is the default
   UNIT-TESTS-74:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
