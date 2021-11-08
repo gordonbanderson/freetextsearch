@@ -15,6 +15,7 @@ jobs:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
     with:
       run-php-unit-coverage: true
+      run-php-unit: false
 
   CI-UNIT-TESTS-73:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
