@@ -1,4 +1,4 @@
 composer.lock
 vendor
 .env
-
+node_modules
