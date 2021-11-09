@@ -1,8 +1,7 @@
 # Free Text Search
-[![Build Status](https://travis-ci.org/gordonbanderson/freetextsearch.svg?branch=CODE_COVERAGE)](https://travis-ci.org/gordonbanderson/freetextsearch)
+[![Build](https://github.com/gordonbanderson/freetextsearch/actions/workflows/ci.yml/badge.svg)](https://github.com/gordonbanderson/freetextsearch/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/badges/quality-score.png?b=CODE_COVERAGE)](https://scrutinizer-ci.com/g/gordonbanderson/freetextsearch/?branch=CODE_COVERAGE)
 [![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/coverage.svg?branch=CODE_COVERAGE)](https://codecov.io/github/gordonbanderson/freetextsearch?branch=CODE_COVERAGE)
-
 
 [![Latest Stable Version](https://poser.pugx.org/suilven/freetextsearch/version)](https://packagist.org/packages/suilven/freetextsearch)
 [![Latest Unstable Version](https://poser.pugx.org/suilven/freetextsearch/v/unstable)](//packagist.org/packages/suilven/freetextsearch)
@@ -18,7 +17,6 @@
 [![GitHub Activity](https://img.shields.io/github/commit-activity/m/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch)
 [![GitHub Issues](https://img.shields.io/github/issues/gordonbanderson/freetextsearch)](https://github.com/gordonbanderson/freetextsearch/issues)
 
-![codecov.io](https://codecov.io/github/gordonbanderson/freetextsearch/branch.svg?branch=CODE_COVERAGE)
 
 
 This module allows configuration of freetext search indexes, and provides tools to create indexes and reindex them.
