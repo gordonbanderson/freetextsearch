@@ -197,7 +197,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/suilven/freetextsearch.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/suilven/freetextsearch/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/suilven/freetextsearch/main.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/suilven/freetextsearch.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/suilven/freetextsearch.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/suilven/freetextsearch.svg?style=flat-square
