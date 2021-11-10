@@ -2,7 +2,7 @@ name: Module CI
 
 on:
   push:
-    branches: [ main, CI3 ]
+    branches: [ main, PHP8 ]
   pull_request:
     branches: [ main ]
 
@@ -26,6 +26,20 @@ jobs:
     with:
       php-version: 7.3
       test-config-flag: UNIT_TESTING_FTS_CONFIG_ENABLED
+
+  UNIT-TESTS-80:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      php-version: 8.0
+      test-config-flag: UNIT_TESTING_FTS_CONFIG_ENABLED
+
+  UNIT-TESTS-80-WITH-JIT:
+    uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
+    with:
+      php-version: 8.0
+      test-config-flag: UNIT_TESTING_FTS_CONFIG_ENABLED
+      coverage: none
+      ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
 
   UNIT-TESTS-SS47:
     uses: gordonbanderson/actions/.github/workflows/silverstripemodule.yml@main
