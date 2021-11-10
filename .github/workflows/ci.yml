@@ -38,7 +38,7 @@ jobs:
     with:
       php-version: 8.0
       test-config-flag: UNIT_TESTING_FTS_CONFIG_ENABLED
-      coverage: none
+      #coverage: none
       ini-values: opcache.enable_cli=1, opcache.jit=tracing, opcache.jit_buffer_size=64M
 
   UNIT-TESTS-SS47:
