@@ -21,7 +21,7 @@ class SuggesterResults
 
     /** @var array<string> */
     private $results = [];
-    
+
     /** @var int */
     private $limit;
 
@@ -44,9 +44,21 @@ class SuggesterResults
     }
 
 
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+
     public function setQuery(string $newQuery): void
     {
         $this->query = $newQuery;
+    }
+
+
+    public function getQuery(): string
+    {
+        return $this->query;
     }
 
 
