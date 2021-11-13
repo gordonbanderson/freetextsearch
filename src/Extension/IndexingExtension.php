@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -25,6 +27,7 @@ use Symbiote\QueuedJobs\Services\QueuedJobService;
 class IndexingExtension extends DataExtension
 {
     /** @var array<string,string> */
+    // * @phpstan-ignore-next-line
     private static $db= [
       'IsDirtyFreeTextSearch' => 'Boolean',
     ];

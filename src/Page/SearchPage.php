@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -30,9 +32,11 @@ class SearchPage extends \Page
     private $searchResults;
 
     /** @var string */
+    // * @phpstan-ignore-next-line
     private static $table_name = 'SearchPage';
 
     /** @var array database fields */
+    // * @phpstan-ignore-next-line
     private static $db = [
            // an index filter for this page, not user selectable.  Use case here is to restrict to likes of searching
         // within a specific blog only
@@ -51,6 +55,7 @@ class SearchPage extends \Page
     ];
 
     /** @var array<string,int|bool|string|float> */
+    // * @phpstan-ignore-next-line
     private static $defaults = [
         'IndexToSearch' => 'sitetree',
         'ShowInsearch' => false,

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -27,12 +29,14 @@ use SilverStripe\ORM\DataExtension;
 class FreeTextSearchSiteConfig extends DataExtension
 {
     /** @var array<string,string> */
+    // @phpstan-ignore-next-line
     private static $db = [
         'BulkSize' => 'Int',
         'FreeTextSearchIndexingModeInBulk' => 'Boolean',
     ];
 
     /** @var array<string,int|string|bool> */
+    // @phpstan-ignore-next-line
     private static $defaults = [
         'BulkSize' => 500,
 

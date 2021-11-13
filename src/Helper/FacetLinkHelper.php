@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -16,7 +18,7 @@ use SilverStripe\Control\Controller;
 class FacetLinkHelper
 {
     /** @var string */
-    private $query;
+    private $query = '';
 
     /** @var array<string,string|int|float|bool> */
     private $params = [];
@@ -53,6 +55,9 @@ class FacetLinkHelper
     public function getDrillDownFacetLink(string $searchPageLink, $facetKey): string
     {
         $result = $searchPageLink . '?';
+        if (\strlen($this->query) > 0) {
+            $result .= 'q=' . $this->query . '&';
+        }
         $facetParams = \array_merge($this->params, [$this->facetInContext => $facetKey]);
         foreach ($facetParams as $key => $value) {
             $encodedValue = \is_string($value)

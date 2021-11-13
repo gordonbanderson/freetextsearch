@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Suilven\FreeTextSearch\Page;
 
@@ -27,9 +29,11 @@ class SearchPageController extends \PageController
     protected static $selected = [];
 
     /** @var array<string,int> */
+    // * @phpstan-ignore-next-line
     private $tagCloud = [];
 
     /** @var array<string> */
+    // * @phpstan-ignore-next-line
     private static $allowed_actions = ['index', 'similar'];
 
 
