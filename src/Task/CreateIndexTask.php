@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Suilven\FreeTextSearch\Task;
 
@@ -19,6 +21,7 @@ class CreateIndexTask extends BuildTask
     protected $enabled = true;
 
     /** @var string */
+    // * @phpstan-ignore-next-line
     private static $segment = 'create-index';
 
     /**

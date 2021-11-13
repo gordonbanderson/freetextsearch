@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -26,10 +28,8 @@ class ReindexTask extends BuildTask
     protected $enabled = true;
 
     /** @var string */
+    // * @phpstan-ignore-next-line
     private static $segment = 'reindex';
-
-
-
 
     /**
      * Implement this method in the task subclass to

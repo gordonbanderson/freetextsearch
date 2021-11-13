@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -25,7 +27,7 @@ class SearchResults
     private $facets = [];
 
     /** @var string */
-    private $index;
+    private $indexName;
 
     /** @var int the total number of results */
     private $totalNumberOfResults = 0;
@@ -64,9 +66,15 @@ class SearchResults
     }
 
 
-    public function setIndex(string $newIndex): void
+    public function setIndexName(string $newIndex): void
     {
-        $this->index = $newIndex;
+        $this->indexName = $newIndex;
+    }
+
+
+    public function getIndexName(): string
+    {
+        return $this->indexName;
     }
 
 

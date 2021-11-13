@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -20,9 +22,6 @@ class SuggesterResults
     /** @var array<string> */
     private $results = [];
 
-    /** @var float the time in seconds */
-    private $time;
-
     /** @var int */
     private $limit;
 
@@ -33,15 +32,33 @@ class SuggesterResults
     }
 
 
+    public function getIndex(): string
+    {
+        return $this->index;
+    }
+
+
     public function setLimit(int $newLimit): void
     {
         $this->limit = $newLimit;
     }
 
 
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+
     public function setQuery(string $newQuery): void
     {
         $this->query = $newQuery;
+    }
+
+
+    public function getQuery(): string
+    {
+        return $this->query;
     }
 
 

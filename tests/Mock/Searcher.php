@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * Created by PhpStorm.
@@ -36,7 +38,7 @@ class Searcher extends \Suilven\FreeTextSearch\Base\Searcher
                 $result->setPageSize(10);
                 $result->setPage(1);
 
-                $result->setIndex('unit_test_index');
+                $result->setIndexName('unit_test_index');
                 $result->setSuggestions(['fush']);
 
 
