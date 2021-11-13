@@ -2,7 +2,7 @@ name: Module CI
 
 on:
   push:
-    branches: [ main, CI3 ]
+    branches: [ main, UPDATE_CODING_STANDARDS_TOOLS ]
   pull_request:
     branches: [ main ]
 
