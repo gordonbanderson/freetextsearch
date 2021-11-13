@@ -20,6 +20,7 @@
         "php": "~7.1",
         "league/climate": "^3.5",
         "silverstripe/cms": "^4",
+        "symbiote/silverstripe-phpstan": "^4.0",
         "symbiote/silverstripe-queuedjobs": "^4.5"
     },
     "require-dev": {
